@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="feature"
+            type="com.twisthenry8gmail.projectbarry.view.currentforecast.Feature" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/feature_box_icon"
+            android:layout_width="@dimen/feature_icon_size"
+            android:layout_height="@dimen/feature_icon_size"
+            android:src="@{context.getDrawable(feature.iconRes)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/feature_box_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:fontFamily="sans-serif-medium"
+            android:text="@{feature.displayValue(context) ?? @string/app_name}"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="@dimen/text_medium"
+            app:layout_constraintBottom_toTopOf="@id/feature_box_title"
+            app:layout_constraintStart_toEndOf="@id/feature_box_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/feature_box_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{feature.titleRes}"
+            android:textAllCaps="true"
+            android:textColor="?android:attr/textColorTertiary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/feature_box_value"
+            app:layout_constraintTop_toBottomOf="@id/feature_box_value" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

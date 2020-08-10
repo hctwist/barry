@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.twisthenry8gmail.projectbarry.viewmodel.LocationsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/locations_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+            android:layout_marginTop="@dimen/vertical_layout_margin"
+            android:background="@drawable/search_box"
+            android:drawableStart="@drawable/round_search_24"
+            android:drawablePadding="@dimen/margin"
+            android:padding="12dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/locations_powered_by"
+            invisibleUnless="@{viewmodel.searching}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_margin"
+            android:src="@drawable/places_powered_by_google_dark"
+            app:layout_constraintEnd_toEndOf="@id/locations_input"
+            app:layout_constraintTop_toBottomOf="@id/locations_input"
+            app:tint="?android:attr/textColorTertiary" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/locations_results"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin"
+            android:overScrollMode="never"
+            android:paddingHorizontal="@dimen/horizontal_layout_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/locations_powered_by">
+
+            <requestFocus />
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="result"
+            type="com.twisthenry8gmail.projectbarry.data.locations.LocationSearchResult" />
+
+        <variable
+            name="clicklistener"
+            type="com.twisthenry8gmail.projectbarry.view.locations.LocationSearchAdapter.ClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clicklistener.onClick(result)}">
+
+        <ImageButton
+            android:id="@+id/place_search_row_pin"
+            android:layout_width="@dimen/location_row_icon"
+            android:layout_height="@dimen/location_row_icon"
+            android:background="@drawable/place_icon_pin_background"
+            android:src="@drawable/round_place_24"
+            android:tint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/place_search_row_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:text="@{result.primaryText}"
+            android:textColor="?android:attr/textColorPrimary"
+            app:layout_constraintBottom_toTopOf="@id/place_search_row_secondary"
+            app:layout_constraintStart_toEndOf="@id/place_search_row_pin"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/place_search_row_secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{result.secondaryText.empty ? @string/location_search_secondary_empty : result.secondaryText}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/place_search_row_primary"
+            app:layout_constraintTop_toBottomOf="@id/place_search_row_primary" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

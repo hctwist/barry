@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Project Barry</string>
+
+    <string name="percentage">%1$s%%</string>
+
+    <!-- Temperature -->
+    <string name="temperature_degrees_display">%1$s&#xb0;</string>
+
+    <!-- Main -->
+    <string name="temperature_low">Low</string>
+    <string name="temperature_high">High</string>
+
+    <!-- Features -->
+    <string name="feature_no_value">-</string>
+    <string name="feature_pop">POP</string>
+    <string name="feature_uv_index">UV Index</string>
+    <string name="feature_feels_like">Feels like</string>
+    <string name="feature_sunrise">Sunrise</string>
+    <string name="feature_sunset">Sunset</string>
+
+    <!-- Locations -->
+    <string name="current_location">Current location</string>
+    <string name="location_search_secondary_empty">-</string>
+    <string name="location_error">Location not found</string>
 </resources>
