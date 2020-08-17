@@ -1,4 +1,4 @@
-package com.twisthenry8gmail.projectbarry
+package com.twisthenry8gmail.projectbarry.view
 
 import android.graphics.Rect
 import android.view.View
@@ -6,6 +6,7 @@ import androidx.annotation.Dimension
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 class MarginItemDecoration(@Dimension margin: Float) : RecyclerView.ItemDecoration() {
@@ -39,7 +40,7 @@ class MarginItemDecoration(@Dimension margin: Float) : RecyclerView.ItemDecorati
 
                     outRect.top = halfMargin
                 }
-                if (adapterPosition < state.itemCount - (state.itemCount % spanCount)) {
+                if (adapterPosition < ceil(state.itemCount.toDouble() / spanCount - 1) * spanCount) {
 
                     outRect.bottom = halfMargin
                 }

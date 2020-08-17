@@ -1,5 +1,8 @@
 package com.twisthenry8gmail.projectbarry.data
 
+import com.twisthenry8gmail.projectbarry.Result
+import com.twisthenry8gmail.projectbarry.success
+
 class CachedData<T> {
 
     private var dirty = false

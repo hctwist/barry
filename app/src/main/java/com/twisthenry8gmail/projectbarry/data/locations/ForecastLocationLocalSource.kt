@@ -19,6 +19,11 @@ class ForecastLocationLocalSource @Inject constructor(private val forecastLocati
         return forecastLocationDao.get(placeId)?.toForecastLocation()
     }
 
+    suspend fun getLocationType(placeId: String): ForecastLocation.Type? {
+
+        return forecastLocationDao.getType(placeId)
+    }
+
     suspend fun getLocationsOf(types: List<ForecastLocation.Type>): List<ForecastLocation> {
 
         return forecastLocationDao.getFrom(types).map { it.toForecastLocation() }

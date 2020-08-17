@@ -4,16 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
-import com.twisthenry8gmail.projectbarry.data.Result
+import com.twisthenry8gmail.projectbarry.Result
 import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocation
 import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationRepository
 import com.twisthenry8gmail.projectbarry.data.locations.LocationSearchResult
 import com.twisthenry8gmail.projectbarry.view.locations.LocationChoiceAdapter
 import com.twisthenry8gmail.projectbarry.viewmodel.navigator.NavigationCommand
 import com.twisthenry8gmail.projectbarry.viewmodel.navigator.NavigatorViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class LocationsViewModel @Inject constructor(
     private val forecastLocationRepository: ForecastLocationRepository
 ) : NavigatorViewModel() {
@@ -37,7 +39,7 @@ class LocationsViewModel @Inject constructor(
         }
     }
 
-    suspend fun refreshChoices() {
+    private suspend fun refreshChoices() {
 
         val savedLocations = forecastLocationRepository.getPinnedAndChosenPlaces().sortedBy {
 
@@ -58,19 +60,20 @@ class LocationsViewModel @Inject constructor(
 
     fun onClickChoice(choice: LocationChoiceAdapter.Choice) {
 
-        if (choice is LocationChoiceAdapter.Choice.Location) {
+        viewModelScope.launch {
 
-            if (choice.type != ForecastLocation.Type.CHOSEN) {
+            if (choice is LocationChoiceAdapter.Choice.Location) {
 
-                viewModelScope.launch {
+                if (choice.type != ForecastLocation.Type.CHOSEN) {
 
                     forecastLocationRepository.removeAllOfType(ForecastLocation.Type.CHOSEN)
                 }
-            }
-            forecastLocationRepository.select(choice.placeId)
-        } else {
 
-            forecastLocationRepository.removeSelection()
+                forecastLocationRepository.select(choice.placeId)
+            } else {
+
+                forecastLocationRepository.removeSelection()
+            }
         }
 
         navigateBack()

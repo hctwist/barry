@@ -32,7 +32,8 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
 
     private var downY = 0F
     private var dragAmount = 0F
-    private var state = UIState.STATIC
+    private var state =
+        UIState.STATIC
     private var returnAfterSettle = false
 
     fun setRefreshing(refreshing: Boolean) {
@@ -55,6 +56,7 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
     }
 
     override fun onFinishInflate() {
+
         super.onFinishInflate()
 
         require(childCount == 2) {
@@ -133,7 +135,8 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
 
         if (drag > 0) {
 
-            state = UIState.DRAGGING
+            state =
+                UIState.DRAGGING
 
             val maxDrag = refreshView.height + overDragHeight
             dragAmount =
@@ -165,7 +168,8 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
 
     private fun onSettle() {
 
-        state = UIState.SETTLING
+        state =
+            UIState.SETTLING
 
         ValueAnimator.ofFloat(dragAmount, refreshView.height.toFloat()).run {
 
@@ -193,12 +197,14 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
 
     private fun onRefresh() {
 
-        state = UIState.REFRESHING
+        state =
+            UIState.REFRESHING
     }
 
     private fun onReturn() {
 
-        state = UIState.RETURNING
+        state =
+            UIState.RETURNING
 
         ValueAnimator.ofFloat(dragAmount, 0F).run {
 
@@ -211,7 +217,8 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
             }
             doOnEnd {
 
-                state = UIState.STATIC
+                state =
+                    UIState.STATIC
             }
             start()
         }

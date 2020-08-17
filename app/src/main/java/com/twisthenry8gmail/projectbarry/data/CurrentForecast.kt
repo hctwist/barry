@@ -13,5 +13,7 @@ class CurrentForecast(
     val condition: WeatherCondition,
     val uvIndex: Double,
     val feelsLike: Temperature,
+    val humidity: Int,
+    val windSpeed: Double,
     val hourly: List<HourlyForecast>
 )

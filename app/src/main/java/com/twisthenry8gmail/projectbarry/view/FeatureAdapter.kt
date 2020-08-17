@@ -1,4 +1,4 @@
-package com.twisthenry8gmail.projectbarry.view.currentforecast
+package com.twisthenry8gmail.projectbarry.view
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +14,11 @@ class FeatureAdapter : RecyclerView.Adapter<FeatureAdapter.VH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
 
-        return VH(FeatureBoxView(parent.context))
+        return VH(
+            FeatureBoxView(
+                parent.context
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {

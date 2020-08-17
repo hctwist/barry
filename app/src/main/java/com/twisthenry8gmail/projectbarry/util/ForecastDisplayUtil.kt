@@ -25,4 +25,9 @@ object ForecastDisplayUtil {
 
         return context.getString(R.string.feature_no_value)
     }
+
+    fun displaySpeed(context: Context, windSpeed: Double): String {
+
+        return context.getString(R.string.speed_display, DisplayUtil.decimalPlaces(windSpeed, 1))
+    }
 }

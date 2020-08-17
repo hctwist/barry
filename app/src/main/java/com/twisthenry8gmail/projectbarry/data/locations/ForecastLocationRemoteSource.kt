@@ -8,7 +8,8 @@ import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.twisthenry8gmail.projectbarry.data.APIKeyStore
-import com.twisthenry8gmail.projectbarry.data.Result
+import com.twisthenry8gmail.projectbarry.Result
+import com.twisthenry8gmail.projectbarry.failure
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -62,7 +63,7 @@ class ForecastLocationRemoteSource @Inject constructor(
                 },
                 {
 
-                    cont.resume(Result.Failure())
+                    cont.resume(failure())
                 })
 
             volleyQueue.add(request)
@@ -101,7 +102,7 @@ class ForecastLocationRemoteSource @Inject constructor(
                 },
                 {
 
-                    cont.resume(Result.Failure())
+                    cont.resume(failure())
                 }
             )
 

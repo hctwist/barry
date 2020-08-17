@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ImageStack(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 

@@ -1,6 +1,6 @@
 package com.twisthenry8gmail.projectbarry.data.openweather
 
-import com.twisthenry8gmail.projectbarry.data.Result
+import com.twisthenry8gmail.projectbarry.Result
 
 interface OpenWeatherSource {
 
@@ -15,6 +15,8 @@ interface OpenWeatherSource {
         val temp: Double,
         val conditionCode: Int,
         val feelsLike: Double,
+        val humidity: Int,
+        val windSpeed: Double,
         val hourly: List<Hour>,
         val daily: List<Day>
     ) {

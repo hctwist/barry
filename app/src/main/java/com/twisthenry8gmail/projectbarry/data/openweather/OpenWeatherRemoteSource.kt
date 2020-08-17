@@ -3,13 +3,15 @@ package com.twisthenry8gmail.projectbarry.data.openweather
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
+import com.twisthenry8gmail.projectbarry.Result
 import com.twisthenry8gmail.projectbarry.data.APIKeyStore
-import com.twisthenry8gmail.projectbarry.data.Result
+import com.twisthenry8gmail.projectbarry.failure
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class OpenWeatherRemoteSource @Inject constructor(private val volleyRequestQueue: RequestQueue) : OpenWeatherSource {
+class OpenWeatherRemoteSource @Inject constructor(private val volleyRequestQueue: RequestQueue) :
+    OpenWeatherSource {
 
     override suspend fun getOneCallData(lat: Double, lng: Double) =
         suspendCoroutine<Result<OpenWeatherSource.OneCallData>> { continuation ->
@@ -28,6 +30,8 @@ class OpenWeatherRemoteSource @Inject constructor(private val volleyRequestQueue
                         val sunrise = current.getLong("sunrise")
                         val currentTemperature = current.getDouble("temp")
                         val feelsLike = current.getDouble("feels_like")
+                        val humidity = current.getInt("humidity")
+                        val windSpeed = current.getDouble("wind_speed")
 
                         val conditionCode =
                             current.getJSONArray("weather").getJSONObject(0).getInt("id")
@@ -79,6 +83,8 @@ class OpenWeatherRemoteSource @Inject constructor(private val volleyRequestQueue
                                 currentTemperature,
                                 conditionCode,
                                 feelsLike,
+                                humidity,
+                                windSpeed,
                                 hourlyData,
                                 dailyData
                             )
@@ -91,7 +97,7 @@ class OpenWeatherRemoteSource @Inject constructor(private val volleyRequestQueue
                     },
                     {
 
-                        continuation.resume(Result.Failure())
+                        continuation.resume(failure())
                     })
             )
         }

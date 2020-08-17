@@ -1,171 +1,103 @@
 package com.twisthenry8gmail.projectbarry.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.twisthenry8gmail.projectbarry.R
-import com.twisthenry8gmail.projectbarry.Trigger
-import com.twisthenry8gmail.projectbarry.data.*
+import com.twisthenry8gmail.projectbarry.Result
+import com.twisthenry8gmail.projectbarry.data.CurrentForecast
 import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocation
 import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationRepository
-import com.twisthenry8gmail.projectbarry.usecases.CurrentForecastUseCase
+import com.twisthenry8gmail.projectbarry.successOrNull
+import com.twisthenry8gmail.projectbarry.usecases.GetCurrentForecastUseCase
+import com.twisthenry8gmail.projectbarry.view.Feature
 import com.twisthenry8gmail.projectbarry.view.WeatherConditionDisplay
-import com.twisthenry8gmail.projectbarry.view.currentforecast.Feature
-import com.twisthenry8gmail.projectbarry.view.locations.LocationUtil
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.time.Instant
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
-import javax.inject.Inject
 
-class CurrentForecastViewModel @Inject constructor(
+@ExperimentalCoroutinesApi
+class CurrentForecastViewModel @ViewModelInject constructor(
     private val forecastLocationRepository: ForecastLocationRepository,
-    private val currentForecastUseCase: CurrentForecastUseCase,
-    private val settingsRepository: SettingsRepository
+    private val getCurrentForecastUseCase: GetCurrentForecastUseCase
 ) : ViewModel() {
 
-    private val temperatureScale = settingsRepository.getTemperatureScale()
+    private val _state = MutableLiveData(State.LOADING_FORECAST)
+    val state: LiveData<State>
+        get() = _state
 
-    private val _location = MutableLiveData<Result<ForecastLocation>>()
-    val locationIconRes = _location.map { result ->
+    private val _location = forecastLocationRepository.selectedLocationFlow
+    private val _locationLiveData = MutableLiveData<ForecastLocation>()
+    val locationName = _locationLiveData.map { result ->
 
-        result.successOrNull()?.type?.let { LocationUtil.resolveIconRes(it) }
-            ?: R.drawable.round_location_disabled_24
+        result.name
     }
-    val locationName = _location.map { result ->
-
-        result.successOrNull()?.name
-    }
-
-    private val _showLocationMenu = MutableLiveData<Trigger>()
-    val showLocationMenu: LiveData<Trigger>
-        get() = _showLocationMenu
-
-    private val refreshInterval = settingsRepository.getRefreshInterval()
-
-    private val _refreshing = MutableLiveData(false)
-    val refreshing: LiveData<Boolean>
-        get() = _refreshing
 
     private val currentForecast = MutableLiveData<Result<CurrentForecast>>()
-    val successfulCurrentForecast = currentForecast.map { it.successOrNull() }
+    private val successfulCurrentForecast = currentForecast.map { it.successOrNull() }
     val conditionIcon = successfulCurrentForecast.map {
 
         it?.let { WeatherConditionDisplay.getImageResource(it.condition, true) }
     }
-    val currentTemperature = currentForecast.map { it.successOrNull()?.temp?.to(temperatureScale) }
-    val features = currentForecast.map {
+    val currentTemperature = successfulCurrentForecast.map { it?.temp }
+    val lowTemperature = successfulCurrentForecast.map { it?.tempLow }
+    val highTemperature = successfulCurrentForecast.map { it?.tempHigh }
+    val features = successfulCurrentForecast.map {
 
-        if (it is Result.Success) {
-
-            val currentTime = ZonedDateTime.now()
-            val sunriseSunsetFeature = if (it.data.sunrise.isAfter(currentTime)) {
-
-                Feature.Sunrise(it.data.sunrise)
-            } else {
-
-                Feature.Sunset(it.data.sunset)
-            }
-
+        it?.let {
             listOf(
-                Feature.TemperatureLow(it.data.tempLow.to(temperatureScale)),
-                Feature.TemperatureHigh(it.data.tempHigh.to(temperatureScale)),
-                Feature.UVIndex(it.data.uvIndex),
-                Feature.Pop(it.data.hourly[0].pop),
-                Feature.FeelsLike(it.data.feelsLike.to(temperatureScale)),
-                sunriseSunsetFeature
+                Feature.UVIndex(it.uvIndex),
+                Feature.Pop(it.hourly[0].pop),
+                Feature.FeelsLike(it.feelsLike),
+                Feature.Humidity(it.humidity),
+                Feature.WindSpeed(it.windSpeed)
             )
-        } else {
-
-            listOf(
-                Feature.TemperatureLow(null),
-                Feature.TemperatureHigh(null),
-                Feature.UVIndex(null),
-                Feature.Pop(null),
-                Feature.FeelsLike(null),
-                Feature.Sunset(null)
-            )
-        }
-    }
-
-    val hourly = successfulCurrentForecast.map { current ->
-
-        if (current == null) {
-
-            listOf()
-        } else {
-
-            val now = ZonedDateTime.now()
-            val upperBound = now.plusDays(1).withHour(4)
-            current.hourly.filter {
-
-                it.time.isBefore(upperBound) && it.time.isAfter(now)
-            }.map {
-
-                it.copy(temp = it.temp.to(temperatureScale))
-            }
-        }
-    }
-
-    private val selectedPlaceListener: (String?) -> Unit = {
-
-        viewModelScope.launch {
-
-            if (_location.value?.successOrNull()?.placeId != it) {
-
-                _location.value = forecastLocationRepository.getSelectedLocation()
-                fetchCurrentForecast(true)
-            }
-        }
+        } ?: listOf()
     }
 
     init {
 
-        forecastLocationRepository.registerSelectedPlaceListener(selectedPlaceListener)
-
         viewModelScope.launch {
 
-            _location.value = forecastLocationRepository.getSelectedLocation()
-            fetchCurrentForecast(false)
-        }
-    }
+            _location.collect { result ->
 
-    // TODO Stop multiple refreshes in short time period
-    fun forceRefresh() {
+                delay(2000)
 
-        viewModelScope.launch {
+                result.ifSuccessful {
 
-            _refreshing.value = true
-            fetchCurrentForecast(true)
-            _refreshing.value = false
-        }
-    }
+                    if (_locationLiveData.value?.type == ForecastLocation.Type.PENDING_LOCATION) {
 
-    fun onLocationClicked() {
+                        _locationLiveData.value = it
+                        fetchCurrentForecast(false)
+                    } else {
 
-        _showLocationMenu.value = Trigger()
-    }
-
-    private suspend fun fetchCurrentForecast(forceRefresh: Boolean) {
-
-        _location.value?.successOrNull()?.let { l ->
-
-            val forecast = currentForecastUseCase.getCurrentForecast(l, forceRefresh)
-
-            if (!forceRefresh && forecast is Result.Success && ChronoUnit.SECONDS.between(
-                    forecast.data.timestamp,
-                    Instant.now()
-                ) > refreshInterval
-            ) {
-
-                currentForecast.value = currentForecastUseCase.getCurrentForecast(l, true)
-            } else {
-
-                currentForecast.value = forecast
+                        _state.value = State.LOADING_FORECAST
+                        _locationLiveData.value = it
+                        fetchCurrentForecast(false)
+                    }
+                }
             }
         }
     }
 
-    override fun onCleared() {
+    private suspend fun fetchCurrentForecast(forceRefresh: Boolean) {
 
-        forecastLocationRepository.deregisterSelectedPlaceListener(selectedPlaceListener)
+        _location.value.successOrNull()?.let { l ->
+
+            val forecast = getCurrentForecastUseCase(l, forceRefresh)
+
+            if (forecast is Result.Success) {
+
+                currentForecast.value = forecast
+                _state.value = State.FORECAST_LOADED
+            } else {
+
+                _state.value = State.FORECAST_ERROR
+            }
+        }
+    }
+
+    enum class State {
+
+        LOADING_FORECAST, FORECAST_LOADED, FORECAST_ERROR
     }
 }

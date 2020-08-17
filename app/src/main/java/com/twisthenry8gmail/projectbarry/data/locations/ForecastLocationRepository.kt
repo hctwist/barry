@@ -3,18 +3,23 @@ package com.twisthenry8gmail.projectbarry.data.locations
 import android.content.SharedPreferences
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
-import com.twisthenry8gmail.projectbarry.data.Result
+import com.twisthenry8gmail.projectbarry.Result
 import com.twisthenry8gmail.projectbarry.data.SharedPreferencesModule
-import com.twisthenry8gmail.projectbarry.data.failure
-import com.twisthenry8gmail.projectbarry.data.success
+import com.twisthenry8gmail.projectbarry.failure
+import com.twisthenry8gmail.projectbarry.loading
+import com.twisthenry8gmail.projectbarry.success
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+@ExperimentalCoroutinesApi
 @Singleton
 class ForecastLocationRepository @Inject constructor(
     private val forecastLocationLocalSource: ForecastLocationLocalSource,
@@ -27,24 +32,25 @@ class ForecastLocationRepository @Inject constructor(
 
     private var autocompleteSessionToken: AutocompleteSessionToken? = null
 
-    private val selectedPlaceListeners = mutableListOf<(String?) -> Unit>()
-
-    fun registerSelectedPlaceListener(listener: (String?) -> Unit) {
-
-        selectedPlaceListeners.add(listener)
-    }
-
-    fun deregisterSelectedPlaceListener(listener: (String?) -> Unit) {
-
-        selectedPlaceListeners.remove(listener)
-    }
+    private val _selectedLocationFlow: MutableStateFlow<Result<ForecastLocation>> =
+        MutableStateFlow(loading())
+    val selectedLocationFlow: StateFlow<Result<ForecastLocation>>
+        get() = _selectedLocationFlow
 
     fun getSelectedPlaceId(): String? {
 
         return dataPrefs.getString(KEY_SELECTED_LOCATION, null)
     }
 
-    suspend fun getSelectedLocation(): Result<ForecastLocation> {
+    suspend fun getSelectedLocationType(): Result<ForecastLocation.Type> {
+
+        val selectedId = getSelectedPlaceId()
+        val type = selectedId?.let { forecastLocationLocalSource.getLocationType(selectedId) }
+
+        return if (type == null) failure() else success(type)
+    }
+
+    suspend fun fetchSelectedLocation() {
 
         val selectedId = getSelectedPlaceId()
 
@@ -52,36 +58,59 @@ class ForecastLocationRepository @Inject constructor(
 
             val currentLocation = getCurrentLocation()
 
-            return if (currentLocation is Result.Success) {
+            currentLocation.ifSuccessful {
 
-                replaceAllOfType(currentLocation.data)
-                currentLocation
-            } else {
-
-                failure()
+                replaceAllOfType(it.copy(type = ForecastLocation.Type.LAST_KNOWN_LOCATION))
+                select(it.placeId)
             }
+
+            _selectedLocationFlow.value = currentLocation
         } else {
 
             val selectedLocation = forecastLocationLocalSource.getLocation(selectedId)
-            return if (selectedLocation == null) failure() else success(selectedLocation)
+
+            if (selectedLocation == null) {
+
+                _selectedLocationFlow.value = failure()
+            } else {
+
+                if (selectedLocation.type == ForecastLocation.Type.LAST_KNOWN_LOCATION) {
+
+                    _selectedLocationFlow.value =
+                        success(
+                            selectedLocation.copy(type = ForecastLocation.Type.PENDING_LOCATION)
+                        )
+
+                    val currentLocation = getCurrentLocation()
+
+                    _selectedLocationFlow.value = if (currentLocation is Result.Success) {
+
+                        replaceAllOfType(currentLocation.data.copy(type = ForecastLocation.Type.LAST_KNOWN_LOCATION))
+                        select(currentLocation.data.placeId)
+                        currentLocation
+                    } else {
+
+                        success(selectedLocation)
+                    }
+                }
+            }
         }
     }
 
-    fun removeSelection() {
+    suspend fun select(placeId: String) {
+
+        val location = getLocation(placeId)
+        if (location is Result.Success) {
+
+            _selectedLocationFlow.value = location
+            dataPrefs.edit().putString(KEY_SELECTED_LOCATION, placeId).apply()
+        }
+    }
+
+    suspend fun removeSelection() {
 
         dataPrefs.edit().remove(KEY_SELECTED_LOCATION).apply()
-        onSelectedPlaceChanged(null)
-    }
-
-    fun select(placeId: String) {
-
-        dataPrefs.edit().putString(KEY_SELECTED_LOCATION, placeId).apply()
-        onSelectedPlaceChanged(placeId)
-    }
-
-    private fun onSelectedPlaceChanged(placeId: String?) {
-
-        selectedPlaceListeners.forEach { it(placeId) }
+        fetchSelectedLocation()
     }
 
     suspend fun pin(placeId: String) {
@@ -89,9 +118,9 @@ class ForecastLocationRepository @Inject constructor(
         forecastLocationLocalSource.pin(placeId)
     }
 
-    suspend fun getCurrentLocation(): Result<ForecastLocation> {
+    private suspend fun getCurrentLocation(): Result<ForecastLocation> {
 
-        val latLng = suspendCoroutine<Result<Pair<Double, Double>>> { cont ->
+        val latLngResult = suspendCoroutine<Result<Pair<Double, Double>>> { cont ->
 
             try {
                 locationClient.lastLocation.addOnCompleteListener {
@@ -99,27 +128,45 @@ class ForecastLocationRepository @Inject constructor(
                     val result = it.result
                     if (it.isSuccessful && result != null) {
 
-                        cont.resume(Result.Success(result.latitude to result.longitude))
+                        cont.resume(
+                            success(
+                                result.latitude to result.longitude
+                            )
+                        )
                     } else {
 
-                        cont.resume(Result.Failure())
+                        cont.resume(failure())
                     }
                 }
             } catch (securityException: SecurityException) {
 
-                cont.resume(Result.Failure())
+                cont.resume(failure())
             }
         }
 
-        if (latLng is Result.Success) {
+        return latLngResult.switchMap { latLng ->
 
-            val lat = latLng.data.first
-            val lng = latLng.data.second
+            val lat = latLng.first
+            val lng = latLng.second
 
             val locationDetails =
                 forecastLocationRemoteSource.getLocationDetails(lat, lng, autocompleteSessionToken)
 
-            return locationDetails.map {
+            if (locationDetails is Result.Success) {
+
+                forecastLocationLocalSource.replaceAllOfType(locationDetails.data.let {
+
+                    ForecastLocation(
+                        it.placeId,
+                        it.name,
+                        it.lat,
+                        it.lng,
+                        ForecastLocation.Type.LAST_KNOWN_LOCATION
+                    )
+                })
+            }
+
+            locationDetails.map {
 
                 ForecastLocation(
                     it.placeId,
@@ -130,13 +177,9 @@ class ForecastLocationRepository @Inject constructor(
                 )
             }
         }
-
-        return Result.Failure()
     }
 
-    suspend fun getLocation(
-        placeId: String
-    ): Result<ForecastLocation> {
+    suspend fun getLocation(placeId: String): Result<ForecastLocation> {
 
         val locationDetails =
             forecastLocationRemoteSource.getLocationDetails(placeId, autocompleteSessionToken)

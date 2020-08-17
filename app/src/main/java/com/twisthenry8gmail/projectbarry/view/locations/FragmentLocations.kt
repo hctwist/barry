@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.twisthenry8gmail.projectbarry.MarginItemDecoration
+import com.twisthenry8gmail.projectbarry.view.MarginItemDecoration
 import com.twisthenry8gmail.projectbarry.R
 import com.twisthenry8gmail.projectbarry.data.locations.LocationSearchResult
 import com.twisthenry8gmail.projectbarry.databinding.FragmentLocationsBinding
@@ -99,7 +99,11 @@ class FragmentLocations : Fragment() {
         binding.locationsResults.run {
 
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(MarginItemDecoration(resources.getDimension(R.dimen.margin)))
+            addItemDecoration(
+                MarginItemDecoration(
+                    resources.getDimension(R.dimen.margin)
+                )
+            )
         }
     }
 }

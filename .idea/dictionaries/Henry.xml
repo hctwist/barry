@@ -2,6 +2,7 @@
   <dictionary name="Henry">
     <words>
       <w>geocoding</w>
+      <w>lerp</w>
     </words>
   </dictionary>
 </component>

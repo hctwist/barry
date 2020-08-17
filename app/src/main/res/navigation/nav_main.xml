@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
     app:startDestination="@id/fragmentMain">
 
     <fragment
         android:id="@+id/fragmentMain"
-        android:name="com.twisthenry8gmail.projectbarry.view.currentforecast.FragmentCurrentForecast"
-        android:label="FragmentMain" >
+        android:name="com.twisthenry8gmail.projectbarry.view.main.FragmentMain"
+        android:label="FragmentMain">
         <action
             android:id="@+id/action_fragmentMain_to_fragmentLocations"
             app:destination="@id/fragmentLocations"
-            app:enterAnim="@anim/slide_up_enter"
+            app:enterAnim="@anim/pop_in_enter"
             app:exitAnim="@anim/fade_exit"
             app:popEnterAnim="@anim/fade_enter"
-            app:popExitAnim="@anim/slide_down_exit" />
+            app:popExitAnim="@anim/pop_out_exit" />
+        <action
+            android:id="@+id/action_fragmentMain_to_fragmentDailyForecast"
+            app:destination="@id/fragmentDailyForecast" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLocations"
         android:name="com.twisthenry8gmail.projectbarry.view.locations.FragmentLocations"
         android:label="FragmentLocations" />
+    <fragment
+        android:id="@+id/fragmentDailyForecast"
+        android:name="com.twisthenry8gmail.projectbarry.view.daily.FragmentDailyForecast"
+        android:label="FragmentDailyForecast" />
 </navigation>

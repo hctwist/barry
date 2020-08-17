@@ -12,7 +12,7 @@
         android:name=".HiltApplication"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".view.ActivityMain">
+        <activity android:name=".view.main.ActivityMain">
 
             <intent-filter>
 

@@ -28,6 +28,9 @@ class ForecastLocationEntity(
         @Query("SELECT * FROM ForecastLocationEntity WHERE placeId = :placeId")
         suspend fun get(placeId: String): ForecastLocationEntity?
 
+        @Query("SELECT type FROM ForecastLocationEntity WHERE placeId = :placeId")
+        suspend fun getType(placeId: String): ForecastLocation.Type?
+
         @Query("SELECT * FROM ForecastLocationEntity WHERE type IN (:types)")
         suspend fun getFrom(types: List<ForecastLocation.Type>): List<ForecastLocationEntity>
 

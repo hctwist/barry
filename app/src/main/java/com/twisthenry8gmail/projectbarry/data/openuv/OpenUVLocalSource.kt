@@ -2,8 +2,9 @@ package com.twisthenry8gmail.projectbarry.data.openuv
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.twisthenry8gmail.projectbarry.data.Result
+import com.twisthenry8gmail.projectbarry.Result
 import com.twisthenry8gmail.projectbarry.data.SharedPreferencesModule
+import com.twisthenry8gmail.projectbarry.failure
 import javax.inject.Inject
 
 class OpenUVLocalSource @Inject constructor(@SharedPreferencesModule.Data val dataPreferences: SharedPreferences) :
@@ -26,7 +27,7 @@ class OpenUVLocalSource @Inject constructor(@SharedPreferencesModule.Data val da
 
         return if (string == null) {
 
-            Result.Failure()
+            failure()
         } else {
 
             val gson = Gson()

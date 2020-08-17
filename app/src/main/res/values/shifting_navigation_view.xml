@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="shifting_navigation_icon">32dp</dimen>
+    <dimen name="shifting_navigation_title_padding">16dp</dimen>
+    <dimen name="shifting_navigation_spacing">32dp</dimen>
+    <dimen name="shifting_navigation_indicator_horizontal_padding">16dp</dimen>
+    <dimen name="shifting_navigation_indicator_vertical_padding">8dp</dimen>
+    <dimen name="shifting_navigation_min_touch_size">48dp</dimen>
+
+    <declare-styleable name="ShiftingNavigationView">
+
+        <attr name="shiftingIndicatorBackground" format="reference" />
+        <attr name="shiftingIndicatorHorizontalPadding" format="dimension" />
+        <attr name="shiftingIndicatorVerticalPadding" format="dimension" />
+
+        <attr name="shiftingIconSize" format="dimension" />
+        <attr name="shiftingIconTint" format="color" />
+        <attr name="shiftingIconTintChecked" format="color" />
+
+        <attr name="shiftingIconMinSpacing" format="dimension" />
+
+        <attr name="android:textAppearance" />
+    </declare-styleable>
+
+    <declare-styleable name="ShiftingNavigationItem">
+
+        <attr name="android:text" />
+        <attr name="android:icon" />
+    </declare-styleable>
+</resources>

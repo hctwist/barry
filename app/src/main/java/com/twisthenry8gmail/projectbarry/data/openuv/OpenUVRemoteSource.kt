@@ -3,11 +3,9 @@ package com.twisthenry8gmail.projectbarry.data.openuv
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.twisthenry8gmail.projectbarry.data.APIKeyStore
-import com.twisthenry8gmail.projectbarry.data.Result
+import com.twisthenry8gmail.projectbarry.Result
+import com.twisthenry8gmail.projectbarry.failure
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
@@ -42,7 +40,7 @@ class OpenUVRemoteSource @Inject constructor(private val volleyRequestQueue: Req
         },
         {
 
-            continuation.resume(Result.Failure())
+            continuation.resume(failure())
         }) {
 
         override fun getHeaders(): MutableMap<String, String> {

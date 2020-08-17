@@ -1,6 +1,6 @@
 package com.twisthenry8gmail.projectbarry.data.openuv
 
-import com.twisthenry8gmail.projectbarry.data.Result
+import com.twisthenry8gmail.projectbarry.Result
 
 interface OpenUVSource {
 

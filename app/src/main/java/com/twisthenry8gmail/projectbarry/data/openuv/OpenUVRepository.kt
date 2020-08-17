@@ -1,7 +1,7 @@
 package com.twisthenry8gmail.projectbarry.data.openuv
 
 import com.twisthenry8gmail.projectbarry.data.CachedData
-import com.twisthenry8gmail.projectbarry.data.Result
+import com.twisthenry8gmail.projectbarry.Result
 import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocation
 import javax.inject.Inject
 import javax.inject.Singleton

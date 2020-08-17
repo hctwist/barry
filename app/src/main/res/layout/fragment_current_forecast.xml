@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -15,121 +15,105 @@
             type="com.twisthenry8gmail.projectbarry.viewmodel.CurrentForecastViewModel" />
     </data>
 
-    <com.twisthenry8gmail.projectbarry.view.CustomSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/main_swipe_refresh"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        bind:refreshing="@{viewmodel.refreshing}">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/current_forecast_icon"
+            android:layout_width="@dimen/current_forecast_icon"
+            android:layout_height="@dimen/current_forecast_icon"
+            android:layout_marginTop="@dimen/large_content_margin"
+            android:layout_marginEnd="@dimen/horizontal_layout_margin"
+            android:src="@{viewmodel.conditionIcon == null ? null : context.getDrawable(viewmodel.conditionIcon)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/current_forecast_condition"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/margin">
+            android:layout_marginStart="@dimen/horizontal_layout_margin"
+            android:fontFamily="@font/noto_serif_regular"
+            android:text="Sunny"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toTopOf="@id/current_forecast_temperature"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/current_forecast_icon"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-            <ImageView
-                android:id="@+id/main_refreshing_light"
-                android:layout_width="@dimen/main_refresh_icon"
-                android:layout_height="@dimen/main_refresh_icon"
-                android:layout_gravity="center"
-                android:src="@drawable/refreshing_light" />
+        <TextView
+            android:id="@+id/current_forecast_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:includeFontPadding="false"
+            android:text="@{viewmodel.currentTemperature == null ? null : ForecastDisplayUtil.INSTANCE.displayTemperature(context, viewmodel.currentTemperature), default = 18}"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="42sp"
+            app:layout_constraintBottom_toBottomOf="@id/current_forecast_icon"
+            app:layout_constraintStart_toStartOf="@id/current_forecast_condition"
+            app:layout_constraintTop_toBottomOf="@id/current_forecast_condition" />
 
-            <ImageView
-                android:layout_width="@dimen/main_refresh_icon"
-                android:layout_height="@dimen/main_refresh_icon"
-                android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher_foreground" />
-        </FrameLayout>
+        <TextView
+            android:id="@+id/current_forecast_temp_low"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:text="@{viewmodel.lowTemperature == null ? null : ForecastDisplayUtil.INSTANCE.displayTemperature(context, viewmodel.lowTemperature)}"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="@dimen/text_small"
+            app:layout_constraintBottom_toBottomOf="@id/current_forecast_temperature"
+            app:layout_constraintStart_toEndOf="@id/current_forecast_temperature"
+            app:layout_constraintTop_toBottomOf="@id/current_forecast_temp_high"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/current_forecast_temp_high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.highTemperature == null ? null : ForecastDisplayUtil.INSTANCE.displayTemperature(context, viewmodel.highTemperature)}"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="@dimen/text_small"
+            app:layout_constraintBottom_toTopOf="@id/current_forecast_temp_low"
+            app:layout_constraintStart_toStartOf="@id/current_forecast_temp_low"
+            app:layout_constraintTop_toTopOf="@id/current_forecast_temperature" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/main_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/horizontal_layout_margin"
-                android:layout_marginTop="72dp"
-                android:onClick="@{() -> viewmodel.onLocationClicked()}"
-                app:cardBackgroundColor="@color/light_card"
-                app:cardElevation="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/current_forecast_temp_low_icon"
+            android:layout_width="@dimen/icon_extra_small"
+            android:layout_height="@dimen/icon_extra_small"
+            android:layout_marginStart="@dimen/half_margin"
+            android:src="@drawable/round_arrow_downward_24"
+            app:layout_constraintBottom_toBottomOf="@id/current_forecast_temp_low"
+            app:layout_constraintStart_toEndOf="@id/current_forecast_temp_low"
+            app:layout_constraintTop_toTopOf="@id/current_forecast_temp_low"
+            app:tint="?android:attr/textColorSecondary" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="@dimen/margin"
-                    android:paddingVertical="@dimen/half_margin">
+        <ImageView
+            android:id="@+id/current_forecast_temp_high_icon"
+            android:layout_width="@dimen/icon_extra_small"
+            android:layout_height="@dimen/icon_extra_small"
+            android:layout_marginStart="@dimen/half_margin"
+            android:src="@drawable/round_arrow_upward_24"
+            app:layout_constraintBottom_toBottomOf="@id/current_forecast_temp_high"
+            app:layout_constraintStart_toEndOf="@id/current_forecast_temp_high"
+            app:layout_constraintTop_toTopOf="@id/current_forecast_temp_high"
+            app:tint="?android:attr/textColorSecondary" />
 
-                    <ImageView
-                        android:id="@+id/main_location_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@{viewmodel.locationIconRes == null ? null : context.getDrawable(viewmodel.locationIconRes)}"
-                        app:tint="?android:attr/textColorSecondary" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin"
-                        android:text="@{viewmodel.locationName == null ? @string/location_error : viewmodel.locationName}"
-                        android:textColor="?android:attr/textColorSecondary" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:id="@+id/main_temperature"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/horizontal_layout_margin"
-                android:autoSizeMaxTextSize="@dimen/main_temperature"
-                android:autoSizeTextType="uniform"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center_vertical"
-                android:lines="1"
-                android:text="@{viewmodel.currentTemperature == null ? null : ForecastDisplayUtil.INSTANCE.displayTemperature(context, viewmodel.currentTemperature)}"
-                android:textColor="?android:attr/textColorPrimary"
-                app:layout_constraintBottom_toBottomOf="@id/main_icon"
-                app:layout_constraintEnd_toStartOf="@id/main_icon"
-                app:layout_constraintHorizontal_weight="3"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/main_icon" />
-
-            <ImageView
-                android:id="@+id/main_icon"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/double_margin"
-                android:layout_marginTop="@dimen/margin"
-                android:layout_marginEnd="@dimen/horizontal_layout_margin"
-                android:src="@{viewmodel.conditionIcon == null ? null : context.getDrawable(viewmodel.conditionIcon)}"
-                app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="2"
-                app:layout_constraintStart_toEndOf="@id/main_temperature"
-                app:layout_constraintTop_toBottomOf="@id/main_location" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/main_features"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
-                android:layout_marginTop="@dimen/large_content_margin"
-                android:overScrollMode="never"
-                app:layout_constraintTop_toBottomOf="@id/main_icon" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/main_hourly"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/vertical_layout_margin"
-                android:clipToPadding="false"
-                android:overScrollMode="never"
-                android:paddingHorizontal="@dimen/horizontal_layout_margin"
-                app:layout_constraintBottom_toBottomOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.twisthenry8gmail.projectbarry.view.CustomSwipeRefreshLayout>
+        <androidx.recyclerview.widget.RecyclerView xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/current_forecast_features"
+            itemMargins="@{@dimen/margin}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+            android:layout_marginTop="@dimen/large_content_margin"
+            android:overScrollMode="never"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/current_forecast_icon"
+            tools:itemCount="1"
+            tools:listitem="@layout/feature_box" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

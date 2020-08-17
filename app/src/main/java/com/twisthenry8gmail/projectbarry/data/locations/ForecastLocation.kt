@@ -1,6 +1,6 @@
 package com.twisthenry8gmail.projectbarry.data.locations
 
-class ForecastLocation(
+data class ForecastLocation(
     val placeId: String,
     val name: String,
     val lat: Double,
@@ -12,6 +12,6 @@ class ForecastLocation(
 
     enum class Type {
 
-        CURRENT_LOCATION, PINNED, CHOSEN
+        LAST_KNOWN_LOCATION, PENDING_LOCATION, CURRENT_LOCATION, PINNED, CHOSEN
     }
 }
