@@ -1,4 +1,4 @@
-package com.twisthenry8gmail.projectbarry.util
+package com.twisthenry8gmail.projectbarry.view
 
 import android.view.View
 import androidx.databinding.BindingAdapter

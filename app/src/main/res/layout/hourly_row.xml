@@ -5,13 +5,13 @@
 
         <import type="com.twisthenry8gmail.projectbarry.util.TimeDisplayUtil" />
 
-        <import type="com.twisthenry8gmail.projectbarry.util.ForecastDisplayUtil" />
+        <import type="com.twisthenry8gmail.projectbarry.core.ForecastDisplayUtil" />
 
         <import type="com.twisthenry8gmail.projectbarry.view.WeatherConditionDisplay" />
 
         <variable
             name="forecast"
-            type="com.twisthenry8gmail.projectbarry.data.HourlyForecast" />
+            type="com.twisthenry8gmail.projectbarry.core.HourlyForecast" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -23,7 +23,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ForecastDisplayUtil.INSTANCE.displayTemperature(context, forecast.temp)}"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView

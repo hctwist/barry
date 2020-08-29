@@ -9,7 +9,7 @@ abstract class StateFragmentContainerAdapter<T : Enum<T>>(private val manager: F
     private var state: T? = null
     private var containerView: View? = null
 
-    protected abstract fun getFragment(state: T): Fragment
+    protected abstract fun getFragment(state: T): Fragment?
 
     fun attachTo(containerView: View) {
 
@@ -32,19 +32,22 @@ abstract class StateFragmentContainerAdapter<T : Enum<T>>(private val manager: F
 
     private fun updateState() {
 
-        state?.let { state ->
+        state?.also { state ->
 
-            containerView?.let { containerView ->
+            containerView?.also { containerView ->
 
                 val tag = state.name
 
                 val existingFragment = manager.findFragmentByTag(tag)
+                val fragment = getFragment(state)
 
-                if (existingFragment == null) {
+                if(fragment == null) {
 
-                    val fragment = getFragment(state)
-                    manager.beginTransaction().replace(containerView.id, fragment, tag)
-                        .commit()
+                    existingFragment?.let { manager.beginTransaction().remove(it).commit() }
+                }
+                else if (existingFragment == null) {
+
+                    manager.beginTransaction().replace(containerView.id, fragment, tag).commit()
                 }
             }
         }

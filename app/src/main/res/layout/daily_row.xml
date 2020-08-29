@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:bind="http://schemas.android.com/tools">
+<layout>
 
     <data>
 
@@ -9,76 +9,94 @@
 
         <import type="com.twisthenry8gmail.projectbarry.util.TimeDisplayUtil" />
 
+        <import type="com.twisthenry8gmail.projectbarry.core.ForecastDisplayUtil" />
+
         <variable
             name="forecast"
             type="com.twisthenry8gmail.projectbarry.data.DailyForecast" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:contentPadding="@dimen/margin">
 
-        <TextView
-            android:id="@+id/daily_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="@{TimeDisplayUtil.INSTANCE.displayHumanDay(forecast.day)}"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/half_margin"
-            android:text="@{TimeDisplayUtil.INSTANCE.displayDayOfMonth(forecast.day)}"
-            android:textColor="?android:attr/textColorTertiary"
-            app:layout_constraintBaseline_toBaselineOf="@id/daily_day"
-            app:layout_constraintStart_toEndOf="@id/daily_day" />
+            <TextView
+                android:id="@+id/daily_day"
+                style="@style/Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{TimeDisplayUtil.INSTANCE.displayHumanDay(forecast.day), default = Monday}"
+                android:textColor="?android:attr/textColorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/daily_icon"
-            android:layout_width="@dimen/daily_icon"
-            android:layout_height="@dimen/daily_icon"
-            android:layout_marginTop="@dimen/margin"
-            android:src="@{WeatherConditionDisplay.INSTANCE.getImageResource(forecast.condition, true) == null ? null : context.getDrawable(WeatherConditionDisplay.INSTANCE.getImageResource(forecast.condition, true))}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/daily_day" />
+            <TextView
+                style="@style/Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin"
+                android:text="@{WeatherConditionDisplay.INSTANCE.getStringResource(forecast.condition), default = Sunny}"
+                app:layout_constraintBaseline_toBaselineOf="@id/daily_day"
+                app:layout_constraintStart_toEndOf="@id/daily_day" />
 
-        <com.twisthenry8gmail.projectbarry.view.FeatureBoxView
-            android:id="@+id/daily_feature_temp_high"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/daily_feature_pop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            bind:feature="@{DailyFeatureGenerator.INSTANCE.temperatureHigh(forecast)}" />
+            <TextView
+                android:id="@+id/daily_temp_low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin"
+                android:text="@{ForecastDisplayUtil.INSTANCE.displayTemperature(context, forecast.tempLow), default = 21}"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="@dimen/text_large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/daily_day" />
 
-        <com.twisthenry8gmail.projectbarry.view.FeatureBoxView
-            android:id="@+id/daily_feature_pop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/daily_feature_temp_high"
-            app:layout_constraintTop_toBottomOf="@id/daily_feature_temp_high"
-            bind:feature="@{DailyFeatureGenerator.INSTANCE.pop(forecast)}" />
+            <ImageView
+                android:id="@+id/daily_temp_low_icon"
+                android:layout_width="@dimen/icon_small"
+                android:layout_height="@dimen/icon_small"
+                android:layout_marginStart="@dimen/half_margin"
+                android:src="@drawable/round_arrow_downward_24"
+                app:layout_constraintBottom_toBottomOf="@id/daily_temp_low"
+                app:layout_constraintStart_toEndOf="@id/daily_temp_low"
+                app:layout_constraintTop_toTopOf="@id/daily_temp_low"
+                app:tint="?android:attr/textColorPrimary" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/daily_feature_barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="start"
-            app:constraint_referenced_ids="daily_feature_temp_high, daily_feature_pop" />
+            <TextView
+                android:id="@+id/daily_temp_high"
+                android:layout_width="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/daily_temp_low_icon"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin"
+                android:text="@{ForecastDisplayUtil.INSTANCE.displayTemperature(context, forecast.tempHigh), default = 22}"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="@dimen/text_large"
+                app:layout_constraintBaseline_toBaselineOf="@id/daily_temp_low" />
 
-        <com.twisthenry8gmail.projectbarry.view.FeatureBoxView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/daily_feature_temp_high"
-            app:layout_constraintEnd_toStartOf="@id/daily_feature_barrier"
-            app:layout_constraintTop_toTopOf="@id/daily_feature_temp_high"
-            bind:feature="@{DailyFeatureGenerator.INSTANCE.temperatureLow(forecast)}" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/daily_temp_high_icon"
+                android:layout_width="@dimen/icon_small"
+                android:layout_height="@dimen/icon_small"
+                android:layout_marginStart="@dimen/half_margin"
+                android:src="@drawable/round_arrow_upward_24"
+                app:layout_constraintBottom_toBottomOf="@id/daily_temp_high"
+                app:layout_constraintStart_toEndOf="@id/daily_temp_high"
+                app:layout_constraintTop_toTopOf="@id/daily_temp_high"
+                app:tint="?android:attr/textColorPrimary" />
+
+            <ImageView
+                android:id="@+id/daily_icon"
+                android:layout_width="@dimen/daily_icon"
+                android:layout_height="@dimen/daily_icon"
+                android:src="@{WeatherConditionDisplay.INSTANCE.getImageResource(forecast.condition, true) == null ? null : context.getDrawable(WeatherConditionDisplay.INSTANCE.getImageResource(forecast.condition, true))}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -1,13 +1,17 @@
 package com.twisthenry8gmail.projectbarry.data.locations
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import com.google.android.gms.location.FusedLocationProviderClient
+import android.location.Location
+import android.os.Looper
+import com.google.android.gms.location.*
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.twisthenry8gmail.projectbarry.Result
+import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 import com.twisthenry8gmail.projectbarry.data.SharedPreferencesModule
 import com.twisthenry8gmail.projectbarry.failure
-import com.twisthenry8gmail.projectbarry.loading
 import com.twisthenry8gmail.projectbarry.success
+import com.twisthenry8gmail.projectbarry.waiting
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
@@ -33,7 +37,7 @@ class ForecastLocationRepository @Inject constructor(
     private var autocompleteSessionToken: AutocompleteSessionToken? = null
 
     private val _selectedLocationFlow: MutableStateFlow<Result<ForecastLocation>> =
-        MutableStateFlow(loading())
+        MutableStateFlow(waiting())
     val selectedLocationFlow: StateFlow<Result<ForecastLocation>>
         get() = _selectedLocationFlow
 
@@ -118,39 +122,25 @@ class ForecastLocationRepository @Inject constructor(
         forecastLocationLocalSource.pin(placeId)
     }
 
+    @SuppressLint("MissingPermission")
     private suspend fun getCurrentLocation(): Result<ForecastLocation> {
 
-        val latLngResult = suspendCoroutine<Result<Pair<Double, Double>>> { cont ->
+        val lastLocation = getLastLocation()
 
-            try {
-                locationClient.lastLocation.addOnCompleteListener {
+        val locationResult =
+            if (lastLocation is Result.Success) lastLocation else getFreshLocation()
 
-                    val result = it.result
-                    if (it.isSuccessful && result != null) {
+        return locationResult.switchMap { location ->
 
-                        cont.resume(
-                            success(
-                                result.latitude to result.longitude
-                            )
-                        )
-                    } else {
-
-                        cont.resume(failure())
-                    }
-                }
-            } catch (securityException: SecurityException) {
-
-                cont.resume(failure())
-            }
-        }
-
-        return latLngResult.switchMap { latLng ->
-
-            val lat = latLng.first
-            val lng = latLng.second
+            val lat = location.latitude
+            val lng = location.longitude
 
             val locationDetails =
-                forecastLocationRemoteSource.getLocationDetails(lat, lng, autocompleteSessionToken)
+                forecastLocationRemoteSource.getLocationDetails(
+                    lat,
+                    lng,
+                    autocompleteSessionToken
+                )
 
             if (locationDetails is Result.Success) {
 
@@ -176,6 +166,73 @@ class ForecastLocationRepository @Inject constructor(
                     ForecastLocation.Type.CURRENT_LOCATION
                 )
             }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private suspend fun getLastLocation(): Result<Location> {
+
+        return suspendCoroutine { cont ->
+
+            locationClient.lastLocation.addOnCompleteListener {
+
+                try {
+                    val result = it.result
+
+                    if (it.isSuccessful && result != null) {
+
+                        cont.resume(success(result))
+                    } else {
+
+                        cont.resume(failure())
+                    }
+                } catch (e: Exception) {
+
+                    cont.resume(failure())
+                }
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private suspend fun getFreshLocation(): Result<Location> {
+
+        val request = LocationRequest.create().apply {
+
+            numUpdates = 1
+            interval = 4000L
+        }
+
+        return suspendCoroutine { cont ->
+
+            locationClient.requestLocationUpdates(
+                request,
+                object : LocationCallback() {
+
+                    override fun onLocationAvailability(availability: LocationAvailability?) {
+
+                        if (availability?.isLocationAvailable != true) {
+
+                            locationClient.removeLocationUpdates(this)
+                            cont.resume(failure())
+                        }
+                    }
+
+                    override fun onLocationResult(result: LocationResult?) {
+
+                        locationClient.removeLocationUpdates(this)
+                        if (result != null) {
+
+                            val location = result.lastLocation
+                            cont.resume(success(location))
+                        } else {
+
+                            cont.resume(failure())
+                        }
+                    }
+                },
+                Looper.getMainLooper()
+            )
         }
     }
 

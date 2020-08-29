@@ -1,19 +1,19 @@
 package com.twisthenry8gmail.projectbarry.data
 
-import java.time.Instant
+import com.twisthenry8gmail.projectbarry.core.ScaledTemperature
+import com.twisthenry8gmail.projectbarry.core.WeatherCondition
 import java.time.ZonedDateTime
 
 class CurrentForecast(
-    val timestamp: Instant,
     val sunset: ZonedDateTime,
     val sunrise: ZonedDateTime,
-    val temp: Temperature,
-    val tempLow: Temperature,
-    val tempHigh: Temperature,
+    val temp: ScaledTemperature,
+    val tempLow: ScaledTemperature,
+    val tempHigh: ScaledTemperature,
     val condition: WeatherCondition,
     val uvIndex: Double,
-    val feelsLike: Temperature,
+    val pop: Double,
+    val feelsLike: ScaledTemperature,
     val humidity: Int,
     val windSpeed: Double,
-    val hourly: List<HourlyForecast>
 )

@@ -3,23 +3,26 @@ package com.twisthenry8gmail.projectbarry.view
 import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import androidx.core.animation.doOnEnd
+import androidx.core.view.NestedScrollingParent3
 import com.twisthenry8gmail.projectbarry.R
 
 class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
-    FrameLayout(context, attrs) {
+    FrameLayout(context, attrs), NestedScrollingParent3 {
 
     var onRefreshListener: (() -> Unit)? = null
 
     private lateinit var refreshView: View
     private lateinit var contentView: View
 
-    private val fadeAmount = 0.8F
+    private val fadeAmount = 0F
     private val overDragHeight = resources.getDimension(R.dimen.main_refresh_over_drag)
 
     private val dragInterpolator = DecelerateInterpolator()
@@ -30,11 +33,12 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
     private val returnAnimationDuration = 200L
     private val returnInterpolator = DecelerateInterpolator()
 
+    private val touchSlop = ViewConfiguration.get(context).scaledTouchSlop
     private var downY = 0F
     private var dragAmount = 0F
-    private var state =
-        UIState.STATIC
+    private var state = UIState.STATIC
     private var returnAfterSettle = false
+    private var nestedScrolling = false
 
     fun setRefreshing(refreshing: Boolean) {
 
@@ -42,6 +46,8 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
 
             // TODO
         } else {
+
+            Log.d("CustomSwipeRefreshLayou", "setRefreshing: state = $state")
 
             when (state) {
 
@@ -74,8 +80,49 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
         refreshView.translationY = -refreshView.measuredHeight.toFloat()
     }
 
+    override fun onStartNestedScroll(child: View, target: View, axes: Int, type: Int): Boolean {
+
+        nestedScrolling = true
+        return true
+    }
+
+    override fun onNestedScrollAccepted(child: View, target: View, axes: Int, type: Int) {
+    }
+
+    override fun onStopNestedScroll(target: View, type: Int) {
+
+        nestedScrolling = false
+    }
+
+    override fun onNestedScroll(
+        target: View,
+        dxConsumed: Int,
+        dyConsumed: Int,
+        dxUnconsumed: Int,
+        dyUnconsumed: Int,
+        type: Int,
+        consumed: IntArray
+    ) {
+
+        nestedScrolling = dyConsumed != 0
+    }
+
+    override fun onNestedScroll(
+        target: View,
+        dxConsumed: Int,
+        dyConsumed: Int,
+        dxUnconsumed: Int,
+        dyUnconsumed: Int,
+        type: Int
+    ) {
+    }
+
+    override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
+    }
 
     override fun onInterceptTouchEvent(event: MotionEvent?): Boolean {
+
+        if (nestedScrolling) return false
 
         return when (event?.action) {
 
@@ -107,6 +154,7 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
     // TODO Accessibility
     override fun onTouchEvent(event: MotionEvent?): Boolean {
 
+        if (nestedScrolling) return false
         if (state != UIState.STATIC && state != UIState.DRAGGING) return false
 
         return when (event?.action) {
@@ -133,14 +181,13 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
 
         val drag = y - downY
 
-        if (drag > 0) {
+        if (drag > touchSlop) {
 
-            state =
-                UIState.DRAGGING
+            state = UIState.DRAGGING
 
             val maxDrag = refreshView.height + overDragHeight
             dragAmount =
-                dragInterpolator.getInterpolation((drag / maxDrag).coerceAtMost(1F)) * maxDrag
+                dragInterpolator.getInterpolation(((drag - touchSlop) / maxDrag).coerceAtMost(1F)) * maxDrag
             invalidateDrag()
         }
     }
@@ -158,8 +205,8 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
 
         if (dragAmount > refreshView.height) {
 
-            onRefreshListener?.invoke()
             onSettle()
+            onRefreshListener?.invoke()
         } else {
 
             onReturn()
@@ -168,8 +215,7 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
 
     private fun onSettle() {
 
-        state =
-            UIState.SETTLING
+        state = UIState.SETTLING
 
         ValueAnimator.ofFloat(dragAmount, refreshView.height.toFloat()).run {
 

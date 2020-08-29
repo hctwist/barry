@@ -1,5 +1,6 @@
 package com.twisthenry8gmail.projectbarry.data.locations
 
+import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 import javax.inject.Inject
 
 class ForecastLocationLocalSource @Inject constructor(private val forecastLocationDao: ForecastLocationEntity.Dao) {

@@ -2,38 +2,41 @@ package com.twisthenry8gmail.projectbarry.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import com.twisthenry8gmail.projectbarry.MainState
 import com.twisthenry8gmail.projectbarry.Result
+import com.twisthenry8gmail.projectbarry.core.ForecastElement
+import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 import com.twisthenry8gmail.projectbarry.data.CurrentForecast
-import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocation
 import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationRepository
 import com.twisthenry8gmail.projectbarry.successOrNull
-import com.twisthenry8gmail.projectbarry.usecases.GetCurrentForecastUseCase
-import com.twisthenry8gmail.projectbarry.view.Feature
+import com.twisthenry8gmail.projectbarry.usecases.GetNowForecastUseCase
 import com.twisthenry8gmail.projectbarry.view.WeatherConditionDisplay
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class CurrentForecastViewModel @ViewModelInject constructor(
     private val forecastLocationRepository: ForecastLocationRepository,
-    private val getCurrentForecastUseCase: GetCurrentForecastUseCase
+    private val getNowForecastUseCase: GetNowForecastUseCase
 ) : ViewModel() {
 
-    private val _state = MutableLiveData(State.LOADING_FORECAST)
-    val state: LiveData<State>
+    private val _state = MutableLiveData(MainState.LOADING)
+    val state: LiveData<MainState>
         get() = _state
 
     private val _location = forecastLocationRepository.selectedLocationFlow
-    private val _locationLiveData = MutableLiveData<ForecastLocation>()
-    val locationName = _locationLiveData.map { result ->
-
-        result.name
-    }
+    private val _successfulLocation = MutableLiveData<ForecastLocation>()
+    val successfulLocation: LiveData<ForecastLocation>
+        get() = _successfulLocation
 
     private val currentForecast = MutableLiveData<Result<CurrentForecast>>()
     private val successfulCurrentForecast = currentForecast.map { it.successOrNull() }
+    val condition = successfulCurrentForecast.map {
+
+        it?.let { WeatherConditionDisplay.getStringResource(it.condition) }
+    }
     val conditionIcon = successfulCurrentForecast.map {
 
         it?.let { WeatherConditionDisplay.getImageResource(it.condition, true) }
@@ -41,63 +44,80 @@ class CurrentForecastViewModel @ViewModelInject constructor(
     val currentTemperature = successfulCurrentForecast.map { it?.temp }
     val lowTemperature = successfulCurrentForecast.map { it?.tempLow }
     val highTemperature = successfulCurrentForecast.map { it?.tempHigh }
-    val features = successfulCurrentForecast.map {
+    val elements = successfulCurrentForecast.map {
 
         it?.let {
             listOf(
-                Feature.UVIndex(it.uvIndex),
-                Feature.Pop(it.hourly[0].pop),
-                Feature.FeelsLike(it.feelsLike),
-                Feature.Humidity(it.humidity),
-                Feature.WindSpeed(it.windSpeed)
+                ForecastElement.UVIndex(it.uvIndex),
+                ForecastElement.Pop(it.pop),
+                ForecastElement.FeelsLike(it.feelsLike),
+                ForecastElement.Humidity(it.humidity),
+                ForecastElement.WindSpeed(it.windSpeed)
             )
         } ?: listOf()
     }
+
+    private var fetchForecastJob: Job? = null
 
     init {
 
         viewModelScope.launch {
 
-            _location.collect { result ->
+            _location.collect {
 
-                delay(2000)
+                when (it) {
 
-                result.ifSuccessful {
+                    is Result.Success -> {
 
-                    if (_locationLiveData.value?.type == ForecastLocation.Type.PENDING_LOCATION) {
+                        _successfulLocation.value = it.data
+                        if (it.data.type !in arrayOf(
+                                ForecastLocation.Type.LAST_KNOWN_LOCATION,
+                                ForecastLocation.Type.CURRENT_LOCATION
+                            )
+                        ) {
 
-                        _locationLiveData.value = it
-                        fetchCurrentForecast(false)
-                    } else {
+                            _state.value = MainState.LOADING
+                        }
 
-                        _state.value = State.LOADING_FORECAST
-                        _locationLiveData.value = it
-                        fetchCurrentForecast(false)
+                        fetchForecastJob?.cancel()
+                        fetchForecastJob = viewModelScope.launch {
+
+                            fetchForecast(it.data)
+                        }
+                    }
+
+                    is Result.Failure -> {
+
+                        _state.value = MainState.LOCATION_ERROR
                     }
                 }
             }
         }
     }
 
-    private suspend fun fetchCurrentForecast(forceRefresh: Boolean) {
+    fun onSwipeRefresh() {
 
-        _location.value.successOrNull()?.let { l ->
+        viewModelScope.launch {
 
-            val forecast = getCurrentForecastUseCase(l, forceRefresh)
+            _location.value.ifSuccessful {
 
-            if (forecast is Result.Success) {
-
-                currentForecast.value = forecast
-                _state.value = State.FORECAST_LOADED
-            } else {
-
-                _state.value = State.FORECAST_ERROR
+                _state.value = MainState.LOADING
+                fetchForecast(it)
             }
         }
     }
 
-    enum class State {
+    private suspend fun fetchForecast(location: ForecastLocation) {
 
-        LOADING_FORECAST, FORECAST_LOADED, FORECAST_ERROR
+        val forecast = getNowForecastUseCase(location)
+
+        if (forecast is Result.Success) {
+
+            currentForecast.value = forecast
+            _state.value = MainState.LOADED
+        } else {
+
+            _state.value = MainState.FORECAST_ERROR
+        }
     }
 }

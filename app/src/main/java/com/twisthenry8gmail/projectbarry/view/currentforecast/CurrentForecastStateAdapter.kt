@@ -6,19 +6,19 @@ import com.twisthenry8gmail.projectbarry.view.StateFragmentContainerAdapter
 import com.twisthenry8gmail.projectbarry.viewmodel.CurrentForecastViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
-class CurrentForecastStateAdapter(
-    manager: FragmentManager
-) :
-    StateFragmentContainerAdapter<CurrentForecastViewModel.State>(manager) {
-
-    override fun getFragment(state: CurrentForecastViewModel.State): Fragment {
-
-        return when (state) {
-
-            CurrentForecastViewModel.State.LOADING_FORECAST -> FragmentCurrentForecastLoading()
-            CurrentForecastViewModel.State.FORECAST_LOADED -> FragmentCurrentForecast()
-            CurrentForecastViewModel.State.FORECAST_ERROR -> Fragment()
-        }
-    }
-}
+// TODO Refactor to 'Now'
+//@ExperimentalCoroutinesApi
+//class CurrentForecastStateAdapter(
+//    manager: FragmentManager
+//) :
+//    StateFragmentContainerAdapter<CurrentForecastViewModel.State>(manager) {
+//
+//    override fun getFragment(state: CurrentForecastViewModel.State): Fragment {
+//
+//        return when (state) {
+//
+//            CurrentForecastViewModel.State.LOADING, CurrentForecastViewModel.State.LOADED -> FragmentCurrentForecast()
+//            CurrentForecastViewModel.State.ERROR -> Fragment()
+//        }
+//    }
+//}

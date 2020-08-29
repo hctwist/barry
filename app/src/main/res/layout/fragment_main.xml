@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<layout xmlns:bind="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -9,96 +9,76 @@
             type="com.twisthenry8gmail.projectbarry.viewmodel.MainViewModel" />
     </data>
 
-    <com.twisthenry8gmail.projectbarry.view.CustomSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/main_swipe_refresh"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        bind:refreshing="@{viewmodel.refreshing}">
+        android:layout_height="match_parent">
 
-        <FrameLayout
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/main_container"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/main_navigation_stroke"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/main_navigation_stroke"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="@dimen/margin"
+            android:background="#EDEDED"
+            app:layout_constraintBottom_toTopOf="@id/main_navigation" />
+
+        <com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationView
+            android:id="@+id/main_navigation"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/margin">
+            android:layout_marginStart="@dimen/horizontal_layout_margin"
+            android:layout_marginBottom="@dimen/margin"
+            android:textAppearance="@style/MainTabAppearance"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:shiftingIconMinSpacing="@dimen/half_margin"
+            app:shiftingIconSize="@dimen/icon_medium"
+            app:shiftingIconTint="?android:attr/textColorPrimary"
+            app:shiftingIconTintChecked="@color/color_primary"
+            app:shiftingIndicatorBackground="@drawable/main_tab"
+            app:shiftingIndicatorHorizontalPadding="16dp"
+            app:shiftingIndicatorVerticalPadding="8dp">
 
-            <ImageView
-                android:layout_width="@dimen/main_refresh_icon"
-                android:layout_height="@dimen/main_refresh_icon"
-                android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher_foreground" />
-        </FrameLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/main_location_name"
+            <com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationItem
+                android:id="@+id/main_navigation_now"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/horizontal_layout_margin"
-                android:layout_marginTop="@dimen/vertical_layout_margin"
-                android:text="@{viewmodel.locationName}"
-                android:textColor="?android:attr/textColorPrimary"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:icon="@drawable/round_wb_sunny_24"
+                android:text="Now" />
 
-            <ImageView
-                android:id="@+id/main_location_icon"
-                android:layout_width="@dimen/icon_small"
-                android:layout_height="@dimen/icon_small"
-                android:layout_marginStart="@dimen/margin"
-                android:src="@{viewmodel.locationIconRes == null ? null : context.getDrawable(viewmodel.locationIconRes)}"
-                app:layout_constraintBottom_toBottomOf="@id/main_location_name"
-                app:layout_constraintStart_toEndOf="@id/main_location_name"
-                app:layout_constraintTop_toTopOf="@id/main_location_name"
-                app:tint="?android:attr/textColorPrimary" />
-
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/main_container"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@id/main_navigation"
-                app:layout_constraintTop_toBottomOf="@id/main_location_name" />
-
-            <com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationView
-                android:id="@+id/main_navigation"
+            <com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationItem
+                android:id="@+id/main_navigation_hourly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/vertical_layout_margin"
-                android:textAppearance="@style/MainTabAppearance"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:shiftingIconMinSpacing="@dimen/half_margin"
-                app:shiftingIconSize="@dimen/icon_medium"
-                app:shiftingIconTint="?android:attr/textColorPrimary"
-                app:shiftingIconTintChecked="@color/color_primary"
-                app:shiftingIndicatorBackground="@drawable/main_tab"
-                app:shiftingIndicatorHorizontalPadding="22dp"
-                app:shiftingIndicatorVerticalPadding="10dp">
+                android:icon="@drawable/round_show_chart_24"
+                android:text="Hourly" />
 
-                <com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationItem
-                    android:id="@+id/main_navigation_now"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:icon="@drawable/round_wb_sunny_24"
-                    android:text="Now" />
+            <com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationItem
+                android:id="@+id/main_navigation_daily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/round_date_range_24"
+                android:text="Daily" />
+        </com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationView>
 
-                <com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationItem
-                    android:id="@+id/main_navigation_hourly"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:icon="@drawable/round_show_chart_24"
-                    android:text="Hourly" />
-
-                <com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationItem
-                    android:id="@+id/main_navigation_daily"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:icon="@drawable/round_date_range_24"
-                    android:text="Daily" />
-            </com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.twisthenry8gmail.projectbarry.view.CustomSwipeRefreshLayout>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/horizontal_layout_margin"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:onClick="@{() -> viewmodel.onMenuClick()}"
+            android:padding="@dimen/half_margin"
+            android:src="@drawable/round_more_vert_24"
+            android:tint="?android:attr/textColorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/main_navigation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/main_navigation" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

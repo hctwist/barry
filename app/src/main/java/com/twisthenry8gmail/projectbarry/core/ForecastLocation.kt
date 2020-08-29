@@ -1,4 +1,4 @@
-package com.twisthenry8gmail.projectbarry.data.locations
+package com.twisthenry8gmail.projectbarry.core
 
 data class ForecastLocation(
     val placeId: String,

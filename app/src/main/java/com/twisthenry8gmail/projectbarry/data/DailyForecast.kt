@@ -1,12 +1,13 @@
 package com.twisthenry8gmail.projectbarry.data
 
+import com.twisthenry8gmail.projectbarry.core.ScaledTemperature
+import com.twisthenry8gmail.projectbarry.core.WeatherCondition
 import java.time.ZonedDateTime
 
 class DailyForecast(
     val day: ZonedDateTime,
-    val tempLow: Temperature,
-    val tempHigh: Temperature,
+    val tempLow: ScaledTemperature,
+    val tempHigh: ScaledTemperature,
     val condition: WeatherCondition,
-    val pop: Double,
-    val hourlyForecast: List<HourlyForecast>
+    val pop: Double
 )

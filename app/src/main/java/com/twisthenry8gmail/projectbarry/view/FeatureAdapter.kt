@@ -2,20 +2,21 @@ package com.twisthenry8gmail.projectbarry.view
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.twisthenry8gmail.projectbarry.core.ForecastElement
 
 class FeatureAdapter : RecyclerView.Adapter<FeatureAdapter.VH>() {
 
-    var features = listOf<Feature<*>>()
+    var elements = listOf<ForecastElement>()
 
     override fun getItemCount(): Int {
 
-        return features.size
+        return elements.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
 
         return VH(
-            FeatureBoxView(
+            ForecastElementView(
                 parent.context
             )
         )
@@ -23,8 +24,8 @@ class FeatureAdapter : RecyclerView.Adapter<FeatureAdapter.VH>() {
 
     override fun onBindViewHolder(holder: VH, position: Int) {
 
-        holder.featureBoxView.setFeature(features[position])
+        holder.forecastElementView.setElement(elements[position])
     }
 
-    class VH(val featureBoxView: FeatureBoxView) : RecyclerView.ViewHolder(featureBoxView)
+    class VH(val forecastElementView: ForecastElementView) : RecyclerView.ViewHolder(forecastElementView)
 }

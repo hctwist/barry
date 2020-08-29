@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.twisthenry8gmail.projectbarry.Event
 import com.twisthenry8gmail.projectbarry.databinding.FragmentMainBinding
+import com.twisthenry8gmail.projectbarry.view.PermissionHelper
+import com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationView
 import com.twisthenry8gmail.projectbarry.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,8 +20,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class FragmentMain : Fragment() {
-
-    private val LOCATION_PERMISSION_REQUEST_CODE = 0
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -42,28 +42,25 @@ class FragmentMain : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        viewModel.locationPermissionRequest.observe(viewLifecycleOwner, Event.Observer {
+        viewModel.observeNavigation(viewLifecycleOwner) {
 
-            requestLocationPermission()
+            it.navigateWith(findNavController())
+        }
+
+        viewModel.locationPermissionQuery.observe(viewLifecycleOwner, Event.Observer {
+
+            val permissionStatus =
+                requireContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+            viewModel.onLocationPermissionResult(permissionStatus == PackageManager.PERMISSION_GRANTED)
         })
 
-        viewModel.state.observe(viewLifecycleOwner, Observer {
+        viewModel.state.observe(viewLifecycleOwner) {
 
             stateAdapter.setState(it)
-        })
+        }
 
         setupStateAdapter()
         setupNavigation()
-        setupSwipeRefresh()
-    }
-
-    private fun requestLocationPermission() {
-
-        // TODO View model checks selected location, requests permission check through livedata, still waiting for the result in the background. If it comes back granted, load on, otherwise show LocationPermissionDeniedFragment which says to change location or grant permission again
-        requestPermissions(
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-            LOCATION_PERMISSION_REQUEST_CODE
-        )
     }
 
     override fun onRequestPermissionsResult(
@@ -72,19 +69,18 @@ class FragmentMain : Fragment() {
         grantResults: IntArray
     ) {
 
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-
-            val state = if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                MainViewModel.PermissionState.GRANTED
-            } else MainViewModel.PermissionState.DENIED
-
-            viewModel.registerPermissionState(state)
-        }
+        viewModel.onLocationPermissionResult(
+            PermissionHelper.isLocationPermissionGranted(
+                requestCode,
+                permissions,
+                grantResults
+            )
+        )
     }
 
     private fun setupNavigation() {
 
-        binding.mainNavigation.onItemSelected = {
+        binding.mainNavigation.itemSelectListener = ShiftingNavigationView.ItemSelectListener {
 
             viewModel.onNavigationItemSelected(it)
         }
@@ -93,13 +89,5 @@ class FragmentMain : Fragment() {
     private fun setupStateAdapter() {
 
         stateAdapter.attachTo(binding.mainContainer)
-    }
-
-    private fun setupSwipeRefresh() {
-
-        binding.mainSwipeRefresh.onRefreshListener = {
-
-            viewModel.onSwipeRefresh()
-        }
     }
 }

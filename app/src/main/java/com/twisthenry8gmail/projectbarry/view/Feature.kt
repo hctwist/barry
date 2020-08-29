@@ -2,12 +2,13 @@ package com.twisthenry8gmail.projectbarry.view
 
 import android.content.Context
 import com.twisthenry8gmail.projectbarry.R
-import com.twisthenry8gmail.projectbarry.data.Temperature
+import com.twisthenry8gmail.projectbarry.core.ScaledTemperature
 import com.twisthenry8gmail.projectbarry.util.DisplayUtil
-import com.twisthenry8gmail.projectbarry.util.ForecastDisplayUtil
+import com.twisthenry8gmail.projectbarry.core.ForecastDisplayUtil
 import com.twisthenry8gmail.projectbarry.util.TimeDisplayUtil
 import java.time.ZonedDateTime
 
+@Deprecated("Replaced by ForecastElement")
 abstract class Feature<T> private constructor(
     val titleRes: Int,
     val iconRes: Int,
@@ -21,19 +22,19 @@ abstract class Feature<T> private constructor(
         return displayValue(context, value)
     }
 
-    class TemperatureLow(value: Temperature) :
-        Feature<Temperature>(R.string.temperature_low, R.drawable.feature_temp_low, value) {
+    class TemperatureLow(value: ScaledTemperature) :
+        Feature<ScaledTemperature>(R.string.temperature_low, R.drawable.feature_temp_low, value) {
 
-        override fun displayValue(context: Context, value: Temperature): String {
+        override fun displayValue(context: Context, value: ScaledTemperature): String {
 
             return ForecastDisplayUtil.displayTemperature(context, value)
         }
     }
 
-    class TemperatureHigh(value: Temperature) :
-        Feature<Temperature>(R.string.temperature_high, R.drawable.feature_temp_high, value) {
+    class TemperatureHigh(value: ScaledTemperature) :
+        Feature<ScaledTemperature>(R.string.temperature_high, R.drawable.feature_temp_high, value) {
 
-        override fun displayValue(context: Context, value: Temperature): String {
+        override fun displayValue(context: Context, value: ScaledTemperature): String {
 
             return ForecastDisplayUtil.displayTemperature(context, value)
         }
@@ -53,18 +54,18 @@ abstract class Feature<T> private constructor(
 
         override fun displayValue(context: Context, value: Double): String {
 
-            return DisplayUtil.percentage(context, value, 0)
+            return ForecastDisplayUtil.displayPop(context, value)
         }
     }
 
-    class FeelsLike(value: Temperature) :
-        Feature<Temperature>(
+    class FeelsLike(value: ScaledTemperature) :
+        Feature<ScaledTemperature>(
             R.string.feature_feels_like,
             R.drawable.feature_uv,
             value
         ) {
 
-        override fun displayValue(context: Context, value: Temperature): String {
+        override fun displayValue(context: Context, value: ScaledTemperature): String {
 
             return ForecastDisplayUtil.displayTemperature(context, value)
         }

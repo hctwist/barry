@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.twisthenry8gmail.projectbarry.MainState
 import com.twisthenry8gmail.projectbarry.databinding.FragmentCurrentForecastBinding
 import com.twisthenry8gmail.projectbarry.view.FeatureAdapter
 import com.twisthenry8gmail.projectbarry.viewmodel.CurrentForecastViewModel
+import com.twisthenry8gmail.projectbarry.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -19,6 +19,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class FragmentCurrentForecast : Fragment() {
 
+    private val mainViewModel by viewModels<MainViewModel>(ownerProducer = { requireParentFragment().requireParentFragment() })
     private val viewModel by viewModels<CurrentForecastViewModel>(ownerProducer = { requireParentFragment() })
 
     private lateinit var binding: FragmentCurrentForecastBinding
@@ -40,9 +41,20 @@ class FragmentCurrentForecast : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        viewModel.features.observe(viewLifecycleOwner, Observer {
+        viewModel.state.observe(viewLifecycleOwner) {
 
-            featureAdapter.features = it
+            if (it == MainState.LOADING) {
+
+                binding.currentForecastSkeleton.toggleSkeleton(true)
+            } else {
+
+                binding.currentForecastSkeleton.toggleSkeleton(false)
+            }
+        }
+
+        viewModel.elements.observe(viewLifecycleOwner, {
+
+            featureAdapter.elements = it
             featureAdapter.notifyDataSetChanged()
         })
 
@@ -53,7 +65,7 @@ class FragmentCurrentForecast : Fragment() {
 
         binding.currentForecastFeatures.run {
 
-            layoutManager = GridLayoutManager(context, 3)
+            layoutManager = GridLayoutManager(context, 2)
             adapter = featureAdapter
         }
     }

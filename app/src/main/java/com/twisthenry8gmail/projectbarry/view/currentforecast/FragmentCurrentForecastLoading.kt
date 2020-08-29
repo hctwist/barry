@@ -9,6 +9,6 @@ class FragmentCurrentForecastLoading : FragmentLoading() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        setMessage(resources.getString(R.string.loading_forecast))
+        setMessage(resources.getString(R.string.loading_now_forecast))
     }
 }

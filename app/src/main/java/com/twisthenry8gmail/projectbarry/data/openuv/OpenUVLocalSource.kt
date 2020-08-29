@@ -10,7 +10,7 @@ import javax.inject.Inject
 class OpenUVLocalSource @Inject constructor(@SharedPreferencesModule.Data val dataPreferences: SharedPreferences) :
     OpenUVSource {
 
-    fun saveCurrentUV(data: OpenUVSource.RealTimeData) {
+    fun saveRealTimeUV(data: OpenUVSource.RealTimeData) {
 
         val gson = Gson()
         val json = gson.toJson(data)
@@ -18,7 +18,7 @@ class OpenUVLocalSource @Inject constructor(@SharedPreferencesModule.Data val da
         dataPreferences.edit().putString(REAL_TIME_CACHE, json).apply()
     }
 
-    override suspend fun getCurrentUV(
+    override suspend fun getRealTimeUV(
         lat: Double,
         lng: Double
     ): Result<OpenUVSource.RealTimeData> {

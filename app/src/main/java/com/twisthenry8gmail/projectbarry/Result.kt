@@ -2,17 +2,17 @@ package com.twisthenry8gmail.projectbarry
 
 sealed class Result<out T> {
 
-    object Loading : Result<Nothing>()
-
-    object Failure : Result<Nothing>()
+    object Waiting : Result<Nothing>()
 
     class Success<T>(val data: T) : Result<T>()
+
+    object Failure : Result<Nothing>()
 
     inline fun <O> map(transform: (T) -> O): Result<O> {
 
         return when (this) {
 
-            is Loading -> Loading
+            is Waiting -> Waiting
 
             is Success -> success(transform(data))
 
@@ -24,7 +24,7 @@ sealed class Result<out T> {
 
         return when (this) {
 
-            is Loading -> Loading
+            is Waiting -> Waiting
 
             is Success -> transform(data)
 
@@ -40,7 +40,7 @@ sealed class Result<out T> {
 
 fun <T> Result<T>?.successOrNull() = if (this is Result.Success) data else null
 
-fun loading() = Result.Loading
+fun waiting() = Result.Waiting
 
 fun <T> success(data: T) = Result.Success(data)
 

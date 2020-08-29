@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.twisthenry8gmail.projectbarry.viewmodel.LocationPermissionViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/location_permission_image"
+            android:layout_width="@dimen/display_image_width"
+            android:layout_height="@dimen/display_image_width"
+            android:layout_marginTop="@dimen/vertical_layout_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/location_permission_title"
+            style="@style/Display"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+            android:layout_marginTop="@dimen/medium_content_margin"
+            android:text="We cannot access your location"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/location_permission_image" />
+
+        <TextView
+            style="@style/DisplayBody"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+            android:layout_marginTop="@dimen/margin"
+            android:text="We require permission before we can access your current location. If you do not wish to use this feature, feel free to select a static location!"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/location_permission_title" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+            android:layout_marginBottom="@dimen/margin"
+            android:onClick="@{() -> viewmodel.onGrantPermissionClicked()}"
+            android:text="Grant permission"
+            app:layout_constraintBottom_toTopOf="@id/location_permission_other" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/location_permission_other"
+            style="@style/TextMaterialButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+            android:layout_marginBottom="@dimen/vertical_layout_margin"
+            android:text="Select other location"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

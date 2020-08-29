@@ -4,15 +4,16 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import com.twisthenry8gmail.projectbarry.core.ForecastElement
 import com.twisthenry8gmail.projectbarry.databinding.FeatureBoxBinding
 
-class FeatureBoxView(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+class ForecastElementView(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
     private val binding = FeatureBoxBinding.inflate(LayoutInflater.from(context), this, true)
 
-    fun setFeature(feature: Feature<*>) {
+    fun setElement(element: ForecastElement) {
 
-        binding.feature = feature
+        binding.element = element
         binding.executePendingBindings()
     }
 }

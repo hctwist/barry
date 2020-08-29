@@ -3,6 +3,7 @@ package com.twisthenry8gmail.projectbarry.view.daily
 import com.twisthenry8gmail.projectbarry.data.DailyForecast
 import com.twisthenry8gmail.projectbarry.view.Feature
 
+@Deprecated("Unused")
 object DailyFeatureGenerator {
 
     fun temperatureLow(forecast: DailyForecast) = Feature.TemperatureLow(forecast.tempLow)

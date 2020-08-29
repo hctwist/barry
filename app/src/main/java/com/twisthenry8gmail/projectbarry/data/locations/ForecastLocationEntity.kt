@@ -1,6 +1,7 @@
 package com.twisthenry8gmail.projectbarry.data.locations
 
 import androidx.room.*
+import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 
 @Entity
 class ForecastLocationEntity(

@@ -4,33 +4,51 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twisthenry8gmail.projectbarry.data.DailyForecast
+import com.twisthenry8gmail.projectbarry.core.ForecastLocation
+import com.twisthenry8gmail.projectbarry.databinding.DailyLocationRowBinding
 import com.twisthenry8gmail.projectbarry.databinding.DailyRowBinding
 
-class DailyForecastAdapter: RecyclerView.Adapter<DailyForecastAdapter.VH>() {
+class DailyForecastAdapter : RecyclerView.Adapter<DailyViewHolder>() {
 
-    var forecasts = listOf<DailyForecast>()
+    var location: ForecastLocation? = null
+    var forecast = listOf<DailyForecast>()
 
     override fun getItemCount(): Int {
 
-        return forecasts.size
+        return forecast.size + 1
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+    override fun getItemViewType(position: Int): Int {
 
-        return VH(DailyRowBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return if (position == 0) VIEW_TYPE_LOCATION else VIEW_TYPE_DAY
     }
 
-    override fun onBindViewHolder(holder: VH, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyViewHolder {
 
-        holder.bind(forecasts[position])
-    }
+        val inflater = LayoutInflater.from(parent.context)
+        return if (viewType == VIEW_TYPE_LOCATION) {
 
-    class VH(private val binding: DailyRowBinding): RecyclerView.ViewHolder(binding.root) {
+            DailyViewHolder.Location(DailyLocationRowBinding.inflate(inflater, parent, false))
+        } else {
 
-        fun bind(forecast: DailyForecast) {
-
-            binding.forecast = forecast
-            binding.executePendingBindings()
+            DailyViewHolder.Forecast(DailyRowBinding.inflate(inflater, parent, false))
         }
+    }
+
+    override fun onBindViewHolder(holder: DailyViewHolder, position: Int) {
+
+        if (holder is DailyViewHolder.Location) {
+
+            location?.let { holder.bind(it) }
+        } else if (holder is DailyViewHolder.Forecast) {
+
+            holder.bind(forecast[position - 1])
+        }
+    }
+
+    companion object {
+
+        const val VIEW_TYPE_LOCATION = 0
+        const val VIEW_TYPE_DAY = 1
     }
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
 import com.twisthenry8gmail.projectbarry.Result
-import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocation
+import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationRepository
 import com.twisthenry8gmail.projectbarry.data.locations.LocationSearchResult
 import com.twisthenry8gmail.projectbarry.view.locations.LocationChoiceAdapter

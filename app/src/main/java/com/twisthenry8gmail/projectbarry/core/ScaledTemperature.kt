@@ -1,6 +1,6 @@
-package com.twisthenry8gmail.projectbarry.data
+package com.twisthenry8gmail.projectbarry.core
 
-class Temperature private constructor(val value: Double, val scale: Scale) {
+class ScaledTemperature private constructor(val value: Double, val scale: Scale) {
 
     fun celsius() = when (scale) {
 
@@ -23,7 +23,7 @@ class Temperature private constructor(val value: Double, val scale: Scale) {
         Scale.KELVIN -> value
     }
 
-    fun to(scale: Scale) = Temperature(
+    fun to(scale: Scale) = ScaledTemperature(
         when (scale) {
 
             Scale.CELSIUS -> celsius()
@@ -34,7 +34,7 @@ class Temperature private constructor(val value: Double, val scale: Scale) {
 
     companion object {
 
-        fun fromKelvin(value: Double) = Temperature(value, Scale.KELVIN)
+        fun fromKelvin(value: Double) = ScaledTemperature(value, Scale.KELVIN)
 
         private fun fahrenheitToCelsius(fahrenheit: Double) = (fahrenheit - 32) * (5.0 / 9)
         private fun celsiusToFahrenheit(celsius: Double) = celsius * (9.0 / 5) + 32

@@ -11,13 +11,14 @@
     <!-- Layout -->
     <dimen name="horizontal_layout_margin">32dp</dimen>
     <dimen name="vertical_layout_margin">48dp</dimen>
-    <dimen name="medium_content_margin">48dp</dimen>
-    <dimen name="large_content_margin">72dp</dimen>
+    <dimen name="medium_content_margin">36dp</dimen>
+    <dimen name="large_content_margin">56dp</dimen>
 
     <!-- Text -->
-    <dimen name="text_medium">16sp</dimen>
     <dimen name="text_small">14sp</dimen>
-    <dimen name="text_large">20sp</dimen>
+    <dimen name="text_medium">16sp</dimen>
+    <dimen name="text_large">24sp</dimen>
+    <dimen name="text_display">32sp</dimen>
 
     <!-- Icons -->
     <dimen name="standard_icon_stroke">1.5</dimen>
@@ -25,8 +26,11 @@
     <dimen name="icon_small">18dp</dimen>
     <dimen name="icon_extra_small">14dp</dimen>
 
+    <!-- Images -->
+    <dimen name="display_image_width">256dp</dimen>
+
     <!-- Current forecast -->
-    <dimen name="current_forecast_icon">128dp</dimen>
+    <dimen name="current_forecast_icon">64dp</dimen>
     <dimen name="current_forecast_temperature">72sp</dimen>
     <dimen name="main_bottom_bar_text">18sp</dimen>
     <dimen name="main_refresh_over_drag">64dp</dimen>
@@ -34,6 +38,10 @@
 
     <!-- Hourly -->
     <dimen name="hourly_icon">18dp</dimen>
+    <dimen name="hourly_view_hour_spacing">32dp</dimen>
+    <dimen name="hourly_view_graph_margin">@dimen/margin</dimen>
+    <dimen name="hourly_view_graph_height">256dp</dimen>
+    <dimen name="hourly_view_graph_stroke">2dp</dimen>
 
     <!-- Daily -->
     <dimen name="daily_icon">56dp</dimen>

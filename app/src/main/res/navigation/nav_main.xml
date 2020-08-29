@@ -17,15 +17,19 @@
             app:popEnterAnim="@anim/fade_enter"
             app:popExitAnim="@anim/pop_out_exit" />
         <action
-            android:id="@+id/action_fragmentMain_to_fragmentDailyForecast"
-            app:destination="@id/fragmentDailyForecast" />
+            android:id="@+id/action_fragmentMain_to_fragmentLocationPermission"
+            app:destination="@id/fragmentLocationPermission" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLocations"
         android:name="com.twisthenry8gmail.projectbarry.view.locations.FragmentLocations"
         android:label="FragmentLocations" />
     <fragment
-        android:id="@+id/fragmentDailyForecast"
-        android:name="com.twisthenry8gmail.projectbarry.view.daily.FragmentDailyForecast"
-        android:label="FragmentDailyForecast" />
+        android:id="@+id/fragmentLocationPermission"
+        android:name="com.twisthenry8gmail.projectbarry.view.main.FragmentLocationPermission"
+        android:label="FragmentLocationPermission" >
+        <action
+            android:id="@+id/action_fragmentLocationPermission_to_fragmentMain"
+            app:destination="@id/fragmentMain" />
+    </fragment>
 </navigation>

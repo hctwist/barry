@@ -3,7 +3,7 @@ package com.twisthenry8gmail.projectbarry.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.twisthenry8gmail.projectbarry.data.HourlyForecast
+import com.twisthenry8gmail.projectbarry.core.HourlyForecast
 import com.twisthenry8gmail.projectbarry.databinding.HourlyRowBinding
 
 class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.VH>() {

@@ -2,10 +2,11 @@ package com.twisthenry8gmail.projectbarry.data.openuv
 
 import com.twisthenry8gmail.projectbarry.data.CachedData
 import com.twisthenry8gmail.projectbarry.Result
-import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocation
+import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Deprecated("Replaced by individual call repositories like OneCallRepository")
 @Singleton
 class OpenUVRepository @Inject constructor(
     private val openUVRemoteSource: OpenUVRemoteSource,
@@ -23,13 +24,13 @@ class OpenUVRepository @Inject constructor(
 
         return realTimeUVCache.get({
 
-            openUVLocalSource.getCurrentUV(location.lat, location.lng)
+            openUVLocalSource.getRealTimeUV(location.lat, location.lng)
         }, {
 
-            openUVLocalSource.saveCurrentUV(it)
+            openUVLocalSource.saveRealTimeUV(it)
         }, {
 
-            openUVRemoteSource.getCurrentUV(location.lat, location.lng)
+            openUVRemoteSource.getRealTimeUV(location.lat, location.lng)
         }, {
 
             location.isAt(location.lat, location.lng)

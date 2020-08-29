@@ -14,7 +14,7 @@ import kotlin.coroutines.suspendCoroutine
 class OpenUVRemoteSource @Inject constructor(private val volleyRequestQueue: RequestQueue) :
     OpenUVSource {
 
-    override suspend fun getCurrentUV(lat: Double, lng: Double) =
+    override suspend fun getRealTimeUV(lat: Double, lng: Double) =
         suspendCoroutine<Result<OpenUVSource.RealTimeData>> { continuation ->
 
             volleyRequestQueue.add(OpenUVRequest(lat, lng, continuation))

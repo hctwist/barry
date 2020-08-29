@@ -1,37 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
+        <import type="com.twisthenry8gmail.projectbarry.core.ForecastDisplayUtil" />
+
         <variable
-            name="feature"
-            type="com.twisthenry8gmail.projectbarry.view.Feature" />
+            name="element"
+            type="com.twisthenry8gmail.projectbarry.core.ForecastElement" />
     </data>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:contentPadding="@dimen/margin">
 
-        <TextView
-            android:id="@+id/feature_box_title"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:layout_marginTop="@dimen/quarter_margin"
-            android:text="@{feature.titleRes, default = Rain}"
-            android:textAllCaps="true"
-            android:textColor="?android:attr/textColorTertiary" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/feature_box_value"
+            <TextView
+                android:id="@+id/feature_box_title"
+                style="@style/Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{ForecastDisplayUtil.INSTANCE.getElementTitle(context, element)}" />
+
+            <TextView
+                android:id="@+id/feature_box_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/quarter_margin"
+                android:drawablePadding="@dimen/half_margin"
+                android:text="@{ForecastDisplayUtil.INSTANCE.getElementDisplayString(context, element)}"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="@dimen/text_medium" />
+        </LinearLayout>
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/quarter_margin"
-            android:drawableStart="@{context.getDrawable(feature.iconRes)}"
-            android:drawablePadding="@dimen/half_margin"
-            android:text="@{feature.displayValue(context) ?? @string/app_name, default = 50.0}"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="@dimen/text_large" />
-    </LinearLayout>
+            android:layout_gravity="end|center_vertical"
+            android:src="@{ForecastDisplayUtil.INSTANCE.getElementIcon(context, element)}" />
+    </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -5,20 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.twisthenry8gmail.projectbarry.view.MarginItemDecoration
-import com.twisthenry8gmail.projectbarry.R
 import com.twisthenry8gmail.projectbarry.databinding.FragmentDailyForecastBinding
 import com.twisthenry8gmail.projectbarry.viewmodel.DailyForecastViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class FragmentDailyForecast : Fragment() {
 
-    @Inject
-    lateinit var viewModel: DailyForecastViewModel
+    private val viewModel by viewModels<DailyForecastViewModel>(ownerProducer = { requireParentFragment() })
 
     private lateinit var binding: FragmentDailyForecastBinding
 
@@ -38,11 +36,17 @@ class FragmentDailyForecast : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        viewModel.successfulForecasts.observe(viewLifecycleOwner, Observer {
+        viewModel.successfulLocation.observe(viewLifecycleOwner) {
 
-            forecastAdapter.forecasts = it
+            forecastAdapter.location = it
+            forecastAdapter.notifyItemChanged(0)
+        }
+
+        viewModel.forecast.observe(viewLifecycleOwner) {
+
+            forecastAdapter.forecast = it
             forecastAdapter.notifyDataSetChanged()
-        })
+        }
 
         setupForecastList()
     }
@@ -53,11 +57,6 @@ class FragmentDailyForecast : Fragment() {
 
             layoutManager = LinearLayoutManager(context)
             adapter = forecastAdapter
-            addItemDecoration(
-                MarginItemDecoration(
-                    resources.getDimension(R.dimen.large_content_margin)
-                )
-            )
         }
     }
 }

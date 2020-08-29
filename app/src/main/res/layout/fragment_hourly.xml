@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/hourly_graph_toggles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horizontal_layout_margin"
+            android:layout_marginTop="@dimen/vertical_layout_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hourly_graph_toggle_temp"
+                style="@style/ToggleMaterialButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/round_wb_sunny_24" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hourly_graph_toggle_pop"
+                style="@style/ToggleMaterialButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/round_wb_sunny_24" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/ToggleMaterialButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/round_wb_sunny_24" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/ToggleMaterialButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/round_wb_sunny_24" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <com.twisthenry8gmail.projectbarry.view.hourly.HourlyForecastView
+            android:id="@+id/hourly_graph"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingHorizontal="@dimen/horizontal_layout_margin"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@id/hourly_graph_toggles" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

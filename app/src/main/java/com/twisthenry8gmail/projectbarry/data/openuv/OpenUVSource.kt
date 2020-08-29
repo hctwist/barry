@@ -4,7 +4,7 @@ import com.twisthenry8gmail.projectbarry.Result
 
 interface OpenUVSource {
 
-    suspend fun getCurrentUV(lat: Double, lng: Double): Result<RealTimeData>
+    suspend fun getRealTimeUV(lat: Double, lng: Double): Result<RealTimeData>
 
     class RealTimeData(
         val time: Long,

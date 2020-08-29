@@ -10,7 +10,9 @@ import javax.inject.Inject
 class OpenWeatherLocalSource @Inject constructor(@SharedPreferencesModule.Data val dataPreferences: SharedPreferences) :
     OpenWeatherSource {
 
+    // TODO Cache multiple calls for different locations
     // TODO Gson singleton
+    // TODO Background thread
     fun saveOneCallData(data: OpenWeatherSource.OneCallData) {
 
         val gson = Gson()

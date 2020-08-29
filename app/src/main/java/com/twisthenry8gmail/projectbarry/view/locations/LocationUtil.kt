@@ -1,7 +1,7 @@
 package com.twisthenry8gmail.projectbarry.view.locations
 
 import com.twisthenry8gmail.projectbarry.R
-import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocation
+import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 
 object LocationUtil {
 

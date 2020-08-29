@@ -2,6 +2,7 @@ package com.twisthenry8gmail.projectbarry.util
 
 import android.content.Context
 import com.twisthenry8gmail.projectbarry.R
+import java.math.RoundingMode
 import java.text.DecimalFormat
 
 object DisplayUtil {
@@ -14,7 +15,10 @@ object DisplayUtil {
         if (number > 0) patternBuilder.append(".")
         for (i in 0 until number) patternBuilder.append("#")
 
-        return DecimalFormat(patternBuilder.toString()).format(double)
+        val decimalFormat = DecimalFormat(patternBuilder.toString())
+        decimalFormat.roundingMode = RoundingMode.HALF_UP
+
+        return decimalFormat.format(double)
     }
 
     fun percentage(context: Context, double: Double, decimalPlaces: Int): String {
