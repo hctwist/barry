@@ -13,8 +13,8 @@ import android.widget.LinearLayout
 import com.twisthenry8gmail.projectbarry.R
 import com.twisthenry8gmail.projectbarry.core.ForecastElement
 import com.twisthenry8gmail.projectbarry.core.WeatherCondition
-import com.twisthenry8gmail.projectbarry.core.ForecastDisplayUtil
 import com.twisthenry8gmail.projectbarry.util.TimeDisplayUtil
+import com.twisthenry8gmail.projectbarry.view.ForecastDisplayUtil
 import com.twisthenry8gmail.projectbarry.view.WeatherConditionDisplay
 import kotlinx.android.synthetic.main.hourly_forecast_view_hour.view.*
 import java.time.ZonedDateTime
@@ -101,7 +101,7 @@ class HourlyForecastView(context: Context, attrs: AttributeSet) :
 
             if (hours.isNotEmpty()) {
 
-                val featureDoubles = hours.map { 0.0 } // TODO ForecastElement.toDouble or something
+                val featureDoubles = hours.map { it.element.doubleValue }
                 val maxFeatureDouble = featureDoubles.maxOrNull()!!
                 val minFeatureDouble = featureDoubles.minOrNull()!!
 

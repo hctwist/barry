@@ -5,7 +5,7 @@
 
         <import type="com.twisthenry8gmail.projectbarry.util.TimeDisplayUtil" />
 
-        <import type="com.twisthenry8gmail.projectbarry.core.ForecastDisplayUtil" />
+        <import type="com.twisthenry8gmail.projectbarry.view.ForecastDisplayUtil" />
 
         <import type="com.twisthenry8gmail.projectbarry.view.WeatherConditionDisplay" />
 

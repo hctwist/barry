@@ -3,8 +3,8 @@ package com.twisthenry8gmail.projectbarry.data.openuv
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.twisthenry8gmail.projectbarry.data.APIKeyStore
-import com.twisthenry8gmail.projectbarry.Result
-import com.twisthenry8gmail.projectbarry.failure
+import com.twisthenry8gmail.projectbarry.core.Result
+import com.twisthenry8gmail.projectbarry.core.failure
 import java.time.Instant
 import javax.inject.Inject
 import kotlin.coroutines.Continuation

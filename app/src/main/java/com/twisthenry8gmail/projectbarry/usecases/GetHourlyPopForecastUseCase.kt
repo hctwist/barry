@@ -1,6 +1,6 @@
 package com.twisthenry8gmail.projectbarry.usecases
 
-import com.twisthenry8gmail.projectbarry.Result
+import com.twisthenry8gmail.projectbarry.core.Result
 import com.twisthenry8gmail.projectbarry.core.HourlyForecast
 import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 import com.twisthenry8gmail.projectbarry.data.openweather.OneCallRepository

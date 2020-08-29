@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.twisthenry8gmail.projectbarry.Event
+import com.twisthenry8gmail.projectbarry.core.Event
 import com.twisthenry8gmail.projectbarry.databinding.FragmentMainBinding
 import com.twisthenry8gmail.projectbarry.view.PermissionHelper
 import com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationView

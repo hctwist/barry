@@ -1,6 +1,6 @@
 package com.twisthenry8gmail.projectbarry.usecases
 
-import com.twisthenry8gmail.projectbarry.Result
+import com.twisthenry8gmail.projectbarry.core.Result
 import com.twisthenry8gmail.projectbarry.data.DailyForecast
 import com.twisthenry8gmail.projectbarry.data.SettingsRepository
 import com.twisthenry8gmail.projectbarry.core.ScaledTemperature

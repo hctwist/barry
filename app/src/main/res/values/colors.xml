@@ -11,9 +11,6 @@
 
     <!-- TODO Deprecated -->
     <color name="location_pinned">#80FF0000</color>
-    <color name="feature_pop">#33C0E3</color>
-    <color name="feature_uv">#FFFA00</color>
-    <color name="feature_icon">#252525</color>
     <color name="hourly_icon">#575757</color>
     <color name="light_card">#f7f7f7</color>
 </resources>

@@ -36,7 +36,7 @@ class FragmentDailyForecast : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        viewModel.successfulLocation.observe(viewLifecycleOwner) {
+        viewModel.location.observe(viewLifecycleOwner) {
 
             forecastAdapter.location = it
             forecastAdapter.notifyItemChanged(0)

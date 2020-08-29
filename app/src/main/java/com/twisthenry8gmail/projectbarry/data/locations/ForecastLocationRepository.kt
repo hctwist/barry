@@ -6,12 +6,12 @@ import android.location.Location
 import android.os.Looper
 import com.google.android.gms.location.*
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
-import com.twisthenry8gmail.projectbarry.Result
+import com.twisthenry8gmail.projectbarry.core.Result
 import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 import com.twisthenry8gmail.projectbarry.data.SharedPreferencesModule
-import com.twisthenry8gmail.projectbarry.failure
-import com.twisthenry8gmail.projectbarry.success
-import com.twisthenry8gmail.projectbarry.waiting
+import com.twisthenry8gmail.projectbarry.core.failure
+import com.twisthenry8gmail.projectbarry.core.success
+import com.twisthenry8gmail.projectbarry.core.waiting
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async

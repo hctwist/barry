@@ -1,6 +1,6 @@
 package com.twisthenry8gmail.projectbarry.usecases
 
-import com.twisthenry8gmail.projectbarry.Result
+import com.twisthenry8gmail.projectbarry.core.Result
 import com.twisthenry8gmail.projectbarry.data.CurrentForecast
 import com.twisthenry8gmail.projectbarry.data.SettingsRepository
 import com.twisthenry8gmail.projectbarry.core.ScaledTemperature
@@ -10,8 +10,8 @@ import com.twisthenry8gmail.projectbarry.data.openuv.RealTimeUVRepository
 import com.twisthenry8gmail.projectbarry.data.openweather.OneCallRepository
 import com.twisthenry8gmail.projectbarry.data.openweather.OpenWeatherCodeMapper
 import com.twisthenry8gmail.projectbarry.data.openweather.OpenWeatherSource
-import com.twisthenry8gmail.projectbarry.failure
-import com.twisthenry8gmail.projectbarry.success
+import com.twisthenry8gmail.projectbarry.core.failure
+import com.twisthenry8gmail.projectbarry.core.success
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope

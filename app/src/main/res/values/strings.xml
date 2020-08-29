@@ -38,16 +38,16 @@
     <string name="condition_tornado">Tornado</string>
 
     <!-- Features -->
-    <string name="temperature_low">Low</string>
-    <string name="temperature_high">High</string>
-    <string name="feature_no_value">-</string>
-    <string name="feature_pop">Rain</string>
-    <string name="feature_uv_index">UV index</string>
-    <string name="feature_feels_like">Feels like</string>
-    <string name="feature_humidity">Humidity</string>
-    <string name="feature_wind_speed">Wind speed</string>
-    <string name="feature_sunrise">Sunrise</string>
-    <string name="feature_sunset">Sunset</string>
+    <string name="element_temperature">Temperature</string>
+    <string name="element_temperature_low">Low</string>
+    <string name="element_temperature_high">High</string>
+    <string name="element_pop">Rain</string>
+    <string name="element_uv_index">UV index</string>
+    <string name="element_feels_like">Feels like</string>
+    <string name="element_humidity">Humidity</string>
+    <string name="element_wind_speed">Wind speed</string>
+    <string name="element_sunrise">Sunrise</string>
+    <string name="element_sunset">Sunset</string>
 
     <!-- Main -->
     <string name="loading_location">Fetching your location</string>

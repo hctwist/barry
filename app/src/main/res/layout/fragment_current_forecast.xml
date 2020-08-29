@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.twisthenry8gmail.projectbarry.core.ForecastDisplayUtil" />
+        <import type="com.twisthenry8gmail.projectbarry.view.ForecastDisplayUtil" />
 
         <import type="com.twisthenry8gmail.projectbarry.core.ScaledTemperature" />
 
@@ -31,7 +31,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_skeletonMode="content"
-            bind:location="@{viewmodel.successfulLocation}" />
+            bind:location="@{viewmodel.location}" />
 
         <TextView
             android:id="@+id/current_forecast_condition"

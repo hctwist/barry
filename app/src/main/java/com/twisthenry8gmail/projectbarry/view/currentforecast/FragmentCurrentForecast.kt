@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.twisthenry8gmail.projectbarry.MainState
+import com.twisthenry8gmail.projectbarry.core.MainState
 import com.twisthenry8gmail.projectbarry.databinding.FragmentCurrentForecastBinding
 import com.twisthenry8gmail.projectbarry.view.FeatureAdapter
 import com.twisthenry8gmail.projectbarry.viewmodel.CurrentForecastViewModel

@@ -1,4 +1,4 @@
-package com.twisthenry8gmail.projectbarry
+package com.twisthenry8gmail.projectbarry.core
 
 open class Event<T>(private val content: T) {
 

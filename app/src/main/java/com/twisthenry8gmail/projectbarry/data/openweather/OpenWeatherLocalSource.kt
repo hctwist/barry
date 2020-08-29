@@ -2,9 +2,9 @@ package com.twisthenry8gmail.projectbarry.data.openweather
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.twisthenry8gmail.projectbarry.Result
+import com.twisthenry8gmail.projectbarry.core.Result
 import com.twisthenry8gmail.projectbarry.data.SharedPreferencesModule
-import com.twisthenry8gmail.projectbarry.failure
+import com.twisthenry8gmail.projectbarry.core.failure
 import javax.inject.Inject
 
 class OpenWeatherLocalSource @Inject constructor(@SharedPreferencesModule.Data val dataPreferences: SharedPreferences) :

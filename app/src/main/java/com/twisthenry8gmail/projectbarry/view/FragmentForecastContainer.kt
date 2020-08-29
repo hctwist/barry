@@ -6,12 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.twisthenry8gmail.projectbarry.MainState
+import com.twisthenry8gmail.projectbarry.core.MainState
 import com.twisthenry8gmail.projectbarry.R
 import kotlinx.android.synthetic.main.fragment_forecast_container.*
 import kotlinx.android.synthetic.main.fragment_forecast_container.view.*
 
-// TODO Replace all containers with this
 abstract class FragmentForecastContainer : Fragment() {
 
     override fun onCreateView(

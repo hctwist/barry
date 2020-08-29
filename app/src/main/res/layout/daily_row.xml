@@ -5,11 +5,9 @@
 
         <import type="com.twisthenry8gmail.projectbarry.view.WeatherConditionDisplay" />
 
-        <import type="com.twisthenry8gmail.projectbarry.view.daily.DailyFeatureGenerator" />
-
         <import type="com.twisthenry8gmail.projectbarry.util.TimeDisplayUtil" />
 
-        <import type="com.twisthenry8gmail.projectbarry.core.ForecastDisplayUtil" />
+        <import type="com.twisthenry8gmail.projectbarry.view.ForecastDisplayUtil" />
 
         <variable
             name="forecast"

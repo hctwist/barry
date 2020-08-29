@@ -1,6 +1,6 @@
 package com.twisthenry8gmail.projectbarry.viewmodel
 
-import com.twisthenry8gmail.projectbarry.Result
+import com.twisthenry8gmail.projectbarry.core.Result
 import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 
 abstract class LocationHelper {

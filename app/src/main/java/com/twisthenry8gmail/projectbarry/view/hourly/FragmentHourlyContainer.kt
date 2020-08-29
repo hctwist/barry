@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.twisthenry8gmail.projectbarry.MainState
+import com.twisthenry8gmail.projectbarry.core.MainState
 import com.twisthenry8gmail.projectbarry.view.FragmentForecastContainer
 import com.twisthenry8gmail.projectbarry.viewmodel.HourlyForecastViewModel
 import dagger.hilt.android.AndroidEntryPoint

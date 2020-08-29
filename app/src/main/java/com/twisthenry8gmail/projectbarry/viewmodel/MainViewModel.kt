@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.twisthenry8gmail.projectbarry.R
-import com.twisthenry8gmail.projectbarry.Result
-import com.twisthenry8gmail.projectbarry.Trigger
+import com.twisthenry8gmail.projectbarry.core.Result
+import com.twisthenry8gmail.projectbarry.core.Trigger
 import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationRepository
 import com.twisthenry8gmail.projectbarry.viewmodel.navigator.NavigatorViewModel

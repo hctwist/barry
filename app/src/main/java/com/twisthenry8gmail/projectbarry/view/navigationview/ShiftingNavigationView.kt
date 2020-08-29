@@ -3,13 +3,11 @@ package com.twisthenry8gmail.projectbarry.view.navigationview
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -317,6 +315,15 @@ class ShiftingNavigationView(context: Context, attrs: AttributeSet) : ViewGroup(
 
             h = max(h, it.titleView.measuredHeight)
             maxTitleWidth = max(maxTitleWidth, it.titleView.measuredWidth)
+            it.indicatorView.layoutParams.width =
+                it.titleView.measuredWidth + indicatorVerticalPadding * 2
+        }
+        items.forEach {
+
+            it.indicatorView.measure(
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+                MeasureSpec.makeMeasureSpec(h, MeasureSpec.EXACTLY)
+            )
         }
 
         val totalIconSize = iconSize * items.size

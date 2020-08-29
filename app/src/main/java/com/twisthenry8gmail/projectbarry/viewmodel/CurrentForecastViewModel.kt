@@ -1,35 +1,25 @@
 package com.twisthenry8gmail.projectbarry.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
-import com.twisthenry8gmail.projectbarry.MainState
-import com.twisthenry8gmail.projectbarry.Result
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.twisthenry8gmail.projectbarry.core.ForecastElement
 import com.twisthenry8gmail.projectbarry.core.ForecastLocation
+import com.twisthenry8gmail.projectbarry.core.Result
+import com.twisthenry8gmail.projectbarry.core.successOrNull
 import com.twisthenry8gmail.projectbarry.data.CurrentForecast
 import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationRepository
-import com.twisthenry8gmail.projectbarry.successOrNull
 import com.twisthenry8gmail.projectbarry.usecases.GetNowForecastUseCase
 import com.twisthenry8gmail.projectbarry.view.WeatherConditionDisplay
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class CurrentForecastViewModel @ViewModelInject constructor(
-    private val forecastLocationRepository: ForecastLocationRepository,
+    locationRepository: ForecastLocationRepository,
     private val getNowForecastUseCase: GetNowForecastUseCase
-) : ViewModel() {
-
-    private val _state = MutableLiveData(MainState.LOADING)
-    val state: LiveData<MainState>
-        get() = _state
-
-    private val _location = forecastLocationRepository.selectedLocationFlow
-    private val _successfulLocation = MutableLiveData<ForecastLocation>()
-    val successfulLocation: LiveData<ForecastLocation>
-        get() = _successfulLocation
+) : ForecastLocationViewModel(locationRepository) {
 
     private val currentForecast = MutableLiveData<Result<CurrentForecast>>()
     private val successfulCurrentForecast = currentForecast.map { it.successOrNull() }
@@ -57,51 +47,23 @@ class CurrentForecastViewModel @ViewModelInject constructor(
         } ?: listOf()
     }
 
-    private var fetchForecastJob: Job? = null
-
     init {
 
-        viewModelScope.launch {
+        startCollectingLocation()
+    }
 
-            _location.collect {
+    override suspend fun onLocationCollected(location: ForecastLocation) {
 
-                when (it) {
-
-                    is Result.Success -> {
-
-                        _successfulLocation.value = it.data
-                        if (it.data.type !in arrayOf(
-                                ForecastLocation.Type.LAST_KNOWN_LOCATION,
-                                ForecastLocation.Type.CURRENT_LOCATION
-                            )
-                        ) {
-
-                            _state.value = MainState.LOADING
-                        }
-
-                        fetchForecastJob?.cancel()
-                        fetchForecastJob = viewModelScope.launch {
-
-                            fetchForecast(it.data)
-                        }
-                    }
-
-                    is Result.Failure -> {
-
-                        _state.value = MainState.LOCATION_ERROR
-                    }
-                }
-            }
-        }
+        fetchForecast(location)
     }
 
     fun onSwipeRefresh() {
 
         viewModelScope.launch {
 
-            _location.value.ifSuccessful {
+            location.value?.let {
 
-                _state.value = MainState.LOADING
+                onLoading()
                 fetchForecast(it)
             }
         }
@@ -114,10 +76,10 @@ class CurrentForecastViewModel @ViewModelInject constructor(
         if (forecast is Result.Success) {
 
             currentForecast.value = forecast
-            _state.value = MainState.LOADED
+            onLoaded()
         } else {
 
-            _state.value = MainState.FORECAST_ERROR
+            onForecastError()
         }
     }
 }

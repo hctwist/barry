@@ -1,8 +1,8 @@
 package com.twisthenry8gmail.projectbarry.data
 
-import com.twisthenry8gmail.projectbarry.Result
+import com.twisthenry8gmail.projectbarry.core.Result
 import com.twisthenry8gmail.projectbarry.core.ForecastLocation
-import com.twisthenry8gmail.projectbarry.success
+import com.twisthenry8gmail.projectbarry.core.success
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi

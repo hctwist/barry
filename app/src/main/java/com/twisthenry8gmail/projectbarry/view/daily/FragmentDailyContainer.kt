@@ -6,30 +6,27 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.twisthenry8gmail.projectbarry.R
+import com.twisthenry8gmail.projectbarry.view.FragmentForecastContainer
 import com.twisthenry8gmail.projectbarry.viewmodel.DailyForecastViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @AndroidEntryPoint
 @ExperimentalCoroutinesApi
-class FragmentDailyContainer : Fragment(R.layout.fragment_daily_container) {
-
-    private val stateAdapter by lazy {
-        DailyForecastStateAdapter(
-            childFragmentManager
-        )
-    }
+class FragmentDailyContainer : FragmentForecastContainer() {
 
     private val viewModel by viewModels<DailyForecastViewModel>()
 
+    override fun getFragment(): Fragment {
+
+        return FragmentDailyForecast()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel.state.observe(viewLifecycleOwner) {
 
-            stateAdapter.setState(it)
+            setState(it)
         }
-
-        stateAdapter.attachTo(view)
     }
 }

@@ -1,4 +1,4 @@
-package com.twisthenry8gmail.projectbarry
+package com.twisthenry8gmail.projectbarry.core
 
 sealed class Result<out T> {
 
