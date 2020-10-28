@@ -3,10 +3,11 @@ package com.twisthenry8gmail.projectbarry.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.twisthenry8gmail.projectbarry.core.ForecastLocation
+import com.twisthenry8gmail.projectbarry.core.LocationData
 import com.twisthenry8gmail.projectbarry.core.MainState
 import com.twisthenry8gmail.projectbarry.core.Result
-import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationRepository
+import com.twisthenry8gmail.projectbarry.core.SelectedLocation
+import com.twisthenry8gmail.projectbarry.usecases.GetSelectedLocationFlowUseCase
 import com.twisthenry8gmail.projectbarry.viewmodel.navigator.NavigatorViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -14,17 +15,17 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-open class ForecastLocationViewModel(locationRepository: ForecastLocationRepository) :
+open class ForecastLocationViewModel(getSelectedLocationFlowUseCase: GetSelectedLocationFlowUseCase) :
     NavigatorViewModel() {
 
     private val _state = MutableLiveData(MainState.LOADING)
     val state: LiveData<MainState>
         get() = _state
 
-    private val _locationFlow = locationRepository.selectedLocationFlow
+    private val _locationFlow = getSelectedLocationFlowUseCase()
 
-    private val _location = MutableLiveData<ForecastLocation>()
-    val location: LiveData<ForecastLocation>
+    private val _location = MutableLiveData<SelectedLocation>()
+    val location: LiveData<SelectedLocation>
         get() = _location
 
     private var onLocationCollectedJob: Job? = null
@@ -33,26 +34,28 @@ open class ForecastLocationViewModel(locationRepository: ForecastLocationReposit
 
         viewModelScope.launch {
 
-            _locationFlow.collect {
+            _locationFlow.collect { selectedLocation ->
 
-                when (it) {
+                when (selectedLocation) {
 
                     is Result.Success -> {
 
-                        _location.value = it.data
-                        if (it.data.type !in arrayOf(
-                                ForecastLocation.Type.LAST_KNOWN_LOCATION,
-                                ForecastLocation.Type.CURRENT_LOCATION
-                            )
-                        ) {
+                        _location.value = selectedLocation.data
+
+                        val status = selectedLocation.data.status
+
+                        if (status != SelectedLocation.Status.CURRENT_LOCATION) {
 
                             onLoading()
                         }
 
-                        onLocationCollectedJob?.cancel()
-                        onLocationCollectedJob = viewModelScope.launch {
+                        selectedLocation.data.locationData?.also {
 
-                            onLocationCollected(it.data)
+                            onLocationCollectedJob?.cancel()
+                            onLocationCollectedJob = viewModelScope.launch {
+
+                                onLocationCollected(it)
+                            }
                         }
                     }
 
@@ -65,7 +68,7 @@ open class ForecastLocationViewModel(locationRepository: ForecastLocationReposit
         }
     }
 
-    open suspend fun onLocationCollected(location: ForecastLocation) {}
+    open suspend fun onLocationCollected(location: LocationData) {}
 
     fun onLoading() {
 

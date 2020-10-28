@@ -8,7 +8,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
-import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationEntity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,10 +27,10 @@ object ResourceProviderModule {
     }
 
     @Provides
-    fun getForecastLocationDao(roomModel: RoomModel): ForecastLocationEntity.Dao {
+    fun getForecastLocationDao(roomModel: RoomModel) = roomModel.forecastLocationDao()
 
-        return roomModel.forecastLocationDao()
-    }
+    @Provides
+    fun getForecastLocation2Dao(roomModel: RoomModel) = roomModel.forecastLocation2Dao()
 
     @Provides
     @Singleton

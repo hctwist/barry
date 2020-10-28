@@ -6,17 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.twisthenry8gmail.projectbarry.view.MarginItemDecoration
 import com.twisthenry8gmail.projectbarry.R
-import com.twisthenry8gmail.projectbarry.data.locations.LocationSearchResult
+import com.twisthenry8gmail.projectbarry.core.LocationSearchResult
+import com.twisthenry8gmail.projectbarry.core.SavedLocation
 import com.twisthenry8gmail.projectbarry.databinding.FragmentLocationsBinding
+import com.twisthenry8gmail.projectbarry.view.MarginItemDecoration
 import com.twisthenry8gmail.projectbarry.viewmodel.LocationsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class FragmentLocations : Fragment() {
 
@@ -53,38 +55,38 @@ class FragmentLocations : Fragment() {
             viewModel.onSearchTextChanged(it.toString())
         }
 
-        viewModel.searching.observe(viewLifecycleOwner, Observer {
+        viewModel.searching.observe(viewLifecycleOwner) {
 
             binding.locationsResults.adapter = if (it) searchAdapter else pinnedAdapter
-        })
+        }
 
-        viewModel.locationChoices.observe(viewLifecycleOwner, Observer {
+        viewModel.savedLocations.observe(viewLifecycleOwner) {
 
-            pinnedAdapter.choices = it
+            pinnedAdapter.rows = it
             pinnedAdapter.notifyDataSetChanged()
-        })
+        }
 
-        viewModel.searchResults.observe(viewLifecycleOwner, Observer {
+        viewModel.searchResults.observe(viewLifecycleOwner) {
 
             searchAdapter.places = it
             searchAdapter.notifyDataSetChanged()
-        })
+        }
 
         setupResults()
     }
 
     private fun setupResults() {
 
-        pinnedAdapter.clickListener = object : LocationChoiceAdapter.ClickListener {
+        pinnedAdapter.clickHandler = object : LocationChoiceAdapter.ClickHandler {
 
-            override fun onClick(choice: LocationChoiceAdapter.Choice) {
+            override fun onClick(location: SavedLocation) {
 
-                viewModel.onClickChoice(choice)
+                viewModel.onClickChoice(location)
             }
 
-            override fun onPin(choice: LocationChoiceAdapter.Choice) {
+            override fun onPin(location: SavedLocation) {
 
-                viewModel.onPin(choice)
+                viewModel.onPin(location)
             }
         }
 

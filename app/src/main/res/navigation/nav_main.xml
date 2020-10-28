@@ -1,35 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/fragmentMain">
-
+    app:startDestination="@id/fragmentMain2">
     <fragment
-        android:id="@+id/fragmentMain"
-        android:name="com.twisthenry8gmail.projectbarry.view.main.FragmentMain"
-        android:label="FragmentMain">
-        <action
-            android:id="@+id/action_fragmentMain_to_fragmentLocations"
-            app:destination="@id/fragmentLocations"
-            app:enterAnim="@anim/pop_in_enter"
-            app:exitAnim="@anim/fade_exit"
-            app:popEnterAnim="@anim/fade_enter"
-            app:popExitAnim="@anim/pop_out_exit" />
-        <action
-            android:id="@+id/action_fragmentMain_to_fragmentLocationPermission"
-            app:destination="@id/fragmentLocationPermission" />
-    </fragment>
-    <fragment
-        android:id="@+id/fragmentLocations"
-        android:name="com.twisthenry8gmail.projectbarry.view.locations.FragmentLocations"
-        android:label="FragmentLocations" />
-    <fragment
-        android:id="@+id/fragmentLocationPermission"
-        android:name="com.twisthenry8gmail.projectbarry.view.main.FragmentLocationPermission"
-        android:label="FragmentLocationPermission" >
-        <action
-            android:id="@+id/action_fragmentLocationPermission_to_fragmentMain"
-            app:destination="@id/fragmentMain" />
-    </fragment>
+        android:id="@+id/fragmentMain2"
+        android:name="com.twisthenry8gmail.projectbarry.view.main.FragmentMain2"
+        android:label="FragmentMain2" />
 </navigation>

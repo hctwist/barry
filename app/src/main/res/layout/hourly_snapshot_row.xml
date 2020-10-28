@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="com.twisthenry8gmail.projectbarry.util.TimeDisplayUtil" />
+
+        <import type="com.twisthenry8gmail.projectbarry.view.WeatherConditionDisplay" />
+
+        <variable
+            name="snapshot"
+            type="com.twisthenry8gmail.projectbarry.core.HourSnapshot" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{TimeDisplayUtil.INSTANCE.displayTime(snapshot.time)}"
+            android:textSize="@dimen/text_small" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin"
+            android:text="@{WeatherConditionDisplay.INSTANCE.getStringResource(snapshot.condition)}"
+            android:textSize="@dimen/text_small" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/standard_uv" />
+    </LinearLayout>
+</layout>

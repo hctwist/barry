@@ -7,7 +7,7 @@
 
         <variable
             name="location"
-            type="com.twisthenry8gmail.projectbarry.core.ForecastLocation" />
+            type="com.twisthenry8gmail.projectbarry.core.SelectedLocation" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,16 +18,17 @@
         android:orientation="horizontal">
 
         <TextView
+            goneUnless="@{location.locationData != null}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{location == null ? null : location.name}"
+            android:layout_marginEnd="@dimen/margin"
+            android:text="@{location == null ? null : location.locationData.name}"
             android:textColor="?android:attr/textColorSecondary" />
 
         <ImageView
             android:layout_width="@dimen/icon_small"
             android:layout_height="@dimen/icon_small"
-            android:layout_marginStart="@dimen/margin"
-            android:src="@{location == null ? null : context.getDrawable(LocationUtil.INSTANCE.resolveIconRes(location.type))}"
+            android:src="@{location == null ? null : context.getDrawable(LocationUtil.INSTANCE.resolveIconRes(location.status))}"
             app:tint="?android:attr/textColorSecondary" />
     </LinearLayout>
 </layout>

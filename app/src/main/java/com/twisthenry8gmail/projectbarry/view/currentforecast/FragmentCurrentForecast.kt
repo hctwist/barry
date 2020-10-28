@@ -6,12 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import com.twisthenry8gmail.projectbarry.core.MainState
-import com.twisthenry8gmail.projectbarry.databinding.FragmentCurrentForecastBinding
-import com.twisthenry8gmail.projectbarry.view.FeatureAdapter
 import com.twisthenry8gmail.projectbarry.viewmodel.CurrentForecastViewModel
-import com.twisthenry8gmail.projectbarry.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -19,12 +15,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class FragmentCurrentForecast : Fragment() {
 
-    private val mainViewModel by viewModels<MainViewModel>(ownerProducer = { requireParentFragment().requireParentFragment() })
     private val viewModel by viewModels<CurrentForecastViewModel>(ownerProducer = { requireParentFragment() })
 
-    private lateinit var binding: FragmentCurrentForecastBinding
+//    private lateinit var binding: FragmentCurrentForecastBinding
 
-    private val featureAdapter = FeatureAdapter()
+    private val elementAdapter = ForecastElementAdapter()
+
+    private val hourSnapshotAdapter = HourSnapshotAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,11 +29,13 @@ class FragmentCurrentForecast : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentCurrentForecastBinding.inflate(inflater, container, false)
-        binding.viewmodel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+//        binding = FragmentCurrentForecastBinding.inflate(inflater, container, false)
+//        binding.viewmodel = viewModel
+//        binding.lifecycleOwner = viewLifecycleOwner
 
-        return binding.root
+//        return binding.root
+
+        return null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,28 +44,44 @@ class FragmentCurrentForecast : Fragment() {
 
             if (it == MainState.LOADING) {
 
-                binding.currentForecastSkeleton.toggleSkeleton(true)
+//                binding.currentForecastSkeleton.toggleSkeleton(true)
             } else {
 
-                binding.currentForecastSkeleton.toggleSkeleton(false)
+//                binding.currentForecastSkeleton.toggleSkeleton(false)
             }
         }
 
-        viewModel.elements.observe(viewLifecycleOwner, {
+        viewModel.elements.observe(viewLifecycleOwner) {
 
-            featureAdapter.elements = it
-            featureAdapter.notifyDataSetChanged()
-        })
+            elementAdapter.elements = it
+            elementAdapter.notifyDataSetChanged()
+        }
 
-        setupFeatureGrid()
+        viewModel.hourSnapshots.observe(viewLifecycleOwner) {
+
+            hourSnapshotAdapter.snapshots = it
+            hourSnapshotAdapter.notifyDataSetChanged()
+        }
+
+        setupElementGrid()
+        setupHourSnapshots()
     }
 
-    private fun setupFeatureGrid() {
+    private fun setupElementGrid() {
 
-        binding.currentForecastFeatures.run {
+//        binding.currentForecastElements.run {
+//
+//            layoutManager = GridLayoutManager(context, 2)
+//            adapter = elementAdapter
+//        }
+    }
 
-            layoutManager = GridLayoutManager(context, 2)
-            adapter = featureAdapter
-        }
+    private fun setupHourSnapshots() {
+
+//        binding.currentForecastHourSnapshots.run {
+//
+//            layoutManager = LinearLayoutManager(context)
+//            adapter = hourSnapshotAdapter
+//        }
     }
 }

@@ -7,6 +7,7 @@ import com.twisthenry8gmail.projectbarry.R
 import com.twisthenry8gmail.projectbarry.core.ForecastElement
 import com.twisthenry8gmail.projectbarry.core.ScaledTemperature
 import com.twisthenry8gmail.projectbarry.util.DisplayUtil
+import com.twisthenry8gmail.projectbarry.util.TimeDisplayUtil
 
 object ForecastDisplayUtil {
 
@@ -40,6 +41,8 @@ object ForecastDisplayUtil {
             is ForecastElement.FeelsLike -> displayTemperature(context, element.temperature)
             is ForecastElement.Humidity -> DisplayUtil.percentage(context, element.humidity)
             is ForecastElement.WindSpeed -> displaySpeed(context, element.speed)
+            is ForecastElement.Sunrise -> TimeDisplayUtil.displayTime(element.time)
+            is ForecastElement.Sunset -> TimeDisplayUtil.displayTime(element.time)
         }
     }
 
@@ -54,6 +57,8 @@ object ForecastDisplayUtil {
                 is ForecastElement.FeelsLike -> R.string.element_feels_like
                 is ForecastElement.Humidity -> R.string.element_humidity
                 is ForecastElement.WindSpeed -> R.string.element_wind_speed
+                is ForecastElement.Sunrise -> R.string.element_sunrise
+                is ForecastElement.Sunset -> R.string.element_sunset
             }
         )
     }
@@ -62,8 +67,13 @@ object ForecastDisplayUtil {
 
         return when (element) {
 
-            is ForecastElement.UVIndex -> R.drawable.feature_uv
-            is ForecastElement.Pop -> R.drawable.feature_pop
+            is ForecastElement.UVIndex -> R.drawable.standard_beach_ball
+            is ForecastElement.Pop -> R.drawable.standard_umbrella
+            is ForecastElement.FeelsLike -> R.drawable.standard_jacket
+            is ForecastElement.Humidity -> R.drawable.standard_droplet
+            is ForecastElement.WindSpeed -> R.drawable.standard_wind_turbine
+            is ForecastElement.Sunrise -> R.drawable.standard_bird
+            is ForecastElement.Sunset -> R.drawable.standard_owl
             else -> null
         }?.let {
 

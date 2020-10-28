@@ -1,8 +1,10 @@
 package com.twisthenry8gmail.projectbarry.data.openuv
 
-import com.twisthenry8gmail.projectbarry.core.Result
-import com.twisthenry8gmail.projectbarry.data.StaticForecastRepository
 import com.twisthenry8gmail.projectbarry.core.ForecastLocation
+import com.twisthenry8gmail.projectbarry.core.LocationData
+import com.twisthenry8gmail.projectbarry.core.Result
+import com.twisthenry8gmail.projectbarry.data.DataUtil
+import com.twisthenry8gmail.projectbarry.data.OneShotForecastRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -12,14 +14,19 @@ import javax.inject.Inject
 class RealTimeUVRepository @Inject constructor(
     private val openUVRemoteSource: OpenUVRemoteSource,
     private val openUVLocalSource: OpenUVLocalSource
-) : StaticForecastRepository<OpenUVSource.RealTimeData>() {
+) : OneShotForecastRepository<OpenUVSource.RealTimeData>() {
 
-    override suspend fun isStale(data: OpenUVSource.RealTimeData): Boolean {
+    override suspend fun isStale(
+        data: OpenUVSource.RealTimeData,
+        location: LocationData
+    ): Boolean {
 
         val now = Instant.now()
         val time = Instant.ofEpochSecond(data.time)
 
-        return time.until(now, ChronoUnit.MINUTES) > 10
+        val locationClose = DataUtil.latLngClose(data.lat, data.lng, location.lat, location.lng)
+
+        return !locationClose || time.until(now, ChronoUnit.MINUTES) > 10
     }
 
     override suspend fun saveLocal(data: OpenUVSource.RealTimeData) {
@@ -27,12 +34,12 @@ class RealTimeUVRepository @Inject constructor(
         openUVLocalSource.saveRealTimeUV(data)
     }
 
-    override suspend fun fetchLocal(location: ForecastLocation): Result<OpenUVSource.RealTimeData> {
+    override suspend fun fetchLocal(location: LocationData): Result<OpenUVSource.RealTimeData> {
 
         return openUVLocalSource.getRealTimeUV(location.lat, location.lng)
     }
 
-    override suspend fun fetchRemote(location: ForecastLocation): Result<OpenUVSource.RealTimeData> {
+    override suspend fun fetchRemote(location: LocationData): Result<OpenUVSource.RealTimeData> {
 
         return openUVRemoteSource.getRealTimeUV(location.lat, location.lng)
     }

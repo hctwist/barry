@@ -2,10 +2,8 @@ package com.twisthenry8gmail.projectbarry.view.daily
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.twisthenry8gmail.projectbarry.R
 import com.twisthenry8gmail.projectbarry.view.FragmentForecastContainer
 import com.twisthenry8gmail.projectbarry.viewmodel.DailyForecastViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,9 +15,14 @@ class FragmentDailyContainer : FragmentForecastContainer() {
 
     private val viewModel by viewModels<DailyForecastViewModel>()
 
-    override fun getFragment(): Fragment {
+    override fun getContentFragment(): Fragment {
 
         return FragmentDailyForecast()
+    }
+
+    override fun getForecastErrorFragment(): Fragment {
+
+        return FragmentDailyForecastError()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,6 +1,7 @@
 package com.twisthenry8gmail.projectbarry.data
 
 import android.content.Context
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +15,7 @@ object SharedPreferencesModule {
 
     @Settings
     @Provides
-    fun getSettingsPreferences(@ApplicationContext context: Context) =
+    fun getSettingsPreferences(@ApplicationContext context: Context): SharedPreferences =
         context.applicationContext.getSharedPreferences(
             "settings_prefs",
             Context.MODE_PRIVATE
@@ -22,7 +23,7 @@ object SharedPreferencesModule {
 
     @Data
     @Provides
-    fun getDataPreferences(@ApplicationContext context: Context) =
+    fun getDataPreferences(@ApplicationContext context: Context): SharedPreferences =
         context.applicationContext.getSharedPreferences(
             "data_prefs",
             Context.MODE_PRIVATE

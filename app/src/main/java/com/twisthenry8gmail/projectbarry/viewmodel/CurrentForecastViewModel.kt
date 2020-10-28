@@ -4,22 +4,21 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.twisthenry8gmail.projectbarry.core.ForecastElement
-import com.twisthenry8gmail.projectbarry.core.ForecastLocation
+import com.twisthenry8gmail.projectbarry.core.CurrentForecast
+import com.twisthenry8gmail.projectbarry.core.LocationData
 import com.twisthenry8gmail.projectbarry.core.Result
 import com.twisthenry8gmail.projectbarry.core.successOrNull
-import com.twisthenry8gmail.projectbarry.data.CurrentForecast
-import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationRepository
 import com.twisthenry8gmail.projectbarry.usecases.GetNowForecastUseCase
+import com.twisthenry8gmail.projectbarry.usecases.GetSelectedLocationFlowUseCase
 import com.twisthenry8gmail.projectbarry.view.WeatherConditionDisplay
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class CurrentForecastViewModel @ViewModelInject constructor(
-    locationRepository: ForecastLocationRepository,
+    getSelectedLocationFlowUseCase: GetSelectedLocationFlowUseCase,
     private val getNowForecastUseCase: GetNowForecastUseCase
-) : ForecastLocationViewModel(locationRepository) {
+) : ForecastLocationViewModel(getSelectedLocationFlowUseCase) {
 
     private val currentForecast = MutableLiveData<Result<CurrentForecast>>()
     private val successfulCurrentForecast = currentForecast.map { it.successOrNull() }
@@ -29,39 +28,40 @@ class CurrentForecastViewModel @ViewModelInject constructor(
     }
     val conditionIcon = successfulCurrentForecast.map {
 
-        it?.let { WeatherConditionDisplay.getImageResource(it.condition, true) }
+        it?.let { WeatherConditionDisplay.getImageResource(it.condition) }
     }
     val currentTemperature = successfulCurrentForecast.map { it?.temp }
     val lowTemperature = successfulCurrentForecast.map { it?.tempLow }
     val highTemperature = successfulCurrentForecast.map { it?.tempHigh }
-    val elements = successfulCurrentForecast.map {
+    val elements = successfulCurrentForecast.map { it?.elements ?: listOf() }
 
-        it?.let {
-            listOf(
-                ForecastElement.UVIndex(it.uvIndex),
-                ForecastElement.Pop(it.pop),
-                ForecastElement.FeelsLike(it.feelsLike),
-                ForecastElement.Humidity(it.humidity),
-                ForecastElement.WindSpeed(it.windSpeed)
-            )
-        } ?: listOf()
-    }
+    val hourSnapshots = successfulCurrentForecast.map { it?.hourSnapshots ?: listOf() }
 
     init {
 
         startCollectingLocation()
     }
 
-    override suspend fun onLocationCollected(location: ForecastLocation) {
+    override suspend fun onLocationCollected(location: LocationData) {
 
         fetchForecast(location)
     }
 
     fun onSwipeRefresh() {
 
+        fetchForecast()
+    }
+
+    fun onRetry() {
+
+        fetchForecast()
+    }
+
+    private fun fetchForecast() {
+
         viewModelScope.launch {
 
-            location.value?.let {
+            location.value?.locationData?.let {
 
                 onLoading()
                 fetchForecast(it)
@@ -69,7 +69,7 @@ class CurrentForecastViewModel @ViewModelInject constructor(
         }
     }
 
-    private suspend fun fetchForecast(location: ForecastLocation) {
+    private suspend fun fetchForecast(location: LocationData) {
 
         val forecast = getNowForecastUseCase(location)
 

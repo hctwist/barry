@@ -6,16 +6,9 @@ import android.location.Location
 import android.os.Looper
 import com.google.android.gms.location.*
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
-import com.twisthenry8gmail.projectbarry.core.Result
-import com.twisthenry8gmail.projectbarry.core.ForecastLocation
+import com.twisthenry8gmail.projectbarry.core.*
 import com.twisthenry8gmail.projectbarry.data.SharedPreferencesModule
-import com.twisthenry8gmail.projectbarry.core.failure
-import com.twisthenry8gmail.projectbarry.core.success
-import com.twisthenry8gmail.projectbarry.core.waiting
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
@@ -31,8 +24,6 @@ class ForecastLocationRepository @Inject constructor(
     private val locationClient: FusedLocationProviderClient,
     @SharedPreferencesModule.Data private val dataPrefs: SharedPreferences
 ) {
-
-    private var savedLocationsJob: Deferred<List<ForecastLocation>>? = null
 
     private var autocompleteSessionToken: AutocompleteSessionToken? = null
 
@@ -96,6 +87,9 @@ class ForecastLocationRepository @Inject constructor(
 
                         success(selectedLocation)
                     }
+                } else {
+
+                    _selectedLocationFlow.value = success(selectedLocation)
                 }
             }
         }
@@ -120,6 +114,11 @@ class ForecastLocationRepository @Inject constructor(
     suspend fun pin(placeId: String) {
 
         forecastLocationLocalSource.pin(placeId)
+    }
+
+    suspend fun unpin(placeId: String) {
+
+        forecastLocationLocalSource.unpin(placeId)
     }
 
     @SuppressLint("MissingPermission")
@@ -267,21 +266,19 @@ class ForecastLocationRepository @Inject constructor(
         forecastLocationLocalSource.replaceAllOfType(location)
     }
 
-    suspend fun getPinnedAndChosenPlaces(): List<ForecastLocation> {
+    suspend fun getPinnedAndChosenLocations(): List<ForecastLocation> {
 
-        coroutineScope {
+        return forecastLocationLocalSource.getLocationsOf(
+            listOf(
+                ForecastLocation.Type.CHOSEN,
+                ForecastLocation.Type.PINNED
+            )
+        )
+    }
 
-            savedLocationsJob = async {
-                forecastLocationLocalSource.getLocationsOf(
-                    listOf(
-                        ForecastLocation.Type.CHOSEN,
-                        ForecastLocation.Type.PINNED
-                    )
-                )
-            }
-        }
+    suspend fun getPinnedLocations(): List<ForecastLocation> {
 
-        return savedLocationsJob!!.await()
+        return forecastLocationLocalSource.getLocationsOf(listOf(ForecastLocation.Type.PINNED))
     }
 
     suspend fun findPlaces(query: String): List<LocationSearchResult> {

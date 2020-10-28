@@ -5,12 +5,11 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
+    <color name="text_color_primary">#E6000000</color>
     <color name="text_color_tertiary">#40000000</color>
 
-    <color name="card">@android:color/white</color>
+    <color name="card">#F5F5F5</color>
+    <color name="card_outline">#EDEDED</color>
 
-    <!-- TODO Deprecated -->
     <color name="location_pinned">#80FF0000</color>
-    <color name="hourly_icon">#575757</color>
-    <color name="light_card">#f7f7f7</color>
 </resources>

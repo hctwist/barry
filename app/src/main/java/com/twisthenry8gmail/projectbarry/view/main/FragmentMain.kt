@@ -9,9 +9,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.twisthenry8gmail.projectbarry.core.Event
+import com.twisthenry8gmail.projectbarry.Event
 import com.twisthenry8gmail.projectbarry.databinding.FragmentMainBinding
 import com.twisthenry8gmail.projectbarry.view.PermissionHelper
+import com.twisthenry8gmail.projectbarry.view.menu.FragmentMenu
 import com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationView
 import com.twisthenry8gmail.projectbarry.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,10 +55,10 @@ class FragmentMain : Fragment() {
             viewModel.onLocationPermissionResult(permissionStatus == PackageManager.PERMISSION_GRANTED)
         })
 
-        viewModel.state.observe(viewLifecycleOwner) {
+        viewModel.showMenu.observe(viewLifecycleOwner, Event.Observer {
 
-            stateAdapter.setState(it)
-        }
+            showMenu()
+        })
 
         setupStateAdapter()
         setupNavigation()
@@ -78,11 +79,16 @@ class FragmentMain : Fragment() {
         )
     }
 
+    private fun showMenu() {
+
+        FragmentMenu().show(childFragmentManager, null)
+    }
+
     private fun setupNavigation() {
 
         binding.mainNavigation.itemSelectListener = ShiftingNavigationView.ItemSelectListener {
 
-            viewModel.onNavigationItemSelected(it)
+//            viewModel.onNavigationItemSelected(it)
         }
     }
 

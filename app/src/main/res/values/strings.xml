@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Project Barry</string>
 
+    <string name="retry">Retry</string>
+
+    <!-- Formatting -->
     <string name="percentage">%1$s%%</string>
     <string name="temperature_degrees_display">%1$s&#xb0;</string>
     <string name="speed_display">%1$sm/s</string>
@@ -37,10 +40,8 @@
     <string name="condition_squall">Squall</string>
     <string name="condition_tornado">Tornado</string>
 
-    <!-- Features -->
+    <!-- Elements -->
     <string name="element_temperature">Temperature</string>
-    <string name="element_temperature_low">Low</string>
-    <string name="element_temperature_high">High</string>
     <string name="element_pop">Rain</string>
     <string name="element_uv_index">UV index</string>
     <string name="element_feels_like">Feels like</string>
@@ -49,17 +50,30 @@
     <string name="element_sunrise">Sunrise</string>
     <string name="element_sunset">Sunset</string>
 
-    <!-- Main -->
-    <string name="loading_location">Fetching your location</string>
-    <string name="location_permission_error">Unfortunately we don\'t have permission to access your current location. Either allow it or simply add a location from the menu above</string>
-    <string name="location_permission_allow">Allow permission</string>
-    <string name="location_error">We couldn\'t find your current location. Maybe check your location settings?</string>
-    <string name="location_retry">Look again</string>
+    <!-- Navigation items -->
+    <string name="nav_now">Now</string>
+    <string name="nav_hourly">Hourly</string>
+    <string name="nav_daily">Daily</string>
 
-    <!-- Now -->
-    <string name="loading_now_forecast">Collecting your current weather information</string>
+    <!-- Main -->
+    <string name="location_loading">Fetching location</string>
+    <string name="location_permission_title">We cannot access your location</string>
+    <string name="location_permission_message">Unfortunately we don\'t have permission to access your current location</string>
+    <string name="location_permission_allow">Grant permission</string>
+    <string name="location_permission_static">Choose a location</string>
+
+    <!-- Sections -->
+    <string name="section_now">Right now</string>
+    <string name="section_hourly">Coming up</string>
+    <string name="section_daily">In the future</string>
 
     <!-- Locations -->
     <string name="current_location">Current location</string>
     <string name="location_search_secondary_empty">-</string>
+
+    <!-- Error -->
+    <string name="forecast_error_title">Could not load your forecast</string>
+    <string name="forecast_error_message">Are you connected to the internet?</string>
+    <string name="location_error_title">Could not get your location</string>
+    <string name="location_error_message">Is your location turned on?</string>
 </resources>

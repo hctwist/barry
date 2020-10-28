@@ -6,8 +6,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:colorBackground">#F7F7F7</item>
-
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">?android:attr/colorBackground</item>
 
@@ -27,18 +25,44 @@
         <item name="android:fontFamily">@font/noto_sans_bold</item>
     </style>
 
+    <style name="Display.Sub">
+
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+
     <style name="DisplayBody">
 
-        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textSize">@dimen/text_small</item>
         <item name="android:textColor">?android:attr/textColorSecondary</item>
         <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Title">
+
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Subtitle.Navigation">
+
+        <item name="drawableEndCompat">@drawable/round_arrow_right_alt_24</item>
+        <item name="android:drawablePadding">@dimen/half_margin</item>
+        <item name="android:textColor">?android:attr/textColorTertiary</item>
+        <item name="drawableTint">?android:attr/textColorTertiary</item>
     </style>
 
     <style name="Subtitle">
 
         <item name="android:textSize">@dimen/text_small</item>
         <item name="android:textColor">?android:attr/textColorTertiary</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <!-- TODO Sort out text styles -->
+    <style name="SubSubTitle">
+
+        <item name="android:textSize">@dimen/text_extra_small</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
     <style name="MaterialCardView" parent="Widget.MaterialComponents.CardView">
@@ -75,6 +99,8 @@
 
     <style name="ToggleMaterialButton" parent="TextMaterialButton">
 
+        <item name="background">@drawable/round_more_vert_24</item>
+        <item name="backgroundTint">@android:color/transparent</item>
         <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
@@ -90,5 +116,15 @@
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textColor">@color/color_primary</item>
         <item name="android:textSize">@dimen/text_medium</item>
+    </style>
+
+    <style name="SearchBox">
+
+        <item name="android:importantForAutofill">no</item>
+        <item name="android:inputType">textPostalAddress</item>
+        <item name="android:background">@drawable/search_box</item>
+        <item name="android:drawableStart">@drawable/round_search_24</item>
+        <item name="android:drawablePadding">@dimen/margin</item>
+        <item name="android:padding">12dp</item>
     </style>
 </resources>

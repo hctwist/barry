@@ -3,7 +3,7 @@ package com.twisthenry8gmail.projectbarry.view.locations
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.twisthenry8gmail.projectbarry.data.locations.LocationSearchResult
+import com.twisthenry8gmail.projectbarry.core.LocationSearchResult
 import com.twisthenry8gmail.projectbarry.databinding.LocationSearchRowBinding
 
 class LocationSearchAdapter : RecyclerView.Adapter<LocationSearchAdapter.VH>() {

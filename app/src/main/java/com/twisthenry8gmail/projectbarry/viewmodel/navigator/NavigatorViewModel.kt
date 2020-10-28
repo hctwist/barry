@@ -4,7 +4,7 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.twisthenry8gmail.projectbarry.core.Event
+import com.twisthenry8gmail.projectbarry.Event
 
 abstract class NavigatorViewModel : ViewModel() {
 

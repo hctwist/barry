@@ -3,41 +3,30 @@ package com.twisthenry8gmail.projectbarry.viewmodel
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.twisthenry8gmail.projectbarry.core.MainState
+import com.twisthenry8gmail.projectbarry.R
+import com.twisthenry8gmail.projectbarry.core.HourlyForecast2
+import com.twisthenry8gmail.projectbarry.core.LocationData
 import com.twisthenry8gmail.projectbarry.core.Result
-import com.twisthenry8gmail.projectbarry.core.ForecastElement
-import com.twisthenry8gmail.projectbarry.core.ForecastLocation
-import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationRepository
 import com.twisthenry8gmail.projectbarry.usecases.GetHourlyPopForecastUseCase
 import com.twisthenry8gmail.projectbarry.usecases.GetHourlyTemperatureForecastUseCase
-import com.twisthenry8gmail.projectbarry.view.hourly.HourlyForecastView
+import com.twisthenry8gmail.projectbarry.usecases.GetSelectedLocationFlowUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class HourlyForecastViewModel @ViewModelInject constructor(
-    private val forecastLocationRepository: ForecastLocationRepository,
+    getSelectedLocationFlowUseCase: GetSelectedLocationFlowUseCase,
     private val getHourlyTemperatureForecastUseCase: GetHourlyTemperatureForecastUseCase,
     private val getHourlyPopForecastUseCase: GetHourlyPopForecastUseCase
-) : ViewModel() {
+) : ForecastLocationViewModel(getSelectedLocationFlowUseCase) {
 
-    private val _state = MutableLiveData(MainState.LOADING)
-    val state: LiveData<MainState>
-        get() = _state
+    private val _forecastType = MutableLiveData(ForecastType.TEMPERATURE)
+    val forecastType: LiveData<ForecastType>
+        get() = _forecastType
 
-    private val _location = forecastLocationRepository.selectedLocationFlow
-    private val _successfulLocation = MutableLiveData<ForecastLocation>()
-    val successfulLocation: LiveData<ForecastLocation>
-        get() = _successfulLocation
-
-    var forecastType = ForecastType.TEMPERATURE
-        private set
-
-    private val _hourlyForecast = MutableLiveData<List<HourlyForecastView.Hour>>()
-    val hourlyForecast: LiveData<List<HourlyForecastView.Hour>>
+    private val _hourlyForecast = MutableLiveData<HourlyForecast2>()
+    val hourlyForecast: LiveData<HourlyForecast2>
         get() = _hourlyForecast
 
     private val _dataLoading = MutableLiveData(ForecastState.LOADING)
@@ -46,96 +35,55 @@ class HourlyForecastViewModel @ViewModelInject constructor(
 
     init {
 
+        startCollectingLocation()
+    }
+
+    override suspend fun onLocationCollected(location: LocationData) {
+
+        loadForecast(location)
+    }
+
+    fun onRetry() {
+
         viewModelScope.launch {
 
-            _location.collect {
+            location.value?.locationData?.let {
 
-                when (it) {
-
-                    is Result.Success -> {
-
-                        _successfulLocation.value = it.data
-                        if (it.data.type !in arrayOf(
-                                ForecastLocation.Type.LAST_KNOWN_LOCATION,
-                                ForecastLocation.Type.CURRENT_LOCATION
-                            )
-                        ) {
-
-                            _state.value = MainState.LOADING
-                        }
-
-                        loadData()
-                    }
-
-                    is Result.Failure -> {
-
-                        _state.value = MainState.LOCATION_ERROR
-                    }
-                }
+                loadForecast(it)
             }
         }
     }
 
     fun onForecastTypeSelected(forecastType: ForecastType) {
 
-        this.forecastType = forecastType
-        viewModelScope.launch {
+        _forecastType.value = forecastType
+        location.value?.locationData?.let {
 
-            loadData()
+            viewModelScope.launch {
+
+                loadForecast(it)
+            }
         }
     }
 
-    private suspend fun loadData() {
+    private suspend fun loadForecast(location: LocationData) {
 
         _dataLoading.value = ForecastState.LOADING
-        _location.value.ifSuccessful { loc ->
 
-            when (forecastType) {
+        val result = when (forecastType.value!!) {
 
-                ForecastType.TEMPERATURE -> {
+            ForecastType.TEMPERATURE -> getHourlyTemperatureForecastUseCase(location)
+            ForecastType.POP -> getHourlyPopForecastUseCase(location)
+            ForecastType.UV -> TODO()
+        }
 
-                    val tempForecast = getHourlyTemperatureForecastUseCase(loc)
-                    if (tempForecast is Result.Success) {
+        if (result is Result.Success) {
 
-                        _hourlyForecast.value = tempForecast.data.map {
+            _hourlyForecast.value = result.data
+            _dataLoading.value = ForecastState.LOADED
+        } else {
 
-                            HourlyForecastView.Hour(
-
-                                it.time,
-                                it.condition,
-                                ForecastElement.Temperature(it.temperature)
-                            )
-                        }
-                        _dataLoading.value = ForecastState.LOADED
-                    } else {
-
-                        _dataLoading.value = ForecastState.ERROR
-                    }
-                }
-
-                ForecastType.POP -> {
-
-                    val popForecast = getHourlyPopForecastUseCase(loc)
-                    if (popForecast is Result.Success) {
-
-                        _hourlyForecast.value = popForecast.data.map {
-
-                            HourlyForecastView.Hour(
-
-                                it.time,
-                                it.condition,
-                                ForecastElement.Pop(it.pop)
-                            )
-                        }
-                        _dataLoading.value = ForecastState.LOADED
-                    } else {
-
-                        _dataLoading.value = ForecastState.ERROR
-                    }
-                }
-
-                ForecastType.UV -> TODO()
-            }
+            _dataLoading.value = ForecastState.ERROR
         }
     }
 
@@ -144,8 +92,8 @@ class HourlyForecastViewModel @ViewModelInject constructor(
         LOADING, LOADED, ERROR
     }
 
-    enum class ForecastType {
+    enum class ForecastType(val titleRes: Int) {
 
-        TEMPERATURE, POP, UV
+        TEMPERATURE(R.string.element_temperature), POP(R.string.element_pop), UV(R.string.element_uv_index)
     }
 }

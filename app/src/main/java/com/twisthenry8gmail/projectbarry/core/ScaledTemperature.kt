@@ -1,6 +1,6 @@
 package com.twisthenry8gmail.projectbarry.core
 
-class ScaledTemperature private constructor(val value: Double, val scale: Scale) {
+class ScaledTemperature constructor(val value: Double, val scale: Scale) {
 
     fun celsius() = when (scale) {
 

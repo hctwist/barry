@@ -6,52 +6,40 @@
         <import type="com.twisthenry8gmail.projectbarry.core.ForecastLocation.Type" />
 
         <variable
-            name="choice"
-            type="com.twisthenry8gmail.projectbarry.view.locations.LocationChoiceAdapter.Choice" />
+            name="location"
+            type="com.twisthenry8gmail.projectbarry.core.SavedLocation" />
 
         <variable
             name="clicklistener"
-            type="com.twisthenry8gmail.projectbarry.view.locations.LocationChoiceAdapter.ClickListener" />
+            type="com.twisthenry8gmail.projectbarry.view.locations.LocationChoiceAdapter.ClickHandler" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> clicklistener.onClick(choice)}">
-
-        <ImageButton
-            android:id="@+id/location_row_icon"
-            android:layout_width="@dimen/location_row_icon"
-            android:layout_height="@dimen/location_row_icon"
-            android:background="@drawable/place_icon_pin_background"
-            android:src="@{choice.getIcon(context)}"
-            android:tint="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/min_touch_size"
+        android:onClick="@{() -> clicklistener.onClick(location)}">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin"
-            android:text="@{choice.getTitle(context)}"
-            android:textColor="?android:attr/textColorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/location_row_icon"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="@dimen/horizontal_layout_margin"
+            android:layout_weight="1"
+            android:text="@{location.name}"
+            android:textColor="?android:attr/textColorPrimary" />
 
         <!-- TODO Not using attribute for tertiary color -->
         <ImageButton
-            goneUnless="@{choice.type == Type.CHOSEN || choice.type == Type.PINNED}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/horizontal_layout_margin"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:onClick="@{() -> clicklistener.onPin(choice)}"
+            android:minWidth="@dimen/min_touch_size"
+            android:minHeight="@dimen/min_touch_size"
+            android:onClick="@{() -> clicklistener.onPin(location)}"
             android:src="@drawable/round_push_pin_24"
-            android:tint="@{choice.type == Type.PINNED ? @color/location_pinned : @color/text_color_tertiary}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:tint="@{location.pinned ? @color/location_pinned : @color/text_color_tertiary}" />
+    </LinearLayout>
 </layout>

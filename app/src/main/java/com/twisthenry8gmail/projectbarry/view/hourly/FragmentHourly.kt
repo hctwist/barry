@@ -27,6 +27,8 @@ class FragmentHourly : Fragment() {
     ): View? {
 
         binding = FragmentHourlyBinding.inflate(inflater, container, false)
+        binding.viewmodel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }
@@ -35,17 +37,9 @@ class FragmentHourly : Fragment() {
 
         viewModel.hourlyForecast.observe(viewLifecycleOwner) {
 
-            binding.hourlyGraph.setHours(it)
+            binding.hourlyGraph.setForecast(it)
         }
 
-        binding.hourlyGraphToggles.check(
-            when (viewModel.forecastType) {
-
-                HourlyForecastViewModel.ForecastType.TEMPERATURE -> R.id.hourly_graph_toggle_temp
-                HourlyForecastViewModel.ForecastType.POP -> R.id.hourly_graph_toggle_pop
-                HourlyForecastViewModel.ForecastType.UV -> TODO()
-            }
-        )
         binding.hourlyGraphToggles.addOnButtonCheckedListener { _, checkedId, isChecked ->
 
             if (isChecked) {

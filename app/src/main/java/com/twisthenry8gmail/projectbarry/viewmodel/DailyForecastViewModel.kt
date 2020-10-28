@@ -3,19 +3,20 @@ package com.twisthenry8gmail.projectbarry.viewmodel
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.twisthenry8gmail.projectbarry.core.ForecastLocation
+import androidx.lifecycle.viewModelScope
 import com.twisthenry8gmail.projectbarry.core.Result
-import com.twisthenry8gmail.projectbarry.data.DailyForecast
-import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationRepository
+import com.twisthenry8gmail.projectbarry.core.DailyForecast
+import com.twisthenry8gmail.projectbarry.core.LocationData
 import com.twisthenry8gmail.projectbarry.usecases.GetDailyForecastUseCase
+import com.twisthenry8gmail.projectbarry.usecases.GetSelectedLocationFlowUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class DailyForecastViewModel @ViewModelInject constructor(
-    locationRepository: ForecastLocationRepository,
+    getSelectedLocationFlowUseCase: GetSelectedLocationFlowUseCase,
     private val getDailyForecastUseCase: GetDailyForecastUseCase
-) : ForecastLocationViewModel(locationRepository) {
+) : ForecastLocationViewModel(getSelectedLocationFlowUseCase) {
 
     private val _forecast = MutableLiveData<List<DailyForecast>>()
     val forecast: LiveData<List<DailyForecast>>
@@ -26,12 +27,29 @@ class DailyForecastViewModel @ViewModelInject constructor(
         startCollectingLocation()
     }
 
-    override suspend fun onLocationCollected(location: ForecastLocation) {
+    override suspend fun onLocationCollected(location: LocationData) {
 
         fetchForecast(location)
     }
 
-    private suspend fun fetchForecast(location: ForecastLocation) {
+    fun onRetry() {
+
+        fetchForecast()
+    }
+
+    private fun fetchForecast() {
+
+        viewModelScope.launch {
+
+            location.value?.locationData?.let {
+
+                onLoading()
+                fetchForecast(it)
+            }
+        }
+    }
+
+    private suspend fun fetchForecast(location: LocationData) {
 
         val forecast = getDailyForecastUseCase(location)
 

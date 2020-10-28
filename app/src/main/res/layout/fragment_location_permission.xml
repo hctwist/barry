@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
             android:layout_marginTop="@dimen/medium_content_margin"
-            android:text="We cannot access your location"
+            android:text="@string/location_permission_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/location_permission_image" />
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
             android:layout_marginTop="@dimen/margin"
-            android:text="We require permission before we can access your current location. If you do not wish to use this feature, feel free to select a static location!"
+            android:text="@string/location_permission_message"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/location_permission_title" />
@@ -51,7 +51,7 @@
             android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
             android:layout_marginBottom="@dimen/margin"
             android:onClick="@{() -> viewmodel.onGrantPermissionClicked()}"
-            android:text="Grant permission"
+            android:text="@string/location_permission_allow"
             app:layout_constraintBottom_toTopOf="@id/location_permission_other" />
 
         <com.google.android.material.button.MaterialButton
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
             android:layout_marginBottom="@dimen/vertical_layout_margin"
-            android:text="Select other location"
+            android:text="@string/location_permission_static"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -45,6 +45,11 @@ class ForecastLocationLocalSource @Inject constructor(private val forecastLocati
         forecastLocationDao.setType(placeId, ForecastLocation.Type.PINNED)
     }
 
+    suspend fun unpin(placeId: String) {
+
+        forecastLocationDao.setType(placeId, ForecastLocation.Type.CHOSEN)
+    }
+
     private fun ForecastLocation.toEntity() = ForecastLocationEntity(
         placeId,
         name,

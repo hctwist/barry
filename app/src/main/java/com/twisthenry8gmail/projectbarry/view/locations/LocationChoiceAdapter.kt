@@ -3,20 +3,22 @@ package com.twisthenry8gmail.projectbarry.view.locations
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.twisthenry8gmail.projectbarry.R
 import com.twisthenry8gmail.projectbarry.core.ForecastLocation
+import com.twisthenry8gmail.projectbarry.core.SavedLocation
 import com.twisthenry8gmail.projectbarry.databinding.LocationRowBinding
 
 class LocationChoiceAdapter : RecyclerView.Adapter<LocationChoiceAdapter.VH>() {
 
-    var choices = listOf<Choice>()
+    var rows = listOf<SavedLocation>()
 
-    lateinit var clickListener: ClickListener
+    lateinit var clickHandler: ClickHandler
 
     override fun getItemCount(): Int {
 
-        return choices.size
+        return rows.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -27,50 +29,23 @@ class LocationChoiceAdapter : RecyclerView.Adapter<LocationChoiceAdapter.VH>() {
 
     override fun onBindViewHolder(holder: VH, position: Int) {
 
-        holder.bind(choices[position], clickListener)
+        holder.bind(rows[position], clickHandler)
     }
 
     class VH(private val binding: LocationRowBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(choice: Choice, clickListener: ClickListener) {
+        fun bind(location: SavedLocation, clickHandler: ClickHandler) {
 
-            binding.choice = choice
-            binding.clicklistener = clickListener
+            binding.location = location
+            binding.clicklistener = clickHandler
             binding.executePendingBindings()
         }
     }
 
-    interface ClickListener {
+    interface ClickHandler {
 
-        fun onClick(choice: Choice)
+        fun onClick(location: SavedLocation)
 
-        fun onPin(choice: Choice)
-    }
-
-    sealed class Choice(val type: ForecastLocation.Type) {
-
-        fun getIcon(context: Context) = context.getDrawable(
-
-            LocationUtil.resolveIconRes(type)
-        )
-
-        abstract fun getTitle(context: Context): String
-
-        object CurrentLocation : Choice(ForecastLocation.Type.CURRENT_LOCATION) {
-
-            override fun getTitle(context: Context): String {
-
-                return context.getString(R.string.current_location)
-            }
-        }
-
-        class Location(val placeId: String, type: ForecastLocation.Type, val title: String) :
-            Choice(type) {
-
-            override fun getTitle(context: Context): String {
-
-                return title
-            }
-        }
+        fun onPin(location: SavedLocation)
     }
 }

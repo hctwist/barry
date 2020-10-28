@@ -15,9 +15,14 @@ class FragmentCurrentForecastContainer : FragmentForecastContainer() {
 
     private val viewModel by viewModels<CurrentForecastViewModel>()
 
-    override fun getFragment(): Fragment {
+    override fun getContentFragment(): Fragment {
 
         return FragmentCurrentForecast()
+    }
+
+    override fun getForecastErrorFragment(): Fragment {
+
+        return FragmentCurrentForecastError()
     }
 
     override fun onSwipeRefresh() {

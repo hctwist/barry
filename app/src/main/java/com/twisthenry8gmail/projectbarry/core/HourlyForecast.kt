@@ -2,14 +2,12 @@ package com.twisthenry8gmail.projectbarry.core
 
 import java.time.ZonedDateTime
 
-open class HourlyForecast(val time: ZonedDateTime, val condition: WeatherCondition) {
+class HourlyForecast2(val hours: List<Hour>, val minValue: Double, val maxValue: Double) {
 
-    class Temperature(
-        time: ZonedDateTime,
-        condition: WeatherCondition,
-        val temperature: ScaledTemperature
-    ) : HourlyForecast(time, condition)
-
-    class Pop(time: ZonedDateTime, condition: WeatherCondition, val pop: Double) :
-        HourlyForecast(time, condition)
+    class Hour(
+        val time: ZonedDateTime,
+        val weatherCondition: WeatherCondition,
+        val element: ForecastElement,
+        val value: Double
+    )
 }

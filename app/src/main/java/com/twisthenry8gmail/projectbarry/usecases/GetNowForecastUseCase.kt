@@ -1,22 +1,19 @@
 package com.twisthenry8gmail.projectbarry.usecases
 
-import com.twisthenry8gmail.projectbarry.core.Result
-import com.twisthenry8gmail.projectbarry.data.CurrentForecast
+import com.twisthenry8gmail.projectbarry.core.*
 import com.twisthenry8gmail.projectbarry.data.SettingsRepository
-import com.twisthenry8gmail.projectbarry.core.ScaledTemperature
-import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 import com.twisthenry8gmail.projectbarry.data.openuv.OpenUVSource
 import com.twisthenry8gmail.projectbarry.data.openuv.RealTimeUVRepository
 import com.twisthenry8gmail.projectbarry.data.openweather.OneCallRepository
 import com.twisthenry8gmail.projectbarry.data.openweather.OpenWeatherCodeMapper
 import com.twisthenry8gmail.projectbarry.data.openweather.OpenWeatherSource
-import com.twisthenry8gmail.projectbarry.core.failure
-import com.twisthenry8gmail.projectbarry.core.success
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import java.time.Instant
 import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -26,7 +23,7 @@ class GetNowForecastUseCase @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) {
 
-    suspend operator fun invoke(location: ForecastLocation): Result<CurrentForecast> {
+    suspend operator fun invoke(location: LocationData): Result<CurrentForecast> {
 
         return coroutineScope {
 
@@ -55,34 +52,64 @@ class GetNowForecastUseCase @Inject constructor(
 
         val today = oneCall.daily[0]
 
-//        val lowerBound = ZonedDateTime.now().plusHours(1).truncatedTo(ChronoUnit.HOURS)
-//
-//        val morningBound = lowerBound.plusDays(1).withHour(4)
-//        val twelveHourBound = lowerBound.plusHours(12)
-//        val upperBound =
-//            if (morningBound.isAfter(twelveHourBound)) morningBound else twelveHourBound
-//
-//        val hourly = oneCall.hourly.map {
-//
-//            HourlyForecast(
-//                Instant.ofEpochSecond(it.time).atZone(ZoneId.systemDefault()),
-//                Temperature.fromKelvin(
-//                    it.temp
-//                ).to(temperatureScale),
-//                OpenWeatherCodeMapper.map(it.conditionCode),
-//                it.pop
-//            )
-//        }.filter {
-//
-//            !it.time.isAfter(upperBound) && !it.time.isBefore(lowerBound)
-//        }
+        val nHours = 2
+        var totalPop = 0.0
+        for (i in 0 until nHours) {
 
-        // TODO, maybe next 2 hours or so worked out statistically?
-        val pop = 0.0
+            val hour = oneCall.hourly[i]
+            totalPop += hour.pop
+        }
+        val pop = totalPop / nHours
+
+        val now = ZonedDateTime.now()
+
+        var sunriseSunsetElement: ForecastElement? = null
+        for (i in oneCall.daily.indices) {
+
+            val day = oneCall.daily[i]
+
+            val sunrise = ZonedDateTime.ofInstant(
+                Instant.ofEpochSecond(day.sunrise),
+                ZoneOffset.UTC
+            )
+            if (sunrise.isAfter(now)) {
+
+                sunriseSunsetElement = ForecastElement.Sunrise(sunrise)
+                break
+            } else {
+
+                val sunset =
+                    ZonedDateTime.ofInstant(Instant.ofEpochSecond(day.sunset), ZoneOffset.UTC)
+                if (sunset.isAfter(now)) {
+
+                    sunriseSunsetElement = ForecastElement.Sunset(sunset)
+                    break
+                }
+            }
+        }
+
+        val elements = listOf(
+
+            ForecastElement.UVIndex(uv.uv),
+            ForecastElement.Pop(pop),
+            ForecastElement.FeelsLike(
+                ScaledTemperature.fromKelvin(oneCall.feelsLike).to(temperatureScale)
+            ),
+            ForecastElement.Humidity(oneCall.humidity),
+            ForecastElement.WindSpeed(oneCall.windSpeed),
+            sunriseSunsetElement!!
+        )
+
+        val hourSnapshots = oneCall.hourly.subList(0, 3).map {
+
+            HourSnapshot(
+                Instant.ofEpochSecond(it.time).atZone(ZoneId.systemDefault()),
+                OpenWeatherCodeMapper.map(it.conditionCode),
+                false
+            )
+        }
 
         return CurrentForecast(
-            Instant.ofEpochSecond(oneCall.sunset).atZone(ZoneId.systemDefault()),
-            Instant.ofEpochSecond(oneCall.sunrise).atZone(ZoneId.systemDefault()),
             ScaledTemperature.fromKelvin(
                 oneCall.temp
             ).to(temperatureScale),
@@ -93,13 +120,8 @@ class GetNowForecastUseCase @Inject constructor(
                 today.tempHigh
             ).to(temperatureScale),
             OpenWeatherCodeMapper.map(oneCall.conditionCode),
-            uv.uv,
-            pop,
-            ScaledTemperature.fromKelvin(
-                oneCall.feelsLike
-            ).to(temperatureScale),
-            oneCall.humidity,
-            oneCall.windSpeed
+            elements,
+            hourSnapshots
         )
     }
 }

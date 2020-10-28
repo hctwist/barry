@@ -11,7 +11,7 @@
 
         <variable
             name="forecast"
-            type="com.twisthenry8gmail.projectbarry.data.DailyForecast" />
+            type="com.twisthenry8gmail.projectbarry.core.DailyForecast" />
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -91,7 +91,7 @@
                 android:id="@+id/daily_icon"
                 android:layout_width="@dimen/daily_icon"
                 android:layout_height="@dimen/daily_icon"
-                android:src="@{WeatherConditionDisplay.INSTANCE.getImageResource(forecast.condition, true) == null ? null : context.getDrawable(WeatherConditionDisplay.INSTANCE.getImageResource(forecast.condition, true))}"
+                android:src="@{WeatherConditionDisplay.INSTANCE.getImageResource(forecast.condition) == null ? null : context.getDrawable(WeatherConditionDisplay.INSTANCE.getImageResource(forecast.condition))}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -1,84 +1,100 @@
 package com.twisthenry8gmail.projectbarry.viewmodel
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.twisthenry8gmail.projectbarry.R
-import com.twisthenry8gmail.projectbarry.core.Result
-import com.twisthenry8gmail.projectbarry.core.Trigger
-import com.twisthenry8gmail.projectbarry.core.ForecastLocation
-import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationRepository
+import androidx.lifecycle.*
+import com.twisthenry8gmail.projectbarry.Trigger
+import com.twisthenry8gmail.projectbarry.core.successOrNull
+import com.twisthenry8gmail.projectbarry.usecases.FetchSelectedLocationUseCase
+import com.twisthenry8gmail.projectbarry.usecases.GetNowForecastFlowUseCase
+import com.twisthenry8gmail.projectbarry.usecases.GetSelectedLocationFlowUseCase
+import com.twisthenry8gmail.projectbarry.usecases.NeedsLocationPermissionUseCase
+import com.twisthenry8gmail.projectbarry.view.WeatherConditionDisplay
 import com.twisthenry8gmail.projectbarry.viewmodel.navigator.NavigatorViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class MainViewModel @ViewModelInject constructor(private val forecastLocationRepository: ForecastLocationRepository) :
-    NavigatorViewModel() {
+class MainViewModel @ViewModelInject constructor(
+    private val getSelectedLocationFlowUseCase: GetSelectedLocationFlowUseCase,
+    private val needsLocationPermissionUseCase: NeedsLocationPermissionUseCase,
+    private val fetchSelectedLocationUseCase: FetchSelectedLocationUseCase,
+    private val getNowForecastFlowUseCase: GetNowForecastFlowUseCase
+) : NavigatorViewModel() {
 
     private val _locationPermissionQuery = MutableLiveData<Trigger>()
     val locationPermissionQuery: LiveData<Trigger>
         get() = _locationPermissionQuery
 
-    private val _state = MutableLiveData(State.WAITING)
-    val state: LiveData<State>
-        get() = _state
+    private val location = getSelectedLocationFlowUseCase().map { it.successOrNull() }.asLiveData()
+    val locationName = location.map { it?.locationData?.name }
+    val locationStatus = location.map { it?.status }
+    
+    private val _showMenu = MutableLiveData<Trigger>()
+    val showMenu: LiveData<Trigger>
+        get() = _showMenu
+
+    private val currentForecast = getNowForecastFlowUseCase().asLiveData()
+    private val successfulCurrentForecast = currentForecast.map { it.successOrNull() }
+    val condition = successfulCurrentForecast.map {
+
+        it?.let { WeatherConditionDisplay.getStringResource(it.condition) }
+    }
+    val conditionIcon = successfulCurrentForecast.map {
+
+        it?.let { WeatherConditionDisplay.getImageResource(it.condition) }
+    }
+    val currentTemperature = successfulCurrentForecast.map { it?.temp }
+    val lowTemperature = successfulCurrentForecast.map { it?.tempLow }
+    val highTemperature = successfulCurrentForecast.map { it?.tempHigh }
+    val elements = successfulCurrentForecast.map { it?.elements ?: listOf() }
+
+    val hourSnapshots = successfulCurrentForecast.map { it?.hourSnapshots ?: listOf() }
 
     init {
 
         viewModelScope.launch {
 
-            val selectedLocationType = forecastLocationRepository.getSelectedLocationType()
-
-            if (selectedLocationType is Result.Success && selectedLocationType.data == ForecastLocation.Type.LAST_KNOWN_LOCATION || selectedLocationType is Result.Failure) {
+            if (needsLocationPermissionUseCase()) {
 
                 _locationPermissionQuery.value = Trigger()
             } else {
 
-                startLoadingLocation()
+                fetchSelectedLocation()
+//                startCollectingLocation()
+            }
+            
+            currentForecast.observeForever {
+
+                Log.d("MainViewModel", ": ")
             }
         }
     }
 
-    private fun startLoadingLocation() {
+    fun fetchSelectedLocation() {
 
         viewModelScope.launch {
 
-            forecastLocationRepository.fetchSelectedLocation()
+            fetchSelectedLocationUseCase()
         }
     }
 
     fun onLocationPermissionResult(granted: Boolean) {
 
-        if (_state.value == State.WAITING && granted) {
+        if (granted) {
 
-            _state.value = State.NOW
-            startLoadingLocation()
+            fetchSelectedLocation()
+//            startCollectingLocation()
         } else {
 
-            navigateTo(R.id.action_fragmentMain_to_fragmentLocationPermission)
-        }
-    }
-
-    fun onNavigationItemSelected(id: Int) {
-
-        _state.value = when (id) {
-
-            R.id.main_navigation_now -> State.NOW
-            R.id.main_navigation_hourly -> State.HOURLY
-            R.id.main_navigation_daily -> State.DAILY
-            else -> throw RuntimeException("Invalid state")
+            TODO()
+//            navigateTo(R.id.action_fragmentMain_to_fragmentLocationPermission)
         }
     }
 
     fun onMenuClick() {
 
-        // TODO
-    }
-
-    enum class State {
-
-        WAITING, NOW, HOURLY, DAILY
+        _showMenu.value = Trigger()
     }
 }

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.twisthenry8gmail.projectbarry.viewmodel.MainViewModel" />
+    </data>
+
+    <com.twisthenry8gmail.projectbarry.view.CustomSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/forecast_container_swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/margin">
+
+            <ImageView
+                android:layout_width="@dimen/main_refresh_icon"
+                android:layout_height="@dimen/main_refresh_icon"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_launcher_foreground" />
+        </FrameLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/main_condition"
+                    style="@style/Display"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/horizontal_layout_margin"
+                    android:layout_marginTop="@dimen/top_layout_margin"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:text="@{viewmodel.condition == null ? null : context.getString(viewmodel.condition)}"
+                    app:layout_constraintEnd_toStartOf="@id/main_menu"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/main_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/horizontal_layout_margin"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:onClick="@{() -> viewmodel.onMenuClick()}"
+                    android:padding="@dimen/half_margin"
+                    android:src="@drawable/round_more_vert_24"
+                    android:tint="?android:attr/textColorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/main_condition"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/main_condition" />
+
+                <TextView
+                    android:id="@+id/main_location"
+                    style="@style/Subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/half_margin"
+                    android:text="@{viewmodel.locationName ?? @string/location_loading}"
+                    app:layout_constraintStart_toStartOf="@id/main_condition"
+                    app:layout_constraintTop_toBottomOf="@id/main_condition" />
+
+                <ImageView
+                    android:layout_width="@dimen/icon_extra_small"
+                    android:layout_height="@dimen/icon_extra_small"
+                    android:layout_marginStart="@dimen/margin"
+                    android:src="@drawable/round_gps_fixed_24"
+                    app:layout_constraintBottom_toBottomOf="@id/main_location"
+                    app:layout_constraintStart_toEndOf="@id/main_location"
+                    app:layout_constraintTop_toTopOf="@id/main_location"
+                    app:tint="?android:attr/textColorTertiary" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+                    android:layout_marginTop="@dimen/large_content_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/main_location">
+
+                    <include
+                        android:id="@+id/main_now"
+                        layout="@layout/fragment_main_now"
+                        bind:viewmodel="@{viewmodel}" />
+                </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </com.twisthenry8gmail.projectbarry.view.CustomSwipeRefreshLayout>
+</layout>

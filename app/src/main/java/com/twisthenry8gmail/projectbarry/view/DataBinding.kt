@@ -3,7 +3,6 @@ package com.twisthenry8gmail.projectbarry.view
 import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.twisthenry8gmail.projectbarry.view.MarginItemDecoration
 
 object DataBinding {
 

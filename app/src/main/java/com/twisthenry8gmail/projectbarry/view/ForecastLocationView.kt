@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import com.twisthenry8gmail.projectbarry.core.ForecastLocation
+import com.twisthenry8gmail.projectbarry.core.SelectedLocation
 import com.twisthenry8gmail.projectbarry.databinding.ForecastLocationViewBinding
 
 class ForecastLocationView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -12,7 +13,7 @@ class ForecastLocationView(context: Context, attrs: AttributeSet) : FrameLayout(
     private val binding =
         ForecastLocationViewBinding.inflate(LayoutInflater.from(context), this, true)
 
-    fun setLocation(location: ForecastLocation?) {
+    fun setLocation(location: SelectedLocation?) {
 
         binding.location = location
         binding.executePendingBindings()

@@ -3,14 +3,15 @@ package com.twisthenry8gmail.projectbarry.view.daily
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.twisthenry8gmail.projectbarry.data.DailyForecast
+import com.twisthenry8gmail.projectbarry.core.DailyForecast
 import com.twisthenry8gmail.projectbarry.core.ForecastLocation
+import com.twisthenry8gmail.projectbarry.core.SelectedLocation
 import com.twisthenry8gmail.projectbarry.databinding.DailyLocationRowBinding
 import com.twisthenry8gmail.projectbarry.databinding.DailyRowBinding
 
 class DailyForecastAdapter : RecyclerView.Adapter<DailyViewHolder>() {
 
-    var location: ForecastLocation? = null
+    var location: SelectedLocation? = null
     var forecast = listOf<DailyForecast>()
 
     override fun getItemCount(): Int {

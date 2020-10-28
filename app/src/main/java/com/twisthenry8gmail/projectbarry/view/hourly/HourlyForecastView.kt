@@ -11,13 +11,11 @@ import android.view.ViewGroup
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import com.twisthenry8gmail.projectbarry.R
-import com.twisthenry8gmail.projectbarry.core.ForecastElement
-import com.twisthenry8gmail.projectbarry.core.WeatherCondition
+import com.twisthenry8gmail.projectbarry.core.HourlyForecast2
 import com.twisthenry8gmail.projectbarry.util.TimeDisplayUtil
 import com.twisthenry8gmail.projectbarry.view.ForecastDisplayUtil
 import com.twisthenry8gmail.projectbarry.view.WeatherConditionDisplay
 import kotlinx.android.synthetic.main.hourly_forecast_view_hour.view.*
-import java.time.ZonedDateTime
 import kotlin.math.max
 
 class HourlyForecastView(context: Context, attrs: AttributeSet) :
@@ -30,31 +28,28 @@ class HourlyForecastView(context: Context, attrs: AttributeSet) :
         addView(aggregateView)
     }
 
-    fun setHours(hours: List<Hour>) {
+    fun setForecast(forecast: HourlyForecast2) {
 
-        aggregateView.hours = hours
+        aggregateView.forecast = forecast
     }
-
-    class Hour(
-        val time: ZonedDateTime,
-        val weatherCondition: WeatherCondition,
-        val element: ForecastElement
-    )
 
     class AggregateView(context: Context) : ViewGroup(context) {
 
-        var hours = listOf<Hour>()
+        var forecast: HourlyForecast2? = null
             set(value) {
 
                 field = value
                 removeViews(1, childCount - 1)
 
-                hourViews = Array(value.size) {
+                value?.also { forecastValue ->
 
-                    val hourView = HourView(context)
-                    hourView.setHour(value[it])
-                    addView(hourView)
-                    hourView
+                    hourViews = Array(forecastValue.hours.size) {
+
+                        val hourView = HourView(context)
+                        hourView.setHour(forecastValue.hours[it])
+                        addView(hourView)
+                        hourView
+                    }
                 }
             }
 
@@ -99,22 +94,25 @@ class HourlyForecastView(context: Context, attrs: AttributeSet) :
 
         private fun initialiseGraph() {
 
-            if (hours.isNotEmpty()) {
+            forecast?.also { forecast ->
 
-                val featureDoubles = hours.map { it.element.doubleValue }
-                val maxFeatureDouble = featureDoubles.maxOrNull()!!
-                val minFeatureDouble = featureDoubles.minOrNull()!!
+                if (forecast.hours.isNotEmpty()) {
 
-                graphView.points = Array(hours.size) {
+                    val values = forecast.hours.map { it.value }
+                    val minValue = forecast.minValue
+                    val maxValue = forecast.maxValue
 
-                    val point = PointF()
+                    graphView.points = Array(forecast.hours.size) {
 
-                    val x = (maxHourWidth + hourSpacing) * it + maxHourWidth.toFloat() / 2
-                    val y =
-                        graphHeight - ((featureDoubles[it] - minFeatureDouble) / (maxFeatureDouble - minFeatureDouble)) * graphHeight
+                        val point = PointF()
 
-                    point.set(x, y.toFloat())
-                    point
+                        val x = (maxHourWidth + hourSpacing) * it + maxHourWidth.toFloat() / 2
+                        val y =
+                            graphHeight - ((values[it] - minValue) / (maxValue - minValue)) * graphHeight
+
+                        point.set(x, y.toFloat())
+                        point
+                    }
                 }
             }
         }
@@ -213,17 +211,15 @@ class HourlyForecastView(context: Context, attrs: AttributeSet) :
                 linePath.rewind()
 
                 val firstPoint = adjustedPoints.first()
-                linePath.moveTo(
-                    firstPoint.x + linePaint.strokeWidth,
-                    firstPoint.y
-                )
+                linePath.moveTo(linePaint.strokeWidth, firstPoint.y)
+                linePath.lineTo(firstPoint.x, firstPoint.y)
 
                 for (i in 0 until points.size - 1) {
 
                     val nextPoint = adjustedPoints[i + 1]
                     val controlPoint = controlPoints[i]
 
-                    val x = nextPoint.x - if (i == points.size - 2) linePaint.strokeWidth else 0F
+                    val x = nextPoint.x
                     linePath.cubicTo(
                         controlPoint.start.x,
                         controlPoint.start.y,
@@ -233,6 +229,9 @@ class HourlyForecastView(context: Context, attrs: AttributeSet) :
                         nextPoint.y
                     )
                 }
+
+                val lastPoint = adjustedPoints.last()
+                linePath.lineTo(width - linePaint.strokeWidth, lastPoint.y)
 
                 canvas.drawPath(linePath, linePaint)
             }
@@ -253,12 +252,12 @@ class HourlyForecastView(context: Context, attrs: AttributeSet) :
             inflate(context, R.layout.hourly_forecast_view_hour, this)
         }
 
-        fun setHour(hour: Hour) {
+        fun setHour(hour: HourlyForecast2.Hour) {
 
             hourly_forecast_hour_content.text =
                 ForecastDisplayUtil.getElementDisplayString(context, hour.element)
 
-            WeatherConditionDisplay.getImageResource(hour.weatherCondition, false)?.also {
+            WeatherConditionDisplay.getImageResource(hour.weatherCondition)?.also {
 
                 hourly_forecast_hour_icon.setImageResource(it)
             }

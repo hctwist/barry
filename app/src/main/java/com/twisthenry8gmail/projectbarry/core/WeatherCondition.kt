@@ -42,6 +42,6 @@ enum class WeatherCondition(val group: Group) {
 
     enum class Group {
 
-        OTHER, CLEAR, RAIN, THUNDER, SNOW, VISIBILITY, PARTICLES, WIND
+        CLEAR, RAIN, THUNDER, SNOW, VISIBILITY, PARTICLES, WIND
     }
 }

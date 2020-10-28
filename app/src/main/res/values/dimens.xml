@@ -6,23 +6,32 @@
     <dimen name="margin">16dp</dimen>
     <dimen name="double_margin">32dp</dimen>
 
-    <dimen name="corner_radius">6dp</dimen>
+    <dimen name="min_touch_size">48dp</dimen>
+
+    <dimen name="corner_radius">8dp</dimen>
+
+    <dimen name="stroke_width">1dp</dimen>
 
     <!-- Layout -->
     <dimen name="horizontal_layout_margin">32dp</dimen>
+    <dimen name="top_layout_margin">72dp</dimen>
+    <dimen name="bottom_layout_margin">48dp</dimen>
     <dimen name="vertical_layout_margin">48dp</dimen>
-    <dimen name="medium_content_margin">36dp</dimen>
-    <dimen name="large_content_margin">56dp</dimen>
+    <dimen name="medium_content_margin">42dp</dimen>
+    <dimen name="large_content_margin">72dp</dimen>
+    <dimen name="card_inset">24dp</dimen>
 
     <!-- Text -->
+    <dimen name="text_extra_small">12sp</dimen>
     <dimen name="text_small">14sp</dimen>
-    <dimen name="text_medium">16sp</dimen>
+    <dimen name="text_medium">18sp</dimen>
     <dimen name="text_large">24sp</dimen>
-    <dimen name="text_display">32sp</dimen>
+    <dimen name="text_display">36sp</dimen>
+    <dimen name="text_display_numbers">32sp</dimen> <!-- TODO Remove? -->
 
     <!-- Icons -->
-    <dimen name="standard_icon_stroke">1.5</dimen>
-    <dimen name="icon_medium">24dp</dimen>
+    <dimen name="standard_icon_stroke">1.4</dimen>
+    <dimen name="icon_medium">22dp</dimen>
     <dimen name="icon_small">18dp</dimen>
     <dimen name="icon_extra_small">14dp</dimen>
 
@@ -30,17 +39,14 @@
     <dimen name="display_image_width">256dp</dimen>
 
     <!-- Current forecast -->
-    <dimen name="current_forecast_icon">64dp</dimen>
-    <dimen name="current_forecast_temperature">72sp</dimen>
-    <dimen name="main_bottom_bar_text">18sp</dimen>
+    <dimen name="current_forecast_icon">96dp</dimen>
     <dimen name="main_refresh_over_drag">64dp</dimen>
     <dimen name="main_refresh_icon">64dp</dimen>
 
     <!-- Hourly -->
-    <dimen name="hourly_icon">18dp</dimen>
     <dimen name="hourly_view_hour_spacing">32dp</dimen>
     <dimen name="hourly_view_graph_margin">@dimen/margin</dimen>
-    <dimen name="hourly_view_graph_height">256dp</dimen>
+    <dimen name="hourly_view_graph_height">196dp</dimen>
     <dimen name="hourly_view_graph_stroke">2dp</dimen>
 
     <!-- Daily -->
@@ -48,7 +54,4 @@
 
     <!-- Locations -->
     <dimen name="location_row_icon">36dp</dimen>
-
-    <!-- Features -->
-    <dimen name="feature_icon_size">32dp</dimen>
 </resources>

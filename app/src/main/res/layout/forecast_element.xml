@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.twisthenry8gmail.projectbarry.view.ForecastDisplayUtil" />
+
+        <variable
+            name="element"
+            type="com.twisthenry8gmail.projectbarry.core.ForecastElement" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/forecast_element_icon"
+            android:layout_width="@dimen/icon_medium"
+            android:layout_height="@dimen/icon_medium"
+            android:src="@{ForecastDisplayUtil.INSTANCE.getElementIcon(context, element), default = @drawable/standard_bird}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/forecast_element_title"
+            style="@style/SubSubTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:text="@{ForecastDisplayUtil.INSTANCE.getElementTitle(context, element), default = Rain}"
+            app:layout_constraintStart_toEndOf="@id/forecast_element_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/forecast_element_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="sans-serif-medium"
+            android:includeFontPadding="false"
+            android:text="@{ForecastDisplayUtil.INSTANCE.getElementDisplayString(context, element), default = 19}"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="@dimen/text_medium"
+            app:layout_constraintStart_toStartOf="@id/forecast_element_title"
+            app:layout_constraintTop_toBottomOf="@id/forecast_element_title" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

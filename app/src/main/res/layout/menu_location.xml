@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="com.twisthenry8gmail.projectbarry.view.locations.LocationUtil" />
+
+        <variable
+            name="onClickListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="location"
+            type="com.twisthenry8gmail.projectbarry.view.menu.MenuAdapter.MenuLocation" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/min_touch_size"
+        android:onClick="@{onClickListener}"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/horizontal_layout_margin">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            goneUnless="@{location.icon != null}"
+            android:layout_marginEnd="@dimen/margin"
+            android:src="@{location.icon}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{location.name}"
+            android:textColor="?android:attr/textColorPrimary" />
+    </LinearLayout>
+</layout>

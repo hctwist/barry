@@ -1,5 +1,6 @@
 package com.twisthenry8gmail.projectbarry.core
 
+// TODO Rename to Outcome?
 sealed class Result<out T> {
 
     object Waiting : Result<Nothing>()
@@ -38,6 +39,14 @@ sealed class Result<out T> {
     }
 }
 
+fun <T, O> Result<List<T>>.mapEach(transform: (T) -> O): Result<List<O>> {
+
+    return map {
+
+        it.map(transform)
+    }
+}
+
 fun <T> Result<T>?.successOrNull() = if (this is Result.Success) data else null
 
 fun waiting() = Result.Waiting
@@ -45,3 +54,5 @@ fun waiting() = Result.Waiting
 fun <T> success(data: T) = Result.Success(data)
 
 fun failure() = Result.Failure
+
+fun <T> T.asSuccess() = success(this)

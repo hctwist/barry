@@ -23,9 +23,10 @@
         <View
             android:id="@+id/main_navigation_stroke"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="@dimen/stroke_width"
             android:layout_marginBottom="@dimen/margin"
-            android:background="#EDEDED"
+            android:background="@color/card_outline"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/main_navigation" />
 
         <com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationView
@@ -35,13 +36,14 @@
             android:layout_marginStart="@dimen/horizontal_layout_margin"
             android:layout_marginBottom="@dimen/margin"
             android:textAppearance="@style/MainTabAppearance"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:shiftingIconMinSpacing="@dimen/half_margin"
             app:shiftingIconSize="@dimen/icon_medium"
             app:shiftingIconTint="?android:attr/textColorPrimary"
             app:shiftingIconTintChecked="@color/color_primary"
-            app:shiftingIndicatorBackground="@drawable/main_tab"
+            app:shiftingIndicatorBackground="@drawable/nav_indicator"
             app:shiftingIndicatorHorizontalPadding="16dp"
             app:shiftingIndicatorVerticalPadding="8dp">
 
@@ -50,33 +52,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/round_wb_sunny_24"
-                android:text="Now" />
+                android:text="@string/nav_now" />
 
             <com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationItem
                 android:id="@+id/main_navigation_hourly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/round_show_chart_24"
-                android:text="Hourly" />
+                android:text="@string/nav_hourly" />
 
             <com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationItem
                 android:id="@+id/main_navigation_daily"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/round_date_range_24"
-                android:text="Daily" />
+                android:text="@string/nav_daily" />
         </com.twisthenry8gmail.projectbarry.view.navigationview.ShiftingNavigationView>
 
         <ImageButton
+            android:id="@+id/main_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
             android:layout_marginEnd="@dimen/horizontal_layout_margin"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:onClick="@{() -> viewmodel.onMenuClick()}"
             android:padding="@dimen/half_margin"
             android:src="@drawable/round_more_vert_24"
             android:tint="?android:attr/textColorPrimary"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/main_navigation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/main_navigation" />

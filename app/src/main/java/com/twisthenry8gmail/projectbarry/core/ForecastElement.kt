@@ -1,24 +1,22 @@
 package com.twisthenry8gmail.projectbarry.core
 
+import java.time.ZonedDateTime
+
 sealed class ForecastElement {
 
-    open val doubleValue = 0.0
-
-    class Temperature(val temperature: ScaledTemperature) : ForecastElement() {
-
-        override val doubleValue = temperature.value
-    }
+    class Temperature(val temperature: ScaledTemperature) : ForecastElement()
 
     class UVIndex(val index: Double) : ForecastElement()
 
-    class Pop(val pop: Double) : ForecastElement() {
-
-        override val doubleValue = pop
-    }
+    class Pop(val pop: Double) : ForecastElement()
 
     class FeelsLike(val temperature: ScaledTemperature) : ForecastElement()
 
     class Humidity(val humidity: Int) : ForecastElement()
 
     class WindSpeed(val speed: Double) : ForecastElement()
+
+    class Sunset(val time: ZonedDateTime): ForecastElement()
+
+    class Sunrise(val time: ZonedDateTime): ForecastElement()
 }

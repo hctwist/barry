@@ -10,8 +10,6 @@ interface OpenWeatherSource {
         val time: Long,
         val lat: Double,
         val lng: Double,
-        val sunset: Long,
-        val sunrise: Long,
         val temp: Double,
         val conditionCode: Int,
         val feelsLike: Double,
@@ -28,7 +26,9 @@ interface OpenWeatherSource {
             val tempLow: Double,
             val tempHigh: Double,
             val conditionCode: Int,
-            val pop: Double
+            val pop: Double,
+            val sunrise: Long,
+            val sunset: Long
         )
     }
 }

@@ -3,11 +3,13 @@ package com.twisthenry8gmail.projectbarry.view.navigationview
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -180,7 +182,7 @@ class ShiftingNavigationView(context: Context, attrs: AttributeSet) : ViewGroup(
         titleView.alpha = if (firstItem) 1F else 0F
         super.addView(titleView, WRAP_CONTENT, WRAP_CONTENT)
 
-        val indicatorView = View(context)
+        val indicatorView = View(context, null)
         indicatorView.background = indicatorBackground
         indicatorView.alpha = if (firstItem) 1F else 0F
         super.addView(indicatorView, WRAP_CONTENT, WRAP_CONTENT)
@@ -306,23 +308,27 @@ class ShiftingNavigationView(context: Context, attrs: AttributeSet) : ViewGroup(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 
-        measureChildren(widthMeasureSpec, heightMeasureSpec)
-
         var h = 0
 
         maxTitleWidth = 0
         items.forEach {
 
+            val iconSizeSpec = MeasureSpec.makeMeasureSpec(iconSize, MeasureSpec.EXACTLY)
+            it.iconView.measure(iconSizeSpec, iconSizeSpec)
+
+            it.titleView.measure(widthMeasureSpec, heightMeasureSpec)
             h = max(h, it.titleView.measuredHeight)
             maxTitleWidth = max(maxTitleWidth, it.titleView.measuredWidth)
-            it.indicatorView.layoutParams.width =
-                it.titleView.measuredWidth + indicatorVerticalPadding * 2
-        }
-        items.forEach {
 
+            val indicatorWidth =
+                it.titleView.measuredWidth + iconSize + indicatorHorizontalPadding * 2 + titlePadding
             it.indicatorView.measure(
-                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+                MeasureSpec.makeMeasureSpec(indicatorWidth, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(h, MeasureSpec.EXACTLY)
+            )
+            Log.d(
+                "ShiftingNavigationView",
+                "onMeasure: ${it.indicatorView.measuredWidth}, ${it.indicatorView.width}}"
             )
         }
 
@@ -334,6 +340,10 @@ class ShiftingNavigationView(context: Context, attrs: AttributeSet) : ViewGroup(
         h = max(h, iconSize) + indicatorVerticalPadding * 2
 
         setMeasuredDimension(w, h)
+    }
+
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -353,7 +363,6 @@ class ShiftingNavigationView(context: Context, attrs: AttributeSet) : ViewGroup(
             val indicatorL = itemParams.l.roundToInt()
             val indicatorR = itemParams.r.roundToInt()
             indicatorView.layout(indicatorL, 0, indicatorR, measuredHeight)
-            indicatorView.layoutParams.width = indicatorR - indicatorL
 
             val icon = item.iconView
             val iconRise = icon.measuredHeight / 2
@@ -476,7 +485,7 @@ class ShiftingNavigationView(context: Context, attrs: AttributeSet) : ViewGroup(
             out?.writeInt(selectedItemId)
         }
 
-        object CREATOR : Parcelable.Creator<SavedState> {
+        companion object CREATOR : Parcelable.Creator<SavedState> {
             override fun createFromParcel(parcel: Parcel): SavedState {
                 return SavedState(parcel)
             }

@@ -4,12 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
-import com.twisthenry8gmail.projectbarry.core.Result
-import com.twisthenry8gmail.projectbarry.core.ForecastLocation
-import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationRepository
-import com.twisthenry8gmail.projectbarry.data.locations.LocationSearchResult
-import com.twisthenry8gmail.projectbarry.view.locations.LocationChoiceAdapter
-import com.twisthenry8gmail.projectbarry.viewmodel.navigator.NavigationCommand
+import com.twisthenry8gmail.projectbarry.core.LocationSearchResult
+import com.twisthenry8gmail.projectbarry.core.SavedLocation
+import com.twisthenry8gmail.projectbarry.usecases.*
 import com.twisthenry8gmail.projectbarry.viewmodel.navigator.NavigatorViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -17,15 +14,19 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 class LocationsViewModel @Inject constructor(
-    private val forecastLocationRepository: ForecastLocationRepository
+    private val searchLocationUseCase: SearchLocationUseCase,
+    private val savedLocationsUseCase: GetSavedLocationsUseCase,
+    private val selectLocationUseCase: SelectLocationUseCase,
+    private val togglePinLocationUseCase: TogglePinLocationUseCase,
+    private val saveLocationUseCase: SaveLocationUseCase
 ) : NavigatorViewModel() {
 
     private val _searching = MutableLiveData(false)
     val searching = _searching.distinctUntilChanged()
 
-    private val _locationChoices = MutableLiveData<List<LocationChoiceAdapter.Choice>>()
-    val locationChoices: LiveData<List<LocationChoiceAdapter.Choice>>
-        get() = _locationChoices
+    private val _savedLocations = MutableLiveData<List<SavedLocation>>()
+    val savedLocations: LiveData<List<SavedLocation>>
+        get() = _savedLocations
 
     private val _searchResults = MutableLiveData<List<LocationSearchResult>>()
     val searchResults: LiveData<List<LocationSearchResult>>
@@ -41,66 +42,29 @@ class LocationsViewModel @Inject constructor(
 
     private suspend fun refreshChoices() {
 
-        val savedLocations = forecastLocationRepository.getPinnedAndChosenPlaces().sortedBy {
+        val savedLocations = savedLocationsUseCase().sortedBy {
 
-            if (it.type == ForecastLocation.Type.CHOSEN) 0 else 1
-        }.map {
-
-            LocationChoiceAdapter.Choice.Location(it.placeId, it.type, it.name)
+            if (it.pinned) 0 else 1
         }
 
-        val currentLocation = LocationChoiceAdapter.Choice.CurrentLocation
-
-        val choices = ArrayList<LocationChoiceAdapter.Choice>(savedLocations.size + 1)
-        choices.add(currentLocation)
-        choices.addAll(savedLocations)
-
-        _locationChoices.value = choices
+        _savedLocations.value = savedLocations
     }
 
-    fun onClickChoice(choice: LocationChoiceAdapter.Choice) {
+    fun onClickChoice(location: SavedLocation) {
 
         viewModelScope.launch {
 
-            if (choice is LocationChoiceAdapter.Choice.Location) {
-
-                if (choice.type != ForecastLocation.Type.CHOSEN) {
-
-                    forecastLocationRepository.removeAllOfType(ForecastLocation.Type.CHOSEN)
-                }
-
-                forecastLocationRepository.select(choice.placeId)
-            } else {
-
-                forecastLocationRepository.removeSelection()
-            }
+            selectLocationUseCase(location)
+            navigateBack()
         }
-
-        navigateBack()
     }
 
-    fun onPin(choice: LocationChoiceAdapter.Choice) {
+    fun onPin(location: SavedLocation) {
 
-        if (choice is LocationChoiceAdapter.Choice.Location) {
-            viewModelScope.launch {
+        viewModelScope.launch {
 
-                if (choice.type == ForecastLocation.Type.PINNED) {
-
-                    val selected = forecastLocationRepository.getSelectedPlaceId()
-                    if (choice.placeId == selected) {
-
-                        forecastLocationRepository.removeSelection()
-                    }
-                    forecastLocationRepository.removeLocation(choice.placeId)
-
-                    val newChoices = locationChoices.value?.minus(choice)
-                    _locationChoices.value = newChoices
-                } else {
-
-                    forecastLocationRepository.pin(choice.placeId)
-                    refreshChoices()
-                }
-            }
+            togglePinLocationUseCase(location)
+            refreshChoices()
         }
     }
 
@@ -108,19 +72,8 @@ class LocationsViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-            val location = forecastLocationRepository.getLocation(result.placeId)
-            forecastLocationRepository.onAutocompleteSessionFinished()
-
-            if (location is Result.Success) {
-
-                location.data.let {
-
-                    forecastLocationRepository.replaceAllOfType(it)
-                    forecastLocationRepository.select(it.placeId)
-                }
-
-                navigate(NavigationCommand.Back)
-            }
+            saveLocationUseCase(result)
+            navigateBack()
         }
     }
 
@@ -134,16 +87,15 @@ class LocationsViewModel @Inject constructor(
 
             viewModelScope.launch {
 
-                _searchResults.value = forecastLocationRepository.findPlaces(text)
+                val results = searchLocationUseCase(text)
+                results.ifSuccessful {
+
+                    _searchResults.value = it
+                }
             }
         } else {
 
             _searchResults.value = listOf()
         }
-    }
-
-    override fun onCleared() {
-
-        forecastLocationRepository.onAutocompleteSessionFinished()
     }
 }

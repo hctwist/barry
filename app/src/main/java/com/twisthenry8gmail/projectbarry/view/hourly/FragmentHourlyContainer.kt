@@ -17,16 +17,21 @@ class FragmentHourlyContainer : FragmentForecastContainer() {
 
     private val viewModel by viewModels<HourlyForecastViewModel>()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        viewModel.state.observe(viewLifecycleOwner, Observer {
-
-            setState(MainState.LOADED)
-        })
-    }
-
-    override fun getFragment(): Fragment {
+    override fun getContentFragment(): Fragment {
 
         return FragmentHourly()
+    }
+
+    override fun getForecastErrorFragment(): Fragment {
+
+        return FragmentHourlyForecastError()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        viewModel.state.observe(viewLifecycleOwner) {
+
+            setState(MainState.LOADED)
+        }
     }
 }

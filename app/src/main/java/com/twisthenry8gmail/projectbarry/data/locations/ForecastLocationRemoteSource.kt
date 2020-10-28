@@ -35,7 +35,7 @@ class ForecastLocationRemoteSource @Inject constructor(
         lng: Double,
         sessionToken: AutocompleteSessionToken?
     ) =
-        suspendCoroutine<Result<LocationDetails>> { cont ->
+        suspendCoroutine<Result<GeocodingDetails>> { cont ->
 
             val sessionTokenString = if (sessionToken == null) "" else "&sessiontoken=$sessionToken"
 
@@ -52,7 +52,7 @@ class ForecastLocationRemoteSource @Inject constructor(
 
                     cont.resume(
                         Result.Success(
-                            LocationDetails(
+                            GeocodingDetails(
                                 placeId,
                                 formattedAddress,
                                 lat,
@@ -70,7 +70,7 @@ class ForecastLocationRemoteSource @Inject constructor(
         }
 
     suspend fun getLocationDetails(placeId: String, sessionToken: AutocompleteSessionToken?) =
-        suspendCoroutine<Result<LocationDetails>> { cont ->
+        suspendCoroutine<Result<GeocodingDetails>> { cont ->
 
             val sessionTokenString = if (sessionToken == null) "" else "&sessiontoken=$sessionToken"
 
@@ -91,7 +91,7 @@ class ForecastLocationRemoteSource @Inject constructor(
 
                     cont.resume(
                         Result.Success(
-                            LocationDetails(
+                            GeocodingDetails(
                                 placeId,
                                 formattedAddress,
                                 lat,
@@ -109,5 +109,5 @@ class ForecastLocationRemoteSource @Inject constructor(
             volleyQueue.add(request)
         }
 
-    class LocationDetails(val placeId: String, val name: String, val lat: Double, val lng: Double)
+    class GeocodingDetails(val placeId: String, val name: String, val lat: Double, val lng: Double)
 }
