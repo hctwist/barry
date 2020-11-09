@@ -1,6 +1,5 @@
 package com.twisthenry8gmail.projectbarry.data.openweather
 
-import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 import com.twisthenry8gmail.projectbarry.core.LocationData
 import com.twisthenry8gmail.projectbarry.core.Result
 import com.twisthenry8gmail.projectbarry.data.DataUtil

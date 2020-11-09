@@ -1,6 +1,7 @@
 package com.twisthenry8gmail.projectbarry.data
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
@@ -8,6 +9,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.twisthenry8gmail.projectbarry.domain.SettingsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,17 +19,17 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-object ResourceProviderModule {
+abstract class ResourceProviderModule {
 
+
+    // TODO Old functions, should be updated with Impl classes etc.
     @Provides
     @Singleton
     fun createRoomModel(@ApplicationContext context: Context): RoomModel {
 
-        return Room.databaseBuilder(context, RoomModel::class.java, "barry_db").build()
+        return Room.databaseBuilder(context, RoomModel::class.java, "barry_db")
+            .fallbackToDestructiveMigration().build()
     }
-
-    @Provides
-    fun getForecastLocationDao(roomModel: RoomModel) = roomModel.forecastLocationDao()
 
     @Provides
     fun getForecastLocation2Dao(roomModel: RoomModel) = roomModel.forecastLocation2Dao()
@@ -52,5 +54,12 @@ object ResourceProviderModule {
     fun createFusedLocationClient(@ApplicationContext context: Context): FusedLocationProviderClient {
 
         return LocationServices.getFusedLocationProviderClient(context.applicationContext)
+    }
+    // TODO End of old
+
+    @Provides
+    fun provideSettingsRepository(@SharedPreferencesModule.Settings sharedPreferences: SharedPreferences): SettingsRepository {
+
+        return SettingsRepositoryImpl(sharedPreferences)
     }
 }

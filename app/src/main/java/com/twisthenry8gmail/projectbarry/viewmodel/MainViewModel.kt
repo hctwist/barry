@@ -1,15 +1,15 @@
 package com.twisthenry8gmail.projectbarry.viewmodel
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import com.twisthenry8gmail.projectbarry.R
 import com.twisthenry8gmail.projectbarry.Trigger
 import com.twisthenry8gmail.projectbarry.core.successOrNull
 import com.twisthenry8gmail.projectbarry.usecases.FetchSelectedLocationUseCase
 import com.twisthenry8gmail.projectbarry.usecases.GetNowForecastFlowUseCase
 import com.twisthenry8gmail.projectbarry.usecases.GetSelectedLocationFlowUseCase
 import com.twisthenry8gmail.projectbarry.usecases.NeedsLocationPermissionUseCase
-import com.twisthenry8gmail.projectbarry.view.WeatherConditionDisplay
+import com.twisthenry8gmail.projectbarry.view.WeatherConditionResolver
 import com.twisthenry8gmail.projectbarry.viewmodel.navigator.NavigatorViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.map
@@ -30,7 +30,7 @@ class MainViewModel @ViewModelInject constructor(
     private val location = getSelectedLocationFlowUseCase().map { it.successOrNull() }.asLiveData()
     val locationName = location.map { it?.locationData?.name }
     val locationStatus = location.map { it?.status }
-    
+
     private val _showMenu = MutableLiveData<Trigger>()
     val showMenu: LiveData<Trigger>
         get() = _showMenu
@@ -39,18 +39,22 @@ class MainViewModel @ViewModelInject constructor(
     private val successfulCurrentForecast = currentForecast.map { it.successOrNull() }
     val condition = successfulCurrentForecast.map {
 
-        it?.let { WeatherConditionDisplay.getStringResource(it.condition) }
+        it?.let { WeatherConditionResolver.resolveStringResource(it.condition) }
     }
-    val conditionIcon = successfulCurrentForecast.map {
+    val conditionArt = successfulCurrentForecast.map {
 
-        it?.let { WeatherConditionDisplay.getImageResource(it.condition) }
+        it?.let { WeatherConditionResolver.resolveArtResource(it.condition) }
+    }
+    val conditionArtColor = successfulCurrentForecast.map {
+
+        it?.let { WeatherConditionResolver.resolveArtColor(it.condition) }
     }
     val currentTemperature = successfulCurrentForecast.map { it?.temp }
-    val lowTemperature = successfulCurrentForecast.map { it?.tempLow }
-    val highTemperature = successfulCurrentForecast.map { it?.tempHigh }
     val elements = successfulCurrentForecast.map { it?.elements ?: listOf() }
 
     val hourSnapshots = successfulCurrentForecast.map { it?.hourSnapshots ?: listOf() }
+
+    val daySnapshots = successfulCurrentForecast.map { it?.daySnapshots ?: listOf() }
 
     init {
 
@@ -62,12 +66,6 @@ class MainViewModel @ViewModelInject constructor(
             } else {
 
                 fetchSelectedLocation()
-//                startCollectingLocation()
-            }
-            
-            currentForecast.observeForever {
-
-                Log.d("MainViewModel", ": ")
             }
         }
     }
@@ -85,11 +83,9 @@ class MainViewModel @ViewModelInject constructor(
         if (granted) {
 
             fetchSelectedLocation()
-//            startCollectingLocation()
         } else {
 
-            TODO()
-//            navigateTo(R.id.action_fragmentMain_to_fragmentLocationPermission)
+            navigateTo(R.id.action_fragmentMain2_to_fragmentLocationPermission)
         }
     }
 

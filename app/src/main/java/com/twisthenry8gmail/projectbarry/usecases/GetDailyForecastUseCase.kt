@@ -1,7 +1,7 @@
 package com.twisthenry8gmail.projectbarry.usecases
 
 import com.twisthenry8gmail.projectbarry.core.*
-import com.twisthenry8gmail.projectbarry.data.SettingsRepository
+import com.twisthenry8gmail.projectbarry.data.SettingsRepositoryImpl
 import com.twisthenry8gmail.projectbarry.data.openweather.OneCallRepository
 import com.twisthenry8gmail.projectbarry.data.openweather.OpenWeatherCodeMapper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -13,10 +13,10 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 class GetDailyForecastUseCase @Inject constructor(
     private val oneCallRepository: OneCallRepository,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepositoryImpl
 ) {
 
-    suspend operator fun invoke(location: LocationData): Result<List<DailyForecast>> {
+    suspend operator fun invoke(location: LocationData): Result<List<DaySnapshot>> {
 
         val oneCallData = oneCallRepository.get(location)
         val temperatureScale = settingsRepository.getTemperatureScale()
@@ -25,7 +25,7 @@ class GetDailyForecastUseCase @Inject constructor(
 
             oneCall.daily.map {
 
-                DailyForecast(
+                DaySnapshot(
                     ZonedDateTime.ofInstant(Instant.ofEpochSecond(it.time), ZoneId.systemDefault()),
                     ScaledTemperature.fromKelvin(it.tempLow).to(temperatureScale),
                     ScaledTemperature.fromKelvin(it.tempHigh).to(temperatureScale),

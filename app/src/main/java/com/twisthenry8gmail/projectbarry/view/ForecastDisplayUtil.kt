@@ -7,7 +7,6 @@ import com.twisthenry8gmail.projectbarry.R
 import com.twisthenry8gmail.projectbarry.core.ForecastElement
 import com.twisthenry8gmail.projectbarry.core.ScaledTemperature
 import com.twisthenry8gmail.projectbarry.util.DisplayUtil
-import com.twisthenry8gmail.projectbarry.util.TimeDisplayUtil
 
 object ForecastDisplayUtil {
 
@@ -18,7 +17,7 @@ object ForecastDisplayUtil {
         return when (temperature.scale) {
 
             ScaledTemperature.Scale.CELSIUS, ScaledTemperature.Scale.FAHRENHEIT -> context.getString(
-                R.string.temperature_degrees_display,
+                R.string.format_degrees,
                 formattedValue
             )
 
@@ -28,7 +27,7 @@ object ForecastDisplayUtil {
 
     fun displaySpeed(context: Context, windSpeed: Double): String {
 
-        return context.getString(R.string.speed_display, DisplayUtil.decimalPlaces(windSpeed, 1))
+        return context.getString(R.string.format_speed, DisplayUtil.decimalPlaces(windSpeed, 1))
     }
 
     fun getElementDisplayString(context: Context, element: ForecastElement): String {

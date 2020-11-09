@@ -4,9 +4,10 @@
     <string name="retry">Retry</string>
 
     <!-- Formatting -->
-    <string name="percentage">%1$s%%</string>
-    <string name="temperature_degrees_display">%1$s&#xb0;</string>
-    <string name="speed_display">%1$sm/s</string>
+    <string name="format_percentage">%1$s%%</string>
+    <string name="format_parenthesis">(%1$s)</string>
+    <string name="format_degrees">%1$s&#xb0;</string>
+    <string name="format_speed">%1$sm/s</string>
 
     <!-- Conditions -->
     <string name="condition_clear">Clear</string>
@@ -50,11 +51,6 @@
     <string name="element_sunrise">Sunrise</string>
     <string name="element_sunset">Sunset</string>
 
-    <!-- Navigation items -->
-    <string name="nav_now">Now</string>
-    <string name="nav_hourly">Hourly</string>
-    <string name="nav_daily">Daily</string>
-
     <!-- Main -->
     <string name="location_loading">Fetching location</string>
     <string name="location_permission_title">We cannot access your location</string>
@@ -70,10 +66,4 @@
     <!-- Locations -->
     <string name="current_location">Current location</string>
     <string name="location_search_secondary_empty">-</string>
-
-    <!-- Error -->
-    <string name="forecast_error_title">Could not load your forecast</string>
-    <string name="forecast_error_message">Are you connected to the internet?</string>
-    <string name="location_error_title">Could not get your location</string>
-    <string name="location_error_message">Is your location turned on?</string>
 </resources>

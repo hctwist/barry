@@ -1,12 +1,12 @@
 package com.twisthenry8gmail.projectbarry.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.twisthenry8gmail.projectbarry.R
 import com.twisthenry8gmail.projectbarry.core.SavedLocation
-import com.twisthenry8gmail.projectbarry.usecases.GetMenuLocationsUseCase
+import com.twisthenry8gmail.projectbarry.domainservices.MenuLocationsService
+import com.twisthenry8gmail.projectbarry.uicore.MenuLocation
 import com.twisthenry8gmail.projectbarry.usecases.SelectLocationUseCase
 import com.twisthenry8gmail.projectbarry.viewmodel.navigator.NavigatorViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,22 +14,13 @@ import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class MenuViewModel @ViewModelInject constructor(
-    private val getMenuLocationsUseCase: GetMenuLocationsUseCase,
+    private val menuLocationsService: MenuLocationsService,
     private val selectLocationUseCase: SelectLocationUseCase
-) :
-    NavigatorViewModel() {
+) : NavigatorViewModel() {
 
-    private val _locations = MutableLiveData<List<SavedLocation>>()
-    val locations: LiveData<List<SavedLocation>>
-        get() = _locations
+    val locations = liveData {
 
-    init {
-
-        viewModelScope.launch {
-
-            val locations = getMenuLocationsUseCase()
-            _locations.value = locations
-        }
+        emit(menuLocationsService.getMenuLocations())
     }
 
     fun onSettingsClicked() {
@@ -39,23 +30,14 @@ class MenuViewModel @ViewModelInject constructor(
 
     fun onLocationSettingsClicked() {
 
-        TODO()
-//        navigateTo(R.id.action_fragmentMain_to_fragmentLocations)
+        navigateTo(R.id.action_fragmentMain2_to_fragmentLocations)
     }
 
-    fun onCurrentLocationClicked() {
+    fun onLocationClicked(location: MenuLocation) {
 
         viewModelScope.launch {
 
-            selectLocationUseCase(null)
-        }
-    }
-
-    fun onLocationClicked(location: SavedLocation) {
-
-        viewModelScope.launch {
-
-            selectLocationUseCase(location)
+            // TODO
         }
     }
 }

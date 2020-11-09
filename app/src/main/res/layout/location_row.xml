@@ -3,8 +3,6 @@
 
     <data>
 
-        <import type="com.twisthenry8gmail.projectbarry.core.ForecastLocation.Type" />
-
         <variable
             name="location"
             type="com.twisthenry8gmail.projectbarry.core.SavedLocation" />

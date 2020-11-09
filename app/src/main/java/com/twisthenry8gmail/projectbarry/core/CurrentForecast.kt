@@ -6,5 +6,6 @@ class CurrentForecast(
     val tempHigh: ScaledTemperature,
     val condition: WeatherCondition,
     val elements: List<ForecastElement>,
-    val hourSnapshots: List<HourSnapshot>
+    val hourSnapshots: List<HourSnapshot>,
+    val daySnapshots: List<DaySnapshot>
 )

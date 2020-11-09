@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.twisthenry8gmail.projectbarry.view.WeatherConditionResolver" />
+
+        <import type="com.twisthenry8gmail.projectbarry.view.TimeDisplayUtil" />
+
+        <import type="com.twisthenry8gmail.projectbarry.view.ForecastDisplayUtil" />
+
+        <variable
+            name="snapshot"
+            type="com.twisthenry8gmail.projectbarry.core.DaySnapshot" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/day_snapshot_day"
+            style="@style/MarvBody.Prominent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{TimeDisplayUtil.INSTANCE.displayHumanDay(snapshot.day), default = Monday}"
+            android:textColor="?android:attr/textColorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="@dimen/main_daily_snapshot_dot"
+            android:layout_height="@dimen/main_daily_snapshot_dot"
+            android:layout_marginStart="@dimen/margin"
+            android:src="@drawable/day_snapshot_dot"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/day_snapshot_day"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/day_snapshot_temp_low"
+            style="@style/MarvBody"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/half_margin"
+            android:text="@{ForecastDisplayUtil.INSTANCE.displayTemperature(context, snapshot.tempLow), default = 21}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day_snapshot_temp_low_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/day_snapshot_temp_low_icon"
+            android:layout_width="@dimen/icon_extra_small"
+            android:layout_height="@dimen/icon_extra_small"
+            android:layout_marginEnd="@dimen/margin"
+            android:src="@drawable/round_arrow_downward_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day_snapshot_temp_high"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?android:attr/textColorPrimary" />
+
+        <TextView
+            android:id="@+id/day_snapshot_temp_high"
+            style="@style/MarvBody"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/half_margin"
+            android:text="@{ForecastDisplayUtil.INSTANCE.displayTemperature(context, snapshot.tempHigh), default = 22}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day_snapshot_temp_high_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/day_snapshot_temp_high_icon"
+            android:layout_width="@dimen/icon_extra_small"
+            android:layout_height="@dimen/icon_extra_small"
+            android:layout_marginEnd="@dimen/margin"
+            android:src="@drawable/round_arrow_upward_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day_snapshot_condition_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?android:attr/textColorPrimary" />
+
+        <ImageView
+            android:id="@+id/day_snapshot_condition_icon"
+            android:layout_width="@dimen/main_day_snapshot_icon"
+            android:layout_height="@dimen/main_day_snapshot_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:imageResource="@{WeatherConditionResolver.INSTANCE.resolveImageResource(snapshot.condition) == null ? null : WeatherConditionResolver.INSTANCE.resolveImageResource(snapshot.condition)}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

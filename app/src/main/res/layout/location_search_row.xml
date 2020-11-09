@@ -31,22 +31,26 @@
 
         <TextView
             android:id="@+id/place_search_row_primary"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/horizontal_layout_margin"
             android:text="@{result.namePrimary}"
             android:textColor="?android:attr/textColorPrimary"
             app:layout_constraintBottom_toTopOf="@id/place_search_row_secondary"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/place_search_row_pin"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/place_search_row_secondary"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/horizontal_layout_margin"
             android:text="@{result.nameSecondary.empty ? @string/location_search_secondary_empty : result.nameSecondary}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/place_search_row_primary"
             app:layout_constraintTop_toBottomOf="@id/place_search_row_primary" />
     </androidx.constraintlayout.widget.ConstraintLayout>

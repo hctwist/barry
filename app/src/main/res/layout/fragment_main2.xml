@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="com.twisthenry8gmail.projectbarry.view.locations.LocationUtil" />
+
         <variable
             name="viewmodel"
             type="com.twisthenry8gmail.projectbarry.viewmodel.MainViewModel" />
@@ -36,7 +38,7 @@
 
                 <TextView
                     android:id="@+id/main_condition"
-                    style="@style/Display"
+                    style="@style/MarvDisplay"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/horizontal_layout_margin"
@@ -63,11 +65,12 @@
 
                 <TextView
                     android:id="@+id/main_location"
-                    style="@style/Subtitle"
+                    style="@style/MarvSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/half_margin"
+                    android:layout_marginTop="@dimen/quarter_margin"
                     android:text="@{viewmodel.locationName ?? @string/location_loading}"
+                    android:textColor="?android:attr/textColorTertiary"
                     app:layout_constraintStart_toStartOf="@id/main_condition"
                     app:layout_constraintTop_toBottomOf="@id/main_condition" />
 
@@ -75,17 +78,18 @@
                     android:layout_width="@dimen/icon_extra_small"
                     android:layout_height="@dimen/icon_extra_small"
                     android:layout_marginStart="@dimen/margin"
-                    android:src="@drawable/round_gps_fixed_24"
+                    android:src="@{viewmodel.locationStatus == null ? null : context.getDrawable(LocationUtil.INSTANCE.resolveIconRes(viewmodel.locationStatus))}"
                     app:layout_constraintBottom_toBottomOf="@id/main_location"
                     app:layout_constraintStart_toEndOf="@id/main_location"
                     app:layout_constraintTop_toTopOf="@id/main_location"
                     app:tint="?android:attr/textColorTertiary" />
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/main_now_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
-                    android:layout_marginTop="@dimen/large_content_margin"
+                    android:layout_marginTop="@dimen/medium_content_margin"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/main_location">
@@ -94,6 +98,39 @@
                         android:id="@+id/main_now"
                         layout="@layout/fragment_main_now"
                         bind:viewmodel="@{viewmodel}" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/main_hourly_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+                    android:layout_marginTop="@dimen/small_content_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/main_now_card">
+
+                    <include
+                        android:id="@+id/main_hourly"
+                        layout="@layout/fragment_main_hourly"
+                        bind:dummy="0" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+                    android:layout_marginTop="@dimen/small_content_margin"
+                    android:layout_marginBottom="@dimen/bottom_layout_margin"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/main_hourly_card">
+
+                    <include
+                        android:id="@+id/main_daily"
+                        layout="@layout/fragment_main_daily"
+                        bind:dummy="0" />
                 </com.google.android.material.card.MaterialCardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

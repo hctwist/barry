@@ -1,40 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="com.twisthenry8gmail.projectbarry.view.LocationIconResolver"  />
+
+        <import type="com.twisthenry8gmail.projectbarry.view.MenuLocationResolver" />
 
         <import type="com.twisthenry8gmail.projectbarry.view.locations.LocationUtil" />
 
         <variable
-            name="onClickListener"
-            type="android.view.View.OnClickListener" />
+            name="clickHandler"
+            type="com.twisthenry8gmail.projectbarry.view.menu.MenuAdapter.ClickHandler" />
 
         <variable
             name="location"
-            type="com.twisthenry8gmail.projectbarry.view.menu.MenuAdapter.MenuLocation" />
+            type="com.twisthenry8gmail.projectbarry.uicore.MenuLocation" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
+        android:background="@drawable/menu_selected"
+        bind:selected="@{location.selected}"
         android:gravity="center_vertical"
         android:minHeight="@dimen/min_touch_size"
-        android:onClick="@{onClickListener}"
+        android:onClick="@{() -> clickHandler.onLocationClicked(location)}"
         android:orientation="horizontal"
         android:paddingHorizontal="@dimen/horizontal_layout_margin">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            goneUnless="@{location.icon != null}"
             android:layout_marginEnd="@dimen/margin"
-            android:src="@{location.icon}" />
+            android:src="@{LocationIconResolver.INSTANCE.resolve(context, location.icon)}" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{location.name}"
+            android:text="@{MenuLocationResolver.INSTANCE.resolveTitle(context, location)}"
             android:textColor="?android:attr/textColorPrimary" />
+
+        <TextView
+            style="@style/MarvBody"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:text="@{MenuLocationResolver.INSTANCE.resolveSubtitle(context, location)}" />
     </LinearLayout>
 </layout>

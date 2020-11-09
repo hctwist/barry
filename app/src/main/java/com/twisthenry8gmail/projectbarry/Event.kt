@@ -1,5 +1,8 @@
 package com.twisthenry8gmail.projectbarry
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+
 open class Event<T>(private val content: T) {
 
     private var consumed = false
@@ -25,3 +28,11 @@ open class Event<T>(private val content: T) {
 }
 
 class Trigger : Event<Unit>(Unit)
+
+inline fun <T> LiveData<out Event<T>>.observeEvent(
+    owner: LifecycleOwner,
+    crossinline observer: (T) -> Unit
+) {
+
+    observe(owner, Event.Observer { observer(it) })
+}

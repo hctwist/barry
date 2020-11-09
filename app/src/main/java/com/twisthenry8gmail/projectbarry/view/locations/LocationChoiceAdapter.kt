@@ -1,12 +1,8 @@
 package com.twisthenry8gmail.projectbarry.view.locations
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.twisthenry8gmail.projectbarry.R
-import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 import com.twisthenry8gmail.projectbarry.core.SavedLocation
 import com.twisthenry8gmail.projectbarry.databinding.LocationRowBinding
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
-        <import type="com.twisthenry8gmail.projectbarry.util.TimeDisplayUtil" />
+        <import type="com.twisthenry8gmail.projectbarry.view.TimeDisplayUtil" />
 
-        <import type="com.twisthenry8gmail.projectbarry.view.WeatherConditionDisplay" />
+        <import type="com.twisthenry8gmail.projectbarry.view.WeatherConditionResolver" />
 
         <variable
             name="snapshot"
@@ -13,27 +13,30 @@
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@{TimeDisplayUtil.INSTANCE.displayTime(snapshot.time)}"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
+            style="@style/MarvBody.Prominent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin"
-            android:text="@{WeatherConditionDisplay.INSTANCE.getStringResource(snapshot.condition)}"
-            android:textSize="@dimen/text_small" />
+            android:text="@{TimeDisplayUtil.INSTANCE.displayMeridiemHour(snapshot.time)}" />
 
         <ImageView
+            android:layout_width="@dimen/main_hourly_snapshot_icon"
+            android:layout_height="@dimen/main_hourly_snapshot_icon"
+            android:layout_marginTop="@dimen/half_margin"
+            android:background="@{snapshot.important ? @drawable/hourly_snapshot_circle : null}"
+            android:padding="@dimen/main_hourly_snapshot_icon_padding"
+            bind:imageResource="@{WeatherConditionResolver.INSTANCE.resolveImageResource(snapshot.condition)}" />
+
+        <TextView
+            style="@style/MarvLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/standard_uv" />
+            android:layout_marginTop="@dimen/half_margin"
+            android:text="@{WeatherConditionResolver.INSTANCE.resolveStringResource(snapshot.condition)}" />
     </LinearLayout>
 </layout>

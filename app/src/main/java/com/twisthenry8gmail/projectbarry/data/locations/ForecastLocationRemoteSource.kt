@@ -7,75 +7,64 @@ import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
-import com.twisthenry8gmail.projectbarry.data.APIKeyStore
 import com.twisthenry8gmail.projectbarry.core.Result
 import com.twisthenry8gmail.projectbarry.core.failure
+import com.twisthenry8gmail.projectbarry.core.success
+import com.twisthenry8gmail.projectbarry.data.APIKeyStore
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+// TODO Use TimeZone API to get timezone info
 class ForecastLocationRemoteSource @Inject constructor(
-    private val volleyQueue: RequestQueue,
-    private val client: PlacesClient
+    private val placesClient: PlacesClient,
+    private val volleyQueue: RequestQueue
 ) {
 
-    suspend fun findLocations(query: String, sessionToken: AutocompleteSessionToken) =
-        suspendCoroutine<List<AutocompletePrediction>> { continuation ->
+    private var autocompleteSessionToken: AutocompleteSessionToken? = null
+
+    suspend fun search(query: String): Result<List<AutocompletePrediction>> {
+
+        val sessionToken = autocompleteSessionToken ?: AutocompleteSessionToken.newInstance()
+        autocompleteSessionToken = sessionToken
+
+        return suspendCoroutine { cont ->
 
             val request = FindAutocompletePredictionsRequest.builder().setQuery(query)
                 .setTypeFilter(TypeFilter.REGIONS).setSessionToken(sessionToken).build()
-            client.findAutocompletePredictions(request).addOnSuccessListener {
+            placesClient.findAutocompletePredictions(request).addOnCompleteListener {
 
-                continuation.resume(it.autocompletePredictions)
-            }
-        }
+                val result = it.result
+                if (it.isSuccessful && result != null) {
 
-    suspend fun getLocationDetails(
-        lat: Double,
-        lng: Double,
-        sessionToken: AutocompleteSessionToken?
-    ) =
-        suspendCoroutine<Result<GeocodingDetails>> { cont ->
-
-            val sessionTokenString = if (sessionToken == null) "" else "&sessiontoken=$sessionToken"
-
-            val request = JsonObjectRequest(
-                "https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&result_type=locality&key=${APIKeyStore.getGeocodingKey()}$sessionTokenString",
-                null,
-                {
-
-                    val results = it.getJSONArray("results")
-                    val firstResult = results.getJSONObject(0)
-
-                    val placeId = firstResult.getString("place_id")
-                    val formattedAddress = firstResult.getString("formatted_address")
-
-                    cont.resume(
-                        Result.Success(
-                            GeocodingDetails(
-                                placeId,
-                                formattedAddress,
-                                lat,
-                                lng
-                            )
-                        )
-                    )
-                },
-                {
+                    cont.resume(success(result.autocompletePredictions))
+                } else {
 
                     cont.resume(failure())
-                })
-
-            volleyQueue.add(request)
+                }
+            }
         }
+    }
 
-    suspend fun getLocationDetails(placeId: String, sessionToken: AutocompleteSessionToken?) =
-        suspendCoroutine<Result<GeocodingDetails>> { cont ->
+    suspend fun findLocationDetails(placeId: String): Result<GeocodingDetails> {
 
-            val sessionTokenString = if (sessionToken == null) "" else "&sessiontoken=$sessionToken"
+        val sessionTokenString =
+            if (autocompleteSessionToken == null) "" else "&sessiontoken=$autocompleteSessionToken"
+
+        return findLocationDetailsInternal("https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${APIKeyStore.getGeocodingKey()}$sessionTokenString")
+    }
+
+    suspend fun findLocationDetails(lat: Double, lng: Double): Result<GeocodingDetails> {
+
+        return findLocationDetailsInternal("https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&result_type=locality&key=${APIKeyStore.getGeocodingKey()}")
+    }
+
+    private suspend fun findLocationDetailsInternal(requestUrl: String): Result<GeocodingDetails> {
+
+        return suspendCoroutine { cont ->
 
             val request = JsonObjectRequest(
-                "https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${APIKeyStore.getGeocodingKey()}$sessionTokenString",
+                requestUrl,
                 null,
                 {
 
@@ -89,16 +78,7 @@ class ForecastLocationRemoteSource @Inject constructor(
                     val lat = locationGeometry.getDouble("lat")
                     val lng = locationGeometry.getDouble("lng")
 
-                    cont.resume(
-                        Result.Success(
-                            GeocodingDetails(
-                                placeId,
-                                formattedAddress,
-                                lat,
-                                lng
-                            )
-                        )
-                    )
+                    cont.resume(success(GeocodingDetails(formattedAddress, lat, lng)))
                 },
                 {
 
@@ -108,6 +88,7 @@ class ForecastLocationRemoteSource @Inject constructor(
 
             volleyQueue.add(request)
         }
+    }
 
-    class GeocodingDetails(val placeId: String, val name: String, val lat: Double, val lng: Double)
+    class GeocodingDetails(val name: String, val lat: Double, val lng: Double)
 }

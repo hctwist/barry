@@ -10,10 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.twisthenry8gmail.projectbarry.Event
 import com.twisthenry8gmail.projectbarry.databinding.FragmentMain2Binding
+import com.twisthenry8gmail.projectbarry.observeEvent
 import com.twisthenry8gmail.projectbarry.view.PermissionHelper
 import com.twisthenry8gmail.projectbarry.view.currentforecast.ForecastElementAdapter
+import com.twisthenry8gmail.projectbarry.view.currentforecast.HourSnapshotAdapter
 import com.twisthenry8gmail.projectbarry.view.menu.FragmentMenu
 import com.twisthenry8gmail.projectbarry.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +27,8 @@ class FragmentMain2 : Fragment() {
     private val viewModel by viewModels<MainViewModel>()
 
     private val nowElementAdapter = ForecastElementAdapter()
+    private val hourSnapshotAdapter = HourSnapshotAdapter()
+    private val daySnapshotAdapter = DaySnapshotAdapter()
 
     private lateinit var binding: FragmentMain2Binding
 
@@ -49,17 +52,17 @@ class FragmentMain2 : Fragment() {
             it.navigateWith(findNavController())
         }
 
-        viewModel.locationPermissionQuery.observe(viewLifecycleOwner, Event.Observer {
+        viewModel.locationPermissionQuery.observe(viewLifecycleOwner) {
 
             val permissionStatus =
                 requireContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
             viewModel.onLocationPermissionResult(permissionStatus == PackageManager.PERMISSION_GRANTED)
-        })
+        }
 
-        viewModel.showMenu.observe(viewLifecycleOwner, Event.Observer {
+        viewModel.showMenu.observeEvent(viewLifecycleOwner) {
 
             showMenu()
-        })
+        }
 
         viewModel.elements.observe(viewLifecycleOwner) {
 
@@ -67,7 +70,21 @@ class FragmentMain2 : Fragment() {
             nowElementAdapter.notifyDataSetChanged()
         }
 
+        viewModel.hourSnapshots.observe(viewLifecycleOwner) {
+
+            hourSnapshotAdapter.snapshots = it
+            hourSnapshotAdapter.notifyDataSetChanged()
+        }
+
+        viewModel.daySnapshots.observe(viewLifecycleOwner) {
+
+            daySnapshotAdapter.snapshots = it
+            daySnapshotAdapter.notifyDataSetChanged()
+        }
+
         setupNowElements()
+        setupHourSnapshots()
+        setupDaySnapshots()
     }
 
     override fun onRequestPermissionsResult(
@@ -96,6 +113,24 @@ class FragmentMain2 : Fragment() {
 
             layoutManager = LinearLayoutManager(context)
             adapter = nowElementAdapter
+        }
+    }
+
+    private fun setupHourSnapshots() {
+
+        binding.mainHourly.mainHourlyItems.run {
+
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = hourSnapshotAdapter
+        }
+    }
+
+    private fun setupDaySnapshots() {
+
+        binding.mainDaily.mainDailyItems.run {
+
+            layoutManager = LinearLayoutManager(context)
+            adapter = daySnapshotAdapter
         }
     }
 }

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
         <import type="com.twisthenry8gmail.projectbarry.view.ForecastDisplayUtil" />
+
+        <import type="com.twisthenry8gmail.projectbarry.view.WeatherConditionResolver" />
 
         <variable
             name="viewmodel"
@@ -19,44 +21,45 @@
             android:id="@+id/main_now_condition"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/colorAccent"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="@id/main_now_elements"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.45" />
+            app:layout_constraintWidth_percent="0.5"
+            bind:imageResource="@{viewmodel.conditionArt}" />
 
         <TextView
             android:id="@+id/main_now_title"
-            style="@style/Title"
+            style="@style/MarvTitle.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_inset"
             android:text="@string/section_now"
-            android:textColor="@color/colorAccent"
+            android:textColor="@{viewmodel.conditionArtColor == null ? 0 : context.getColor(viewmodel.conditionArtColor)}"
             app:layout_constraintStart_toEndOf="@id/main_now_condition"
             app:layout_constraintTop_toTopOf="@id/main_now_temperature" />
 
         <TextView
             android:id="@+id/main_now_temperature"
-            style="@style/Display.Sub"
+            style="@style/MarvDisplay.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/card_inset"
             android:layout_marginEnd="@dimen/card_inset"
             android:text="@{viewmodel.currentTemperature == null ? null : ForecastDisplayUtil.INSTANCE.displayTemperature(context, viewmodel.currentTemperature)}"
-            android:textColor="@color/colorAccent"
+            android:textColor="@{viewmodel.conditionArtColor == null ? 0 : context.getColor(viewmodel.conditionArtColor)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/main_now_elements"
-            itemMargins="@{@dimen/margin}"
+            itemMargins="@{@dimen/half_margin}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin"
+            android:layout_marginTop="@dimen/main_titles_margin"
             android:overScrollMode="never"
             android:paddingBottom="@dimen/card_inset"
             app:layout_constraintStart_toStartOf="@id/main_now_title"
-            app:layout_constraintTop_toBottomOf="@id/main_now_temperature" />
+            app:layout_constraintTop_toBottomOf="@id/main_now_title" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

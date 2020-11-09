@@ -1,12 +1,12 @@
 package com.twisthenry8gmail.projectbarry.usecases
 
 import com.twisthenry8gmail.projectbarry.core.SavedLocation
-import com.twisthenry8gmail.projectbarry.data.locations2.ForecastLocationRepository2
+import com.twisthenry8gmail.projectbarry.data.locations.ForecastLocationRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-class SelectLocationUseCase @Inject constructor(private val locationRepository: ForecastLocationRepository2) {
+class SelectLocationUseCase @Inject constructor(private val locationRepository: ForecastLocationRepository) {
 
     suspend operator fun invoke(location: SavedLocation?) {
 

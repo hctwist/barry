@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.twisthenry8gmail.projectbarry.R
-import com.twisthenry8gmail.projectbarry.core.ForecastLocation
 import com.twisthenry8gmail.projectbarry.core.SavedLocation
+import com.twisthenry8gmail.projectbarry.uicore.MenuLocation
 import com.twisthenry8gmail.projectbarry.viewmodel.MenuViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_menu.*
@@ -65,16 +66,8 @@ class FragmentMenu : BottomSheetDialogFragment() {
                 dismiss()
             }
 
-            override fun onCurrentLocationClicked() {
-
-                viewModel.onCurrentLocationClicked()
-                dismiss()
-            }
-
-            override fun onLocationClicked(location: SavedLocation) {
-
-                viewModel.onLocationClicked(location)
-                dismiss()
+            override fun onLocationClicked(location: MenuLocation) {
+                TODO("Not yet implemented")
             }
         }
 

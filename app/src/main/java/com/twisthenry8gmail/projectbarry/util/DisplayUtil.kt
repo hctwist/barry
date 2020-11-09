@@ -24,13 +24,13 @@ object DisplayUtil {
     fun percentage(context: Context, double: Double, decimalPlaces: Int): String {
 
         return context.getString(
-            R.string.percentage,
+            R.string.format_percentage,
             decimalPlaces(double * 100, decimalPlaces)
         )
     }
 
     fun percentage(context: Context, i: Int): String {
 
-        return context.getString(R.string.percentage, i.toString())
+        return context.getString(R.string.format_percentage, i.toString())
     }
 }

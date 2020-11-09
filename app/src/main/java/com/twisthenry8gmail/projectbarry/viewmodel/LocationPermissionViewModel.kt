@@ -2,6 +2,7 @@ package com.twisthenry8gmail.projectbarry.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.twisthenry8gmail.projectbarry.R
 import com.twisthenry8gmail.projectbarry.Trigger
 import com.twisthenry8gmail.projectbarry.viewmodel.navigator.NavigatorViewModel
@@ -21,8 +22,7 @@ class LocationPermissionViewModel : NavigatorViewModel() {
 
         if (granted) {
 
-            TODO()
-//            navigateTo(R.id.action_fragmentLocationPermission_to_fragmentMain)
+            navigateTo(R.id.action_fragmentLocationPermission_to_fragmentMain2)
         }
     }
 }
