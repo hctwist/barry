@@ -3,19 +3,19 @@
 
     <data>
 
-        <import type="com.twisthenry8gmail.projectbarry.view.LocationIconResolver"  />
+        <import type="com.twisthenry8gmail.projectbarry.application.view.LocationIconResolver"  />
 
-        <import type="com.twisthenry8gmail.projectbarry.view.MenuLocationResolver" />
+        <import type="com.twisthenry8gmail.projectbarry.application.view.MenuLocationResolver" />
 
-        <import type="com.twisthenry8gmail.projectbarry.view.locations.LocationUtil" />
+        <import type="com.twisthenry8gmail.projectbarry.application.view.locations.LocationUtil" />
 
         <variable
             name="clickHandler"
-            type="com.twisthenry8gmail.projectbarry.view.menu.MenuAdapter.ClickHandler" />
+            type="com.twisthenry8gmail.projectbarry.application.view.menu.MenuAdapter.ClickHandler" />
 
         <variable
             name="location"
-            type="com.twisthenry8gmail.projectbarry.uicore.MenuLocation" />
+            type="com.twisthenry8gmail.projectbarry.domain.uicore.MenuLocation" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

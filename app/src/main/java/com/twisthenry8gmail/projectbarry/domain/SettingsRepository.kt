@@ -1,6 +1,6 @@
 package com.twisthenry8gmail.projectbarry.domain
 
-import com.twisthenry8gmail.projectbarry.core.ScaledTemperature
+import com.twisthenry8gmail.projectbarry.domain.core.ScaledTemperature
 
 interface SettingsRepository {
 

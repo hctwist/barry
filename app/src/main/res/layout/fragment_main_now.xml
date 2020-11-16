@@ -3,13 +3,13 @@
 
     <data>
 
-        <import type="com.twisthenry8gmail.projectbarry.view.ForecastDisplayUtil" />
+        <import type="com.twisthenry8gmail.projectbarry.application.view.ForecastDisplayUtil" />
 
-        <import type="com.twisthenry8gmail.projectbarry.view.WeatherConditionResolver" />
+        <import type="com.twisthenry8gmail.projectbarry.application.view.WeatherConditionResolver" />
 
         <variable
             name="viewmodel"
-            type="com.twisthenry8gmail.projectbarry.viewmodel.MainViewModel" />
+            type="com.twisthenry8gmail.projectbarry.application.viewmodel.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,49 +17,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/main_now_condition"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="@id/main_now_elements"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.5"
-            bind:imageResource="@{viewmodel.conditionArt}" />
-
         <TextView
-            android:id="@+id/main_now_title"
-            style="@style/MarvTitle.Small"
+            android:id="@+id/main_condition"
+            style="@style/MarvDisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/card_inset"
-            android:text="@string/section_now"
-            android:textColor="@{viewmodel.conditionArtColor == null ? 0 : context.getColor(viewmodel.conditionArtColor)}"
-            app:layout_constraintStart_toEndOf="@id/main_now_condition"
-            app:layout_constraintTop_toTopOf="@id/main_now_temperature" />
+            android:text="@{viewmodel.condition == null ? null : context.getString(viewmodel.condition), default = Test}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/main_now_temperature"
-            style="@style/MarvDisplay.Small"
+            style="@style/MarvDisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/card_inset"
-            android:layout_marginEnd="@dimen/card_inset"
-            android:text="@{viewmodel.currentTemperature == null ? null : ForecastDisplayUtil.INSTANCE.displayTemperature(context, viewmodel.currentTemperature)}"
-            android:textColor="@{viewmodel.conditionArtColor == null ? 0 : context.getColor(viewmodel.conditionArtColor)}"
+            android:text="@{viewmodel.currentTemperature == null ? null : ForecastDisplayUtil.INSTANCE.displayTemperature(context, viewmodel.currentTemperature), default = 16}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/main_now_art"
+            android:layout_width="match_parent"
+            android:layout_height="192dp"
+            android:layout_marginTop="@dimen/small_content_margin"
+            app:layout_constraintTop_toBottomOf="@id/main_condition">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                bind:imageResource="@{viewmodel.conditionArt}" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.twisthenry8gmail.projectbarry.application.view.main.ExpanderLinearLayout
             android:id="@+id/main_now_elements"
-            itemMargins="@{@dimen/half_margin}"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            app:squareCells="true"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/main_titles_margin"
-            android:overScrollMode="never"
-            android:paddingBottom="@dimen/card_inset"
-            app:layout_constraintStart_toStartOf="@id/main_now_title"
-            app:layout_constraintTop_toBottomOf="@id/main_now_title" />
+            android:layout_marginTop="@dimen/small_content_margin"
+            app:layout_constraintTop_toBottomOf="@id/main_now_art" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

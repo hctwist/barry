@@ -5,15 +5,15 @@
 
     <data>
 
-        <import type="com.twisthenry8gmail.projectbarry.view.WeatherConditionResolver" />
+        <import type="com.twisthenry8gmail.projectbarry.application.view.WeatherConditionResolver" />
 
-        <import type="com.twisthenry8gmail.projectbarry.view.TimeDisplayUtil" />
+        <import type="com.twisthenry8gmail.projectbarry.application.view.TimeDisplayUtil" />
 
-        <import type="com.twisthenry8gmail.projectbarry.view.ForecastDisplayUtil" />
+        <import type="com.twisthenry8gmail.projectbarry.application.view.ForecastDisplayUtil" />
 
         <variable
             name="snapshot"
-            type="com.twisthenry8gmail.projectbarry.core.DaySnapshot" />
+            type="com.twisthenry8gmail.projectbarry.domain.core.DaySnapshot" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

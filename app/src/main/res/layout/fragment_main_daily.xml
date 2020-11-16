@@ -19,9 +19,7 @@
             style="@style/MarvTitle.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/card_inset"
             android:text="@string/section_daily"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,9 +28,7 @@
             itemMargins="@{@dimen/margin}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/card_inset"
             android:layout_marginTop="@dimen/main_titles_margin"
-            android:layout_marginBottom="@dimen/card_inset"
             android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

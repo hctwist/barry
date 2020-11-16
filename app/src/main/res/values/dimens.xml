@@ -13,7 +13,7 @@
     <!-- Layout -->
     <dimen name="inset_horizontal_layout_margin">12dp</dimen>
     <dimen name="horizontal_layout_margin">26dp</dimen>
-    <dimen name="top_layout_margin">72dp</dimen>
+    <dimen name="top_layout_margin">56dp</dimen>
     <dimen name="bottom_layout_margin">48dp</dimen>
     <dimen name="vertical_layout_margin">48dp</dimen>
     <dimen name="small_content_margin">32dp</dimen>
@@ -25,8 +25,8 @@
     <dimen name="text_extra_small">12sp</dimen>
     <dimen name="text_small">14sp</dimen>
     <dimen name="text_medium">16sp</dimen>
-    <dimen name="text_large">18sp</dimen>
-    <dimen name="text_display">34sp</dimen>
+    <dimen name="text_large">20sp</dimen>
+    <dimen name="text_display">28sp</dimen>
 
     <!-- Icons -->
     <dimen name="standard_icon_stroke">1.4</dimen>

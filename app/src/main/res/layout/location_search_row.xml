@@ -5,11 +5,11 @@
 
         <variable
             name="result"
-            type="com.twisthenry8gmail.projectbarry.core.LocationSearchResult" />
+            type="com.twisthenry8gmail.projectbarry.domain.core.LocationSearchResult" />
 
         <variable
             name="clicklistener"
-            type="com.twisthenry8gmail.projectbarry.view.locations.LocationSearchAdapter.ClickListener" />
+            type="com.twisthenry8gmail.projectbarry.application.view.locations.LocationSearchAdapter.ClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

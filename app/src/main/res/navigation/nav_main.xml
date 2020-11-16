@@ -5,7 +5,7 @@
     app:startDestination="@id/fragmentMain2">
     <fragment
         android:id="@+id/fragmentMain2"
-        android:name="com.twisthenry8gmail.projectbarry.view.main.FragmentMain2"
+        android:name="com.twisthenry8gmail.projectbarry.application.view.main.FragmentMain"
         android:label="FragmentMain2" >
         <action
             android:id="@+id/action_fragmentMain2_to_fragmentLocations"
@@ -16,11 +16,11 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentLocations"
-        android:name="com.twisthenry8gmail.projectbarry.view.locations.FragmentLocations"
+        android:name="com.twisthenry8gmail.projectbarry.application.view.locations.FragmentLocations"
         android:label="FragmentLocations" />
     <fragment
         android:id="@+id/fragmentLocationPermission"
-        android:name="com.twisthenry8gmail.projectbarry.view.main.FragmentLocationPermission"
+        android:name="com.twisthenry8gmail.projectbarry.application.view.main.FragmentLocationPermission"
         android:label="FragmentLocationPermission" >
         <action
             android:id="@+id/action_fragmentLocationPermission_to_fragmentMain2"

@@ -5,11 +5,11 @@
 
         <variable
             name="location"
-            type="com.twisthenry8gmail.projectbarry.core.SavedLocation" />
+            type="com.twisthenry8gmail.projectbarry.domain.core.SavedLocation" />
 
         <variable
             name="clicklistener"
-            type="com.twisthenry8gmail.projectbarry.view.locations.LocationChoiceAdapter.ClickHandler" />
+            type="com.twisthenry8gmail.projectbarry.application.view.locations.LocationChoiceAdapter.ClickHandler" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

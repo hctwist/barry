@@ -3,13 +3,13 @@
 
     <data>
 
-        <import type="com.twisthenry8gmail.projectbarry.view.TimeDisplayUtil" />
+        <import type="com.twisthenry8gmail.projectbarry.application.view.TimeDisplayUtil" />
 
-        <import type="com.twisthenry8gmail.projectbarry.view.WeatherConditionResolver" />
+        <import type="com.twisthenry8gmail.projectbarry.application.view.WeatherConditionResolver" />
 
         <variable
             name="snapshot"
-            type="com.twisthenry8gmail.projectbarry.core.HourSnapshot" />
+            type="com.twisthenry8gmail.projectbarry.domain.core.HourSnapshot" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,7 +28,8 @@
             android:layout_width="@dimen/main_hourly_snapshot_icon"
             android:layout_height="@dimen/main_hourly_snapshot_icon"
             android:layout_marginTop="@dimen/half_margin"
-            android:background="@{snapshot.important ? @drawable/hourly_snapshot_circle : null}"
+            android:background="@{@drawable/hourly_snapshot_circle}"
+            android:backgroundTint="@{snapshot.important ? @color/color_primary_light : @color/card}"
             android:padding="@dimen/main_hourly_snapshot_icon_padding"
             bind:imageResource="@{WeatherConditionResolver.INSTANCE.resolveImageResource(snapshot.condition)}" />
 
