@@ -3,55 +3,19 @@
 
     <string name="retry">Retry</string>
 
-    <!-- Formatting -->
-    <string name="format_percentage">%1$s%%</string>
-    <string name="format_parenthesis">(%1$s)</string>
-    <string name="format_degrees">%1$s&#xb0;</string>
-    <string name="format_speed">%1$sm/s</string>
-
-    <!-- Conditions -->
-    <string name="condition_clear">Clear</string>
-    <string name="condition_clouds_few">Few clouds</string>
-    <string name="condition_clouds_scattered">Scattered clouds</string>
-    <string name="condition_clouds_broken">Broken clouds</string>
-    <string name="condition_clouds_overcast">Overcast</string>
-    <string name="condition_drizzle_light">Light drizzle</string>
-    <string name="condition_drizzle">Drizzle</string>
-    <string name="condition_drizzle_heavy">Heavy drizzle</string>
-    <string name="condition_rain_light">Light rain</string>
-    <string name="condition_rain">Rain</string>
-    <string name="condition_rain_heavy">Heavy rain</string>
-    <string name="condition_freezing_rain">Freezing rain</string>
-    <string name="condition_snow">Snow</string>
-    <string name="condition_snow_heavy">Heavy snow</string>
-    <string name="condition_snow_rain">Snow and rain</string>
-    <string name="condition_sleet">Sleet</string>
-    <string name="condition_thunder_drizzle">Thunder and drizzle</string>
-    <string name="condition_thunder_drizzle_heavy">Thunder and heavy drizzle</string>
-    <string name="condition_thunder_rain">Thunder and rain</string>
-    <string name="condition_thunder_rain_heavy">Thunder and heavy rain</string>
-    <string name="condition_thunder">Thunder</string>
-    <string name="condition_mist">Mist</string>
-    <string name="condition_smoke">Smoke</string>
-    <string name="condition_haze">Haze</string>
-    <string name="condition_fog">Fog</string>
-    <string name="condition_dust">Dust</string>
-    <string name="condition_sand">Sand</string>
-    <string name="condition_ash">Ash</string>
-    <string name="condition_squall">Squall</string>
-    <string name="condition_tornado">Tornado</string>
-
-    <!-- Elements -->
-    <string name="element_temperature">Temperature</string>
-    <string name="element_pop">Rain</string>
-    <string name="element_uv_index">UV index</string>
-    <string name="element_feels_like">Feels like</string>
-    <string name="element_humidity">Humidity</string>
-    <string name="element_wind_speed">Wind speed</string>
-    <string name="element_sunrise">Sunrise</string>
-    <string name="element_sunset">Sunset</string>
+    <!-- Titles -->
+    <string name="locations_title">Locations</string>
+    <string name="settings_title">Settings</string>
 
     <!-- Main -->
+    <string name="main_today">Today</string>
+    <string name="main_tomorrow">Tomorrow</string>
+    <string name="main_hourly">Coming up</string>
+
+    <!-- TODO Sort -->
+    <string name="main_feels_like">Feels like %1$s</string>
+    <string name="main_sunrise">Sunrise at %1$s</string>
+    <string name="main_sunset">Sunset at %1$s</string>
     <string name="location_loading">Fetching location</string>
     <string name="location_permission_title">We cannot access your location</string>
     <string name="location_permission_message">Unfortunately we don\'t have permission to access your current location</string>
@@ -66,4 +30,10 @@
     <!-- Locations -->
     <string name="current_location">Current location</string>
     <string name="location_search_secondary_empty">-</string>
+
+    <!-- Hourly -->
+    <string name="hourly_change_until">%1$s until %2$s</string>
+    <string name="hourly_change_at">%1$s at %2$s</string>
+    <string name="hourly_change_all_day">%1$s all day</string>
+    <string name="hourly_change_tomorrow">%1$s all day. %2$s tomorrow at %3$s</string>
 </resources>

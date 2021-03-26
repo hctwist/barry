@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <integer name="enter_transition_duration">175</integer>
-    <integer name="exit_transition_duration">150</integer>
+    <integer name="enter_transition_duration">275</integer>
+    <integer name="exit_transition_duration">200</integer>
 </resources>

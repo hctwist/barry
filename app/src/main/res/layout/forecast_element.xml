@@ -1,56 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
-        <import type="com.twisthenry8gmail.projectbarry.application.view.ForecastDisplayUtil" />
+        <import type="uk.henrytwist.projectbarry.application.view.resolvers.ForecastResolver" />
+
+        <import type="uk.henrytwist.projectbarry.application.view.resolvers.ForecastElementResolver" />
 
         <variable
             name="element"
-            type="com.twisthenry8gmail.projectbarry.domain.core.ForecastElement" />
+            type="uk.henrytwist.projectbarry.domain.models.ForecastElement" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
+        android:paddingVertical="@dimen/half_margin"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_gravity="center"
-            android:padding="@dimen/margin"
+        <TextView
+            style="@style/Body"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="@{ForecastResolver.INSTANCE.getElementTitle(context, element)}" />
 
-            <ImageView
-                android:id="@+id/forecast_element_icon"
-                android:layout_width="@dimen/icon_small"
-                android:layout_height="@dimen/icon_small"
-                android:src="@{ForecastDisplayUtil.INSTANCE.getElementIcon(context, element), default = @drawable/standard_bird}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_weight="1"
+            android:background="@color/divider" />
 
-            <TextView
-                android:id="@+id/forecast_element_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/MarvDisplay.Small"
-                android:layout_marginTop="@dimen/half_margin"
-                android:includeFontPadding="false"
-                android:text="@{ForecastDisplayUtil.INSTANCE.getElementDisplayString(context, element), default = 19}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/forecast_element_icon" />
+        <TextView
+            style="@style/Body.Prominent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:text="@{ForecastResolver.INSTANCE.getElementDisplayString(context, element)}" />
 
-            <TextView
-                android:id="@+id/forecast_element_title"
-                style="@style/MarvLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{ForecastDisplayUtil.INSTANCE.getElementTitle(context, element), default = Rain}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/forecast_element_value" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+        <uk.henrytwist.projectbarry.application.view.components.ElementTag
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            bind:elementTag="@{ForecastElementResolver.INSTANCE.resolveTag(element)}" />
+    </LinearLayout>
 </layout>

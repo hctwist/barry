@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="uk.henrytwist.projectbarry.application.view.main.MainViewModel.LoadingStatus" />
+
+        <import type="android.view.View" />
+
+        <import type="uk.henrytwist.projectbarry.application.view.main.MainLoadingStatusResolver" />
+
+        <import type="uk.henrytwist.projectbarry.application.view.resolvers.WeatherConditionResolver" />
+
+        <import type="uk.henrytwist.projectbarry.application.view.resolvers.ForecastResolver" />
+
+        <variable
+            name="viewmodel"
+            type="uk.henrytwist.projectbarry.application.view.main.MainViewModel" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/forecast_container_swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/bottom_layout_margin">
+
+                <uk.henrytwist.buttons.MarginCollapsingImageButton
+                    android:id="@+id/main_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/horizontal_layout_margin"
+                    android:layout_marginTop="@dimen/top_layout_margin"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:onClick="@{() -> viewmodel.onMenuClick()}"
+                    android:padding="@dimen/half_margin"
+                    android:src="@drawable/outline_menu_24"
+                    android:tint="?android:attr/textColorPrimary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <uk.henrytwist.projectbarry.application.view.components.LocationView
+                    android:id="@+id/main_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/quarter_margin"
+                    android:layout_marginEnd="@dimen/horizontal_layout_margin"
+                    android:onClick="@{() -> viewmodel.onLocationClicked()}"
+                    app:layout_constraintBottom_toBottomOf="@id/main_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/main_menu"
+                    bind:location="@{viewmodel.selectedLocation}" />
+
+                <uk.henrytwist.projectbarry.application.view.components.LoadingView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="@{viewmodel.loadingStatus == LoadingStatus.LOADED ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/main_menu"
+                    bind:message="@{MainLoadingStatusResolver.INSTANCE.resolveMessage(context, viewmodel.loadingStatus)}" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/main_art"
+                    style="@style/MaterialCardView.Container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+                    android:layout_marginTop="@dimen/small_content_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/main_menu">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:src="@{WeatherConditionResolver.INSTANCE.resolveArt(context, viewmodel.condition)}"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <ImageView
+                    android:id="@+id/main_condition_icon"
+                    android:layout_width="@dimen/icon_medium"
+                    android:layout_height="@dimen/icon_medium"
+                    android:layout_marginStart="@dimen/horizontal_layout_margin"
+                    android:src="@{WeatherConditionResolver.INSTANCE.resolveIcon(context, viewmodel.condition)}"
+                    app:layout_constraintBottom_toBottomOf="@id/main_condition"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/main_condition"
+                    app:tint="?android:attr/colorControlNormal" />
+
+                <Space
+                    android:id="@+id/main_gutter"
+                    android:layout_width="@dimen/gutter_margin"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toEndOf="@id/main_condition_icon" />
+
+                <TextView
+                    android:id="@+id/main_condition"
+                    style="@style/Display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/medium_content_margin"
+                    android:text="@{WeatherConditionResolver.INSTANCE.resolveName(context, viewmodel.condition), default = Test}"
+                    app:layout_constraintStart_toEndOf="@id/main_gutter"
+                    app:layout_constraintTop_toBottomOf="@id/main_art" />
+
+                <TextView
+                    android:id="@+id/main_temperature"
+                    style="@style/Display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/horizontal_layout_margin"
+                    android:text="@{ForecastResolver.INSTANCE.displayTemperature(context, viewmodel.currentTemperature), default = 16}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/main_condition" />
+
+                <TextView
+                    android:id="@+id/main_prediction"
+                    style="@style/Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/subtitle_margin"
+                    android:text="@{ForecastResolver.INSTANCE.resolveHourlyChange(context, viewmodel.conditionChange)}"
+                    app:layout_constraintStart_toStartOf="@id/main_condition"
+                    app:layout_constraintTop_toBottomOf="@id/main_condition" />
+
+                <TextView
+                    android:id="@+id/main_now_feels_like"
+                    style="@style/Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{ForecastResolver.INSTANCE.displayFeelsLike(context, viewmodel.feelsLikeTemperature)}"
+                    app:layout_constraintEnd_toEndOf="@id/main_temperature"
+                    app:layout_constraintTop_toBottomOf="@id/main_temperature" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/main_now_elements_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/large_content_margin"
+                    android:layout_marginEnd="@dimen/horizontal_layout_margin"
+                    android:overScrollMode="never"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/main_gutter"
+                    app:layout_constraintTop_toBottomOf="@id/main_prediction" />
+
+                <TextView
+                    android:id="@+id/main_today_title"
+                    style="@style/Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/large_content_margin"
+                    android:text="@{viewmodel.daySnapshot.isToday ? @string/main_today : @string/main_tomorrow}"
+                    app:layout_constraintStart_toEndOf="@id/main_gutter"
+                    app:layout_constraintTop_toBottomOf="@id/main_now_elements_2" />
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/TextMaterialButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/horizontal_layout_margin"
+                    android:onClick="@{() -> viewmodel.onDailyClicked()}"
+                    android:text="Next 7 days"
+                    app:layout_constraintBottom_toBottomOf="@id/main_today_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/main_today_title" />
+
+                <ImageView
+                    android:id="@+id/main_today_condition_icon"
+                    android:layout_width="@dimen/icon_medium"
+                    android:layout_height="@dimen/icon_medium"
+                    android:layout_marginStart="@dimen/horizontal_layout_margin"
+                    android:layout_marginTop="@dimen/title_margin"
+                    android:src="@{WeatherConditionResolver.INSTANCE.resolveIcon(context, viewmodel.daySnapshot.condition)}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/main_today_title"
+                    app:tint="?android:attr/colorControlNormal" />
+
+                <TextView
+                    android:id="@+id/main_today_condition"
+                    style="@style/Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{WeatherConditionResolver.INSTANCE.resolveName(context, viewmodel.daySnapshot.condition)}"
+                    app:layout_constraintBottom_toBottomOf="@id/main_today_condition_icon"
+                    app:layout_constraintStart_toEndOf="@id/main_gutter"
+                    app:layout_constraintTop_toTopOf="@id/main_today_condition_icon" />
+
+                <TextView
+                    android:id="@+id/main_today_low"
+                    style="@style/Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@id/main_today_low_icon"
+                    android:layout_marginEnd="@dimen/horizontal_icon_margin"
+                    android:text="@{ForecastResolver.INSTANCE.displayTemperature(context, viewmodel.daySnapshot.tempLow)}"
+                    app:layout_constraintTop_toTopOf="@id/main_today_condition" />
+
+                <ImageView
+                    android:id="@+id/main_today_low_icon"
+                    android:layout_width="@dimen/icon_extra_small"
+                    android:layout_height="@dimen/icon_extra_small"
+                    app:layout_constraintEnd_toStartOf="@id/main_today_high"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:src="@drawable/outline_arrow_downward_24"
+                    app:layout_constraintBottom_toBottomOf="@id/main_today_low"
+                    app:layout_constraintTop_toTopOf="@id/main_today_low" />
+
+                <TextView
+                    android:id="@+id/main_today_high"
+                    style="@style/Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/horizontal_icon_margin"
+                    android:text="@{ForecastResolver.INSTANCE.displayTemperature(context, viewmodel.daySnapshot.tempHigh)}"
+                    app:layout_constraintEnd_toStartOf="@id/main_today_high_icon"
+                    app:layout_constraintTop_toTopOf="@id/main_today_condition" />
+
+                <ImageView
+                    android:id="@+id/main_today_high_icon"
+                    android:layout_width="@dimen/icon_extra_small"
+                    android:layout_height="@dimen/icon_extra_small"
+                    android:layout_marginEnd="@dimen/horizontal_layout_margin"
+                    android:src="@drawable/outline_arrow_upward_24"
+                    app:layout_constraintBottom_toBottomOf="@id/main_today_high"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/main_today_high" />
+
+                <uk.henrytwist.projectbarry.application.view.main.SunriseSunsetView
+                    android:id="@+id/main_today_phase"
+                    android:layout_width="0dp"
+                    app:sunrise="@{viewmodel.daySnapshot.sunrise}"
+                    app:sunset="@{viewmodel.daySnapshot.sunset}"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small_content_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/main_today_condition" />
+
+                <TextView
+                    android:id="@+id/main_hourly_title"
+                    style="@style/Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/large_content_margin"
+                    android:text="@string/section_hourly"
+                    app:layout_constraintStart_toEndOf="@id/main_gutter"
+                    app:layout_constraintTop_toBottomOf="@id/main_today_phase" />
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/TextMaterialButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/horizontal_layout_margin"
+                    android:onClick="@{() -> viewmodel.onHourlyClicked()}"
+                    android:text="Next 24 hours"
+                    app:layout_constraintBottom_toBottomOf="@id/main_hourly_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/main_hourly_title" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/main_hourly_snapshots"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/title_margin"
+                    android:clipToPadding="false"
+                    android:paddingStart="68dp"
+                    android:paddingEnd="@dimen/horizontal_layout_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/main_hourly_title" />
+
+                <!-- TODO Maybe this content should be in a separate fragment, controlled by a container which can toggle between loading, success, error, permissions etc. -->
+                <androidx.constraintlayout.widget.Group
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewmodel.loadingStatus == LoadingStatus.LOADED ? View.VISIBLE : View.GONE}"
+                    app:constraint_referenced_ids="
+                    main_condition,
+                    main_sunrise_sunset,
+                    main_temperature,
+                    main_now_feels_like,
+                    main_art,
+                    main_now_elements_2,
+                    main_hourly_title,
+                    main_hourly_items,
+                    main_today_title,
+                    main_daily_items" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

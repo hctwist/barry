@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <ImageView
+        android:id="@+id/phase_view_sunrise_icon"
+        android:layout_width="@dimen/icon_medium"
+        android:layout_height="@dimen/icon_medium"
+        android:src="@drawable/icon_sunrise"
+        app:layout_constraintEnd_toStartOf="@id/phase_view_sunset_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?android:attr/colorControlNormal" />
+
+    <ImageView
+        android:id="@+id/phase_view_sunset_icon"
+        android:layout_width="@dimen/icon_medium"
+        android:layout_height="@dimen/icon_medium"
+        android:src="@drawable/icon_sunset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/phase_view_sunrise_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?android:attr/colorControlNormal" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/phase_view_line"
+        android:background="@color/phase_view_line"
+        app:layout_constraintBottom_toBottomOf="@id/phase_view_sunrise_dot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/phase_view_sunrise_dot" />
+
+    <ImageView
+        android:id="@+id/phase_view_sunrise_dot"
+        android:layout_width="@dimen/phase_view_dot"
+        android:layout_height="@dimen/phase_view_dot"
+        android:layout_marginTop="@dimen/half_margin"
+        android:src="@drawable/phase_view_dot"
+        app:layout_constraintEnd_toEndOf="@id/phase_view_sunrise_icon"
+        app:layout_constraintStart_toStartOf="@id/phase_view_sunrise_icon"
+        app:layout_constraintTop_toBottomOf="@id/phase_view_sunrise_icon" />
+
+    <ImageView
+        android:id="@+id/phase_view_sunset_dot"
+        android:layout_width="@dimen/phase_view_dot"
+        android:layout_height="@dimen/phase_view_dot"
+        android:src="@drawable/phase_view_dot"
+        app:layout_constraintEnd_toEndOf="@id/phase_view_sunset_icon"
+        app:layout_constraintStart_toStartOf="@id/phase_view_sunset_icon"
+        app:layout_constraintTop_toTopOf="@id/phase_view_sunrise_dot" />
+
+    <TextView
+        android:id="@+id/phase_view_sunrise_label"
+        style="@style/Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/half_margin"
+        app:layout_constraintEnd_toEndOf="@id/phase_view_sunrise_dot"
+        app:layout_constraintStart_toStartOf="@id/phase_view_sunrise_dot"
+        app:layout_constraintTop_toBottomOf="@id/phase_view_sunrise_dot" />
+
+    <TextView
+        android:id="@+id/phase_view_sunset_label"
+        style="@style/Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/phase_view_sunset_dot"
+        app:layout_constraintStart_toStartOf="@id/phase_view_sunset_dot"
+        app:layout_constraintTop_toTopOf="@id/phase_view_sunrise_label" />
+</merge>

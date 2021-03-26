@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="location"
-            type="com.twisthenry8gmail.projectbarry.domain.core.SavedLocation" />
+            type="uk.henrytwist.projectbarry.domain.models.SavedLocation" />
 
         <variable
             name="clicklistener"
-            type="com.twisthenry8gmail.projectbarry.application.view.locations.LocationChoiceAdapter.ClickHandler" />
+            type="uk.henrytwist.projectbarry.application.view.locations.LocationChoiceAdapter.ClickHandler" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -27,17 +27,24 @@
             android:text="@{location.name}"
             android:textColor="?android:attr/textColorPrimary" />
 
-        <!-- TODO Not using attribute for tertiary color -->
-        <ImageButton
+        <com.google.android.material.chip.Chip
+            android:id="@+id/location_pin"
+            style="@style/Widget.MaterialComponents.Chip.Action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin"
             android:layout_marginEnd="@dimen/horizontal_layout_margin"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:minWidth="@dimen/min_touch_size"
-            android:minHeight="@dimen/min_touch_size"
-            android:onClick="@{() -> clicklistener.onPin(location)}"
-            android:src="@drawable/round_push_pin_24"
-            android:tint="@{location.pinned ? @color/location_pinned : @color/text_color_tertiary}" />
+            android:checkable="true"
+            android:checked="@{location.pinned}"
+            android:text="Pin"
+            android:textColor="@color/location_pin_text"
+            app:checkedIconEnabled="false"
+            app:chipBackgroundColor="@color/location_pin_background"
+            app:chipEndPadding="12dp"
+            app:chipIcon="@drawable/outline_pin_drop_24"
+            app:chipIconSize="@dimen/icon_extra_small"
+            app:chipIconTint="@color/location_pin_text"
+            app:chipStartPadding="12dp"
+            app:ensureMinTouchTargetSize="false" />
     </LinearLayout>
 </layout>

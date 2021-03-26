@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/settings_category_appearance">
+
+        <uk.henrytwist.projectbarry.application.view.settings.IntegerBackedListPreference
+            android:entries="@array/settings_dark_mode_entries"
+            android:key="@string/settings_dark_mode_key"
+            android:title="@string/settings_dark_mode"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_category_forecast">
+
+        <uk.henrytwist.projectbarry.application.view.settings.IntegerBackedListPreference
+            android:entries="@array/settings_temperature_scale_entries"
+            android:key="@string/settings_temperature_scale_key"
+            android:title="@string/settings_temperature_scale"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,29 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/fragmentMain2">
+    app:startDestination="@id/fragmentMain">
     <fragment
-        android:id="@+id/fragmentMain2"
-        android:name="com.twisthenry8gmail.projectbarry.application.view.main.FragmentMain"
+        android:id="@+id/fragmentMain"
+        android:name="uk.henrytwist.projectbarry.application.view.main.MainFragment"
         android:label="FragmentMain2" >
-        <action
-            android:id="@+id/action_fragmentMain2_to_fragmentLocations"
-            app:destination="@id/fragmentLocations" />
         <action
             android:id="@+id/action_fragmentMain2_to_fragmentLocationPermission"
             app:destination="@id/fragmentLocationPermission" />
+        <action
+            android:id="@+id/action_fragmentMain_to_hourlyFragment"
+            app:destination="@id/hourlyFragment" />
+        <action
+            android:id="@+id/action_fragmentMain_to_dailyFragment"
+            app:destination="@id/dailyFragment" />
+        <action
+            android:id="@+id/action_fragmentMain_to_locationMenuFragment"
+            app:destination="@id/locationMenuFragment" />
+        <action
+            android:id="@+id/action_fragmentMain_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLocations"
-        android:name="com.twisthenry8gmail.projectbarry.application.view.locations.FragmentLocations"
+        android:name="uk.henrytwist.projectbarry.application.view.locations.LocationsFragment"
         android:label="FragmentLocations" />
     <fragment
         android:id="@+id/fragmentLocationPermission"
-        android:name="com.twisthenry8gmail.projectbarry.application.view.main.FragmentLocationPermission"
+        android:name="uk.henrytwist.projectbarry.application.view.locationpermission.LocationPermissionFragment"
         android:label="FragmentLocationPermission" >
         <action
             android:id="@+id/action_fragmentLocationPermission_to_fragmentMain2"
-            app:destination="@id/fragmentMain2" />
+            app:destination="@id/fragmentMain" />
+        <action
+            android:id="@+id/action_fragmentLocationPermission_to_menuFragment"
+            app:destination="@id/mainMenuFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="uk.henrytwist.projectbarry.application.view.settings.SettingsContainerFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/hourlyFragment"
+        android:name="uk.henrytwist.projectbarry.application.view.hourly.HourlyFragment"
+        android:label="HourlyFragment" />
+    <fragment
+        android:id="@+id/dailyFragment"
+        android:name="uk.henrytwist.projectbarry.application.view.daily.DailyFragment"
+        android:label="DailyFragment" />
+    <dialog
+        android:id="@+id/mainMenuFragment"
+        android:name="uk.henrytwist.projectbarry.application.view.mainmenu.MainMenuFragment"
+        android:label="MainMenuFragment" >
+        <action
+            android:id="@+id/action_mainMenuFragment_to_fragmentLocations"
+            app:destination="@id/fragmentLocations" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/locationMenuFragment"
+        android:name="uk.henrytwist.projectbarry.application.view.locationmenu.LocationMenuFragment"
+        android:label="LocationMenuFragment" />
 </navigation>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Formatting -->
+    <string name="format_percentage">%1$s%%</string>
+    <string name="format_parenthesis">(%1$s)</string>
+    <string name="format_degrees">%1$s&#xb0;</string>
+    <string name="format_kelvin">%1$s</string>
+    <string name="format_speed">%1$sm/s</string>
+
+    <!-- Conditions -->
+    <string name="condition_clear">Clear</string>
+    <string name="condition_clouds_few">Few clouds</string>
+    <string name="condition_clouds_scattered">Scattered clouds</string>
+    <string name="condition_clouds_broken">Broken clouds</string>
+    <string name="condition_clouds_overcast">Overcast</string>
+    <string name="condition_drizzle_light">Light drizzle</string>
+    <string name="condition_drizzle">Drizzle</string>
+    <string name="condition_drizzle_heavy">Heavy drizzle</string>
+    <string name="condition_rain_light">Light rain</string>
+    <string name="condition_rain">Rain</string>
+    <string name="condition_rain_heavy">Heavy rain</string>
+    <string name="condition_freezing_rain">Freezing rain</string>
+    <string name="condition_snow">Snow</string>
+    <string name="condition_snow_heavy">Heavy snow</string>
+    <string name="condition_snow_rain">Snow and rain</string>
+    <string name="condition_sleet">Sleet</string>
+    <string name="condition_thunder_drizzle">Thunder and drizzle</string>
+    <string name="condition_thunder_drizzle_heavy">Thunder and heavy drizzle</string>
+    <string name="condition_thunder_rain">Thunder and rain</string>
+    <string name="condition_thunder_rain_heavy">Thunder and heavy rain</string>
+    <string name="condition_thunder">Thunder</string>
+    <string name="condition_mist">Mist</string>
+    <string name="condition_smoke">Smoke</string>
+    <string name="condition_haze">Haze</string>
+    <string name="condition_fog">Fog</string>
+    <string name="condition_dust">Dust</string>
+    <string name="condition_sand">Sand</string>
+    <string name="condition_ash">Ash</string>
+    <string name="condition_squall">Squall</string>
+    <string name="condition_tornado">Tornado</string>
+
+    <!-- Extra condition types -->
+    <string name="condition_type_cloudy">Cloudy</string>
+
+    <!-- Elements -->
+    <string name="element_temperature">Temperature</string>
+    <string name="element_pop">Rain</string>
+    <string name="element_uv_index">UV index</string>
+    <string name="element_feels_like">Feels like</string>
+    <string name="element_humidity">Humidity</string>
+    <string name="element_wind_speed">Wind speed</string>
+    <string name="element_sunrise">Sunrise</string>
+    <string name="element_sunset">Sunset</string>
+
+    <!-- Element tags -->
+    <string name="uv_tag_zero">Zero</string>
+    <string name="uv_tag_low">Low</string>
+    <string name="uv_tag_moderate">Moderate</string>
+    <string name="uv_tag_high">High</string>
+    <string name="uv_tag_very_high">Very high</string>
+    <string name="uv_tag_extremely_high">Extremely high</string>
+    <string name="pop_tag_unlikely">Unlikely</string>
+    <string name="pop_tag_likely">Likely</string>
+    <string name="humidity_tag_low">Low</string>
+    <string name="humidity_tag_fair">Fair</string>
+    <string name="humidity_tag_healthy">Healthy</string>
+    <string name="humidity_tag_high">High</string>
+    <string name="wind_speed_tag_calm">Calm</string>
+    <string name="wind_speed_tag_gentle">Gentle</string>
+    <string name="wind_speed_tag_moderate">Moderate</string>
+    <string name="wind_speed_tag_strong">Strong</string>
+    <string name="wind_speed_tag_gale">Gale</string>
+    <string name="wind_speed_tag_dangerous">Dangerous</string>
+</resources>

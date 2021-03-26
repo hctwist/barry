@@ -1,3 +1,6 @@
-include ':app', ':skeletonlayout'
 rootProject.name = "Project Barry"
-project(':skeletonlayout').projectDir = new File('C:/Users/henry/Documents/Projects/ProjectSource/skeletonlayout')
+include ':app', ':skeletonlayout', ':android-basics', 'kotlin-basics', 'buttons'
+project(':skeletonlayout').projectDir = new File('C:/Users/henry/Documents/Projects/Source/skeletonlayout')
+project(':android-basics').projectDir = new File('C:/Users/henry/Documents/Projects/Source/android-basics')
+project(':kotlin-basics').projectDir = new File('C:/Users/henry/Documents/Projects/Source/kotlin-basics')
+project(':buttons').projectDir = new File('C:/Users/henry/Documents/Projects/Source/buttons')

@@ -7,12 +7,15 @@
     <dimen name="double_margin">32dp</dimen>
 
     <dimen name="min_touch_size">48dp</dimen>
+    <dimen name="icon_touch_padding">12dp</dimen>
 
-    <dimen name="corner_radius">12dp</dimen>
+    <dimen name="corner_radius">6dp</dimen>
+
+    <dimen name="stroke_width">1dp</dimen>
 
     <!-- Layout -->
     <dimen name="inset_horizontal_layout_margin">12dp</dimen>
-    <dimen name="horizontal_layout_margin">26dp</dimen>
+    <dimen name="horizontal_layout_margin">22dp</dimen>
     <dimen name="top_layout_margin">56dp</dimen>
     <dimen name="bottom_layout_margin">48dp</dimen>
     <dimen name="vertical_layout_margin">48dp</dimen>
@@ -21,11 +24,16 @@
     <dimen name="large_content_margin">72dp</dimen>
     <dimen name="card_inset">16dp</dimen>
 
+    <dimen name="gutter_margin">24dp</dimen>
+    <dimen name="subtitle_margin">4dp</dimen>
+    <dimen name="title_margin">24dp</dimen>
+    <dimen name="horizontal_icon_margin">8dp</dimen>
+
     <!-- Text -->
     <dimen name="text_extra_small">12sp</dimen>
     <dimen name="text_small">14sp</dimen>
     <dimen name="text_medium">16sp</dimen>
-    <dimen name="text_large">20sp</dimen>
+    <dimen name="text_large">22sp</dimen>
     <dimen name="text_display">28sp</dimen>
 
     <!-- Icons -->
@@ -45,6 +53,10 @@
     <dimen name="main_titles_margin">22dp</dimen>
     <dimen name="main_daily_snapshot_dot">4dp</dimen>
     <dimen name="main_day_snapshot_icon">24dp</dimen>
+
+    <!-- Phase view -->
+    <dimen name="phase_view_dot">4dp</dimen>
+    <dimen name="phase_view_line">1dp</dimen>
 
     <!-- Hourly -->
     <dimen name="hourly_view_hour_spacing">32dp</dimen>

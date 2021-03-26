@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Appearance -->
+    <string name="settings_category_appearance">Appearance</string>
+    <string name="settings_dark_mode">Dark mode</string>
+    <string name="settings_dark_mode_key">dark_mode</string>
+    <string-array name="settings_dark_mode_entries">
+
+        <item>Follow system</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+    <!-- Forecast -->
+    <string name="settings_category_forecast">Forecast</string>
+    <string name="settings_temperature_scale">Temperature scale</string>
+    <string name="settings_temperature_scale_key">temperature_scale</string>
+    <string-array name="settings_temperature_scale_entries">
+
+        <item>Celsius (&#xb0;C)</item>
+        <item>Fahrenheit (&#xb0;F)</item>
+        <item>Kelvin (K)</item>
+    </string-array>
+</resources>

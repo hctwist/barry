@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- UI Elements -->
+    <color name="card">#14FFFFFF</color>
+    <color name="stroke">#3D3D3D</color>
+    <color name="divider">#26FFFFFF</color>
+
+    <color name="phase_view_line">#393939</color>
+    <color name="phase_view_dot">@color/phase_view_line</color>
+</resources>

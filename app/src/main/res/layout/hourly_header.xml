@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="uk.henrytwist.projectbarry.application.view.resolvers.ForecastResolver" />
+
+        <import type="uk.henrytwist.projectbarry.application.view.hourly.HourlyElementType" />
+
+        <variable
+            name="change"
+            type="uk.henrytwist.projectbarry.domain.models.ConditionChange" />
+
+        <variable
+            name="handler"
+            type="uk.henrytwist.projectbarry.application.view.hourly.HourlyHeaderAdapter.Handler" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin">
+
+        <TextView
+            style="@style/Display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{ForecastResolver.INSTANCE.resolveHourlyChange(context, change)}"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_content_margin"
+            app:checkedButton="@id/hourly_header_temperature"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hourly_header_temperature"
+                style="@style/TextMaterialToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> handler.onTypeChanged(HourlyElementType.TEMPERATURE)}"
+                android:text="Temperature" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/TextMaterialToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> handler.onTypeChanged(HourlyElementType.POP)}"
+                android:text="Rain" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/TextMaterialToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> handler.onTypeChanged(HourlyElementType.UV)}"
+                android:text="UV Index" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+    </LinearLayout>
+</layout>

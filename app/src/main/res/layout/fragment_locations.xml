@@ -5,7 +5,7 @@
 
         <variable
             name="viewmodel"
-            type="com.twisthenry8gmail.projectbarry.application.viewmodel.LocationsViewModel" />
+            type="uk.henrytwist.projectbarry.application.view.locations.LocationsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

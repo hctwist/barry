@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="uk.henrytwist.projectbarry.application.view.resolvers.WeatherConditionResolver" />
+
+        <import type="uk.henrytwist.projectbarry.application.view.TimeDisplayUtil" />
+
+        <variable
+            name="snapshot"
+            type="uk.henrytwist.projectbarry.domain.models.NowForecast.HourSnapshot" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/margin"
+            android:paddingVertical="@dimen/margin">
+
+            <ImageView
+                android:layout_width="@dimen/icon_medium"
+                android:layout_height="@dimen/icon_medium"
+                android:src="@{WeatherConditionResolver.INSTANCE.resolveIcon(context, snapshot.condition)}"
+                app:tint="?android:attr/colorControlNormal" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/double_margin">
+
+                <TextView
+                    style="@style/Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="2" />
+
+                <TextView
+                    style="@style/Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:maxLines="2"
+                    android:text="@{WeatherConditionResolver.INSTANCE.resolveName(context, snapshot.condition)}" />
+            </FrameLayout>
+
+            <TextView
+                style="@style/Body.Prominent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/subtitle_margin"
+                android:text="@{TimeDisplayUtil.INSTANCE.displayMeridiemHour(snapshot.time)}" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

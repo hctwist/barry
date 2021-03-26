@@ -5,12 +5,50 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
+    <!-- Text -->
     <color name="text_color_tertiary">#40000000</color>
 
-    <color name="card">#F5F5F5</color>
+    <!-- UI Elements -->
+    <color name="card">#0A000000</color>
+    <color name="stroke">#EBEBEB</color>
+    <color name="divider">#26000000</color>
 
-    <color name="location_pinned">#80FF0000</color>
+    <color name="phase_view_line">#DFDFDF</color>
+    <color name="phase_view_dot">@color/phase_view_line</color>
 
-    <!-- Art colors -->
-    <color name="art_sunny">#cf7f71</color>
+    <color name="location_pinned_background">#FFDDDD</color>
+    <color name="location_pinned">#ED3030</color>
+
+    <!-- Severity --> <!-- TODO Remove -->
+    <color name="severity_base">#DDDDDD</color>
+    <color name="pop_severe">#A2F1FF</color>
+    <color name="temperature_severe_high">#FF9E92</color>
+    <color name="temperature_severe_low">#92ADFF</color>
+
+    <!-- Element tag -->
+    <color name="tag_grey">#616161</color>
+    <color name="tag_red">#cb4444</color>
+    <color name="tag_orange">#cb9044</color>
+    <color name="tag_yellow">#d8c43f</color>
+    <color name="tag_green">#64cb44</color>
+    <color name="tag_violet">#aa44cb</color>
+    <color name="tag_blue">#44a3cb</color>
+    <color name="uv_tag_zero">@color/tag_grey</color>
+    <color name="uv_tag_low">@color/tag_green</color>
+    <color name="uv_tag_moderate">@color/tag_yellow</color>
+    <color name="uv_tag_high">@color/tag_orange</color>
+    <color name="uv_tag_very_high">@color/tag_red</color>
+    <color name="uv_tag_extremely_high">@color/tag_violet</color>
+    <color name="pop_tag_unlikely">@color/tag_grey</color>
+    <color name="pop_tag_likely">@color/tag_blue</color>
+    <color name="humidity_tag_low">@color/tag_red</color>
+    <color name="humidity_tag_fair">@color/tag_orange</color>
+    <color name="humidity_tag_healthy">@color/tag_green</color>
+    <color name="humidity_tag_high">@color/tag_red</color>
+    <color name="wind_speed_tag_calm">@color/tag_grey</color>
+    <color name="wind_speed_tag_gentle">@color/tag_blue</color>
+    <color name="wind_speed_tag_moderate">@color/tag_green</color>
+    <color name="wind_speed_tag_strong">@color/tag_yellow</color>
+    <color name="wind_speed_tag_gale">@color/tag_orange</color>
+    <color name="wind_speed_tag_dangerous">@color/tag_red</color>
 </resources>
