@@ -3,7 +3,6 @@ package uk.henrytwist.projectbarry.application.view.settings
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import dagger.hilt.android.AndroidEntryPoint
 import uk.henrytwist.projectbarry.R

@@ -1,44 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/fragmentMain">
+    app:startDestination="@id/mainFragmentContainer">
     <fragment
-        android:id="@+id/fragmentMain"
-        android:name="uk.henrytwist.projectbarry.application.view.main.MainFragment"
-        android:label="FragmentMain2" >
-        <action
-            android:id="@+id/action_fragmentMain2_to_fragmentLocationPermission"
-            app:destination="@id/fragmentLocationPermission" />
+        android:id="@+id/mainFragmentContainer"
+        android:name="uk.henrytwist.projectbarry.application.view.main.MainFragmentContainer"
+        android:label="MainFragmentContainer">
         <action
             android:id="@+id/action_fragmentMain_to_hourlyFragment"
-            app:destination="@id/hourlyFragment" />
+            app:destination="@id/hourlyFragment"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
         <action
             android:id="@+id/action_fragmentMain_to_dailyFragment"
-            app:destination="@id/dailyFragment" />
+            app:destination="@id/dailyFragment"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
         <action
             android:id="@+id/action_fragmentMain_to_locationMenuFragment"
-            app:destination="@id/locationMenuFragment" />
+            app:destination="@id/locationMenuFragment"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
         <action
             android:id="@+id/action_fragmentMain_to_mainMenuFragment"
-            app:destination="@id/mainMenuFragment" />
+            app:destination="@id/mainMenuFragment"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+        <action
+            android:id="@+id/action_mainFragmentContainer_to_fragmentLocations"
+            app:destination="@id/fragmentLocations"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLocations"
         android:name="uk.henrytwist.projectbarry.application.view.locations.LocationsFragment"
         android:label="FragmentLocations" />
-    <fragment
-        android:id="@+id/fragmentLocationPermission"
-        android:name="uk.henrytwist.projectbarry.application.view.locationpermission.LocationPermissionFragment"
-        android:label="FragmentLocationPermission" >
-        <action
-            android:id="@+id/action_fragmentLocationPermission_to_fragmentMain2"
-            app:destination="@id/fragmentMain" />
-        <action
-            android:id="@+id/action_fragmentLocationPermission_to_menuFragment"
-            app:destination="@id/mainMenuFragment" />
-    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="uk.henrytwist.projectbarry.application.view.settings.SettingsContainerFragment"
@@ -54,13 +62,21 @@
     <dialog
         android:id="@+id/mainMenuFragment"
         android:name="uk.henrytwist.projectbarry.application.view.mainmenu.MainMenuFragment"
-        android:label="MainMenuFragment" >
+        android:label="MainMenuFragment">
         <action
             android:id="@+id/action_mainMenuFragment_to_fragmentLocations"
-            app:destination="@id/fragmentLocations" />
+            app:destination="@id/fragmentLocations"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
         <action
             android:id="@+id/action_mainMenuFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
     </dialog>
     <dialog
         android:id="@+id/locationMenuFragment"

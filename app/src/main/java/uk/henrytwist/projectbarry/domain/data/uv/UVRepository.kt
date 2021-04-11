@@ -3,13 +3,14 @@ package uk.henrytwist.projectbarry.domain.data.uv
 import uk.henrytwist.kotlinbasics.Outcome
 import uk.henrytwist.kotlinbasics.asSuccess
 import uk.henrytwist.kotlinbasics.failure
+import uk.henrytwist.projectbarry.domain.data.KeyedCacheRepository
 import uk.henrytwist.projectbarry.domain.models.Location
 import uk.henrytwist.projectbarry.domain.models.UV
-import uk.henrytwist.projectbarry.domain.data.KeyedCacheRepository
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
+@Deprecated("Replaced by OpenWeather API")
 class UVRepository @Inject constructor(
         private val remoteSource: UVRemoteSource,
         private val localSource: UVLocalSource
@@ -18,7 +19,7 @@ class UVRepository @Inject constructor(
     override suspend fun isStale(value: UV): Boolean {
 
         // TODO Decide on value
-        return value.time.until(Instant.now(), ChronoUnit.MINUTES) > 360
+        return value.time.until(Instant.now(), ChronoUnit.MINUTES) > 60
     }
 
     override suspend fun saveLocal(value: UV) {

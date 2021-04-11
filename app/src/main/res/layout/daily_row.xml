@@ -14,96 +14,99 @@
             type="uk.henrytwist.projectbarry.domain.models.DailyForecast.Day" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:paddingVertical="@dimen/margin">
+
+        <TextView
+            android:id="@+id/daily_day"
+            style="@style/Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gutter_margin"
+            android:text="@{TimeDisplayUtil.INSTANCE.displayHumanDay(day.date)}"
+            app:layout_constraintStart_toEndOf="@id/daily_condition_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/daily_condition_icon"
+            android:layout_width="@dimen/icon_medium"
+            android:layout_height="@dimen/icon_medium"
+            android:layout_marginStart="@dimen/horizontal_layout_margin"
+            android:layout_marginTop="@dimen/title_margin"
+            android:src="@{WeatherConditionResolver.INSTANCE.resolveIcon(context, day.condition, false)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/daily_day"
+            app:tint="?android:attr/colorControlNormal" />
+
+        <TextView
+            android:id="@+id/daily_condition"
+            style="@style/Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gutter_margin"
+            android:text="@{WeatherConditionResolver.INSTANCE.resolveName(context, day.condition)}"
+            app:layout_constraintBottom_toBottomOf="@id/daily_condition_icon"
+            app:layout_constraintStart_toEndOf="@id/daily_condition_icon"
+            app:layout_constraintTop_toTopOf="@id/daily_condition_icon" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
-            android:layout_marginTop="24dp"
+            android:layout_marginEnd="@dimen/horizontal_layout_margin"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/daily_condition"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@{WeatherConditionResolver.INSTANCE.resolveIcon(context, day.condition)}"
-                app:tint="?android:attr/colorControlNormal" />
-
-            <TextView
-                android:id="@+id/daily_day"
-                style="@style/Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:text="@{TimeDisplayUtil.INSTANCE.displayHumanDay(day.date)}" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
-            android:layout_marginTop="@dimen/margin"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/daily_condition"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/daily_condition">
 
             <ImageView
                 android:id="@+id/daily_low_icon"
                 android:layout_width="@dimen/icon_extra_small"
                 android:layout_height="@dimen/icon_extra_small"
-                android:layout_marginStart="48dp"
                 android:layout_marginEnd="@dimen/quarter_margin"
                 android:src="@drawable/outline_arrow_downward_24" />
 
             <TextView
                 android:id="@+id/daily_low"
-                style="@style/Body.Day"
+                style="@style/Body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin"
                 android:text="@{ForecastResolver.INSTANCE.displayTemperature(context, day.tempLow), default = 10}" />
 
             <ImageView
                 android:id="@+id/daily_high_icon"
                 android:layout_width="@dimen/icon_extra_small"
                 android:layout_height="@dimen/icon_extra_small"
-                android:layout_marginStart="48dp"
+                android:layout_marginStart="@dimen/margin"
                 android:layout_marginEnd="@dimen/quarter_margin"
                 android:src="@drawable/outline_arrow_upward_24" />
 
             <TextView
                 android:id="@+id/daily_high"
-                style="@style/Body.Day"
+                style="@style/Body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{ForecastResolver.INSTANCE.displayTemperature(context, day.tempHigh), default = 22C}" />
+                android:text="@{ForecastResolver.INSTANCE.displayTemperature(context, day.tempHigh), default = 22}" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="@dimen/margin"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/daily_condition"
+            app:layout_constraintTop_toBottomOf="@id/daily_condition">
 
             <ImageView
                 android:layout_width="@dimen/icon_extra_small"
                 android:layout_height="@dimen/icon_extra_small"
-                android:layout_marginStart="48dp"
                 android:src="@drawable/standard_umbrella" />
 
             <TextView
-                style="@style/Body.Day"
+                style="@style/Body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/half_margin"
@@ -116,11 +119,11 @@
                 android:src="@drawable/standard_beach_ball" />
 
             <TextView
-                style="@style/Body.Day"
+                style="@style/Body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/half_margin"
-                android:text="2.3" />
+                android:text="@{ForecastResolver.INSTANCE.displayUVIndex(day.uvIndex)}" />
 
             <ImageView
                 android:layout_width="@dimen/icon_extra_small"
@@ -129,16 +132,11 @@
                 android:src="@drawable/standard_wind_turbine" />
 
             <TextView
-                style="@style/Body.Day"
+                style="@style/Body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/half_margin"
-                android:text="5m/s" />
+                android:text="@{ForecastResolver.INSTANCE.displaySpeed(context, day.windSpeed)}" />
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/stroke" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

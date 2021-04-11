@@ -36,7 +36,7 @@
             android:layout_marginEnd="@dimen/horizontal_layout_margin"
             android:checkable="true"
             android:checked="@{location.pinned}"
-            android:text="Pin"
+            android:text="@string/location_pin"
             android:textColor="@color/location_pin_text"
             app:checkedIconEnabled="false"
             app:chipBackgroundColor="@color/location_pin_background"

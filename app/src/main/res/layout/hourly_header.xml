@@ -44,21 +44,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> handler.onTypeChanged(HourlyElementType.TEMPERATURE)}"
-                android:text="Temperature" />
+                android:text="@string/element_temperature" />
 
             <com.google.android.material.button.MaterialButton
                 style="@style/TextMaterialToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> handler.onTypeChanged(HourlyElementType.POP)}"
-                android:text="Rain" />
+                android:text="@string/element_pop" />
 
             <com.google.android.material.button.MaterialButton
                 style="@style/TextMaterialToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> handler.onTypeChanged(HourlyElementType.UV)}"
-                android:text="UV Index" />
+                android:text="@string/element_uv_index" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
     </LinearLayout>
 </layout>

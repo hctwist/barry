@@ -18,14 +18,16 @@ object DisplayUtil {
         val decimalFormat = DecimalFormat(patternBuilder.toString())
         decimalFormat.roundingMode = RoundingMode.HALF_UP
 
-        return decimalFormat.format(double)
+        // FIXME Better method needed
+        val formatted = decimalFormat.format(double)
+        return if (formatted == "-0") "0" else formatted
     }
 
     fun percentage(context: Context, double: Double, decimalPlaces: Int): String {
 
         return context.getString(
-            R.string.format_percentage,
-            decimalPlaces(double * 100, decimalPlaces)
+                R.string.format_percentage,
+                decimalPlaces(double * 100, decimalPlaces)
         )
     }
 

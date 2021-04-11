@@ -2,18 +2,18 @@ package uk.henrytwist.projectbarry.application.view.main
 
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import uk.henrytwist.projectbarry.R
 
 @ExperimentalCoroutinesApi
 object MainLoadingStatusResolver {
 
-    fun resolveMessage(context: Context, loadingStatus: MainViewModel.LoadingStatus?): String {
+    fun resolveMessage(context: Context, status: MainViewModel.LoadingStatus?): String? {
 
-        return when (loadingStatus) {
+        return when (status) {
 
-            // TODO
-            MainViewModel.LoadingStatus.LOADING_LOCATION -> "Fetching location"
-            MainViewModel.LoadingStatus.LOADING_FORECAST -> "Fetching forecast"
-            else -> ""
+            MainViewModel.LoadingStatus.LOADING_LOCATION -> context.getString(R.string.main_loading_location)
+            MainViewModel.LoadingStatus.LOADING_FORECAST -> context.getString(R.string.main_loading_forecast)
+            else -> null
         }
     }
 }

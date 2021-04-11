@@ -9,8 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import uk.henrytwist.androidbasics.recyclerview.MarginItemDecoration
+import uk.henrytwist.androidbasics.showSoftKeyboard
 import uk.henrytwist.projectbarry.R
-import uk.henrytwist.projectbarry.databinding.FragmentLocationsBinding
+import uk.henrytwist.projectbarry.databinding.LocationsFragmentBinding
 import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
 import uk.henrytwist.projectbarry.domain.models.SavedLocation
 import javax.inject.Inject
@@ -21,7 +22,7 @@ class LocationsFragment : Fragment() {
     @Inject
     lateinit var viewModel: LocationsViewModel
 
-    private lateinit var binding: FragmentLocationsBinding
+    private lateinit var binding: LocationsFragmentBinding
 
     private val pinnedAdapter = LocationChoiceAdapter()
     private val searchAdapter = LocationSearchAdapter()
@@ -32,8 +33,8 @@ class LocationsFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentLocationsBinding.inflate(inflater, container, false)
-        binding.viewmodel = viewModel
+        binding = LocationsFragmentBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
@@ -55,6 +56,7 @@ class LocationsFragment : Fragment() {
 
         viewModel.savedLocations.observe(viewLifecycleOwner) {
 
+            if (it.isEmpty()) binding.locationsInput.showSoftKeyboard()
             pinnedAdapter.submitList(it)
         }
 

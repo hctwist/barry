@@ -8,31 +8,43 @@ import uk.henrytwist.projectbarry.domain.models.WeatherCondition
 
 object WeatherConditionResolver {
 
-    fun resolveIcon(context: Context, condition: WeatherCondition?): Drawable? {
+    fun resolveIcon(context: Context, condition: WeatherCondition?, isNight: Boolean): Drawable? {
 
         if (condition == null) return null
 
         return ContextCompat.getDrawable(context, when (condition) {
 
-            WeatherCondition.CLEAR -> R.drawable.icon_sun
-            WeatherCondition.CLOUDS_FEW, WeatherCondition.CLOUDS_SCATTERED -> R.drawable.icon_partly_cloudy
-            WeatherCondition.CLOUDS_OVERCAST, WeatherCondition.CLOUDS_BROKEN -> R.drawable.icon_cloudy
+            WeatherCondition.CLEAR -> if (isNight) R.drawable.icon_clear_night else R.drawable.icon_clear_day
+            WeatherCondition.CLOUDS_FEW, WeatherCondition.CLOUDS_SCATTERED -> if (isNight) R.drawable.icon_cloudy_night else R.drawable.icon_cloudy_day
+            WeatherCondition.CLOUDS_OVERCAST, WeatherCondition.CLOUDS_BROKEN -> R.drawable.icon_clouds
             WeatherCondition.DRIZZLE_LIGHT, WeatherCondition.RAIN_LIGHT -> R.drawable.icon_light_rain
-            WeatherCondition.DRIZZLE, WeatherCondition.DRIZZLE_HEAVY, WeatherCondition.RAIN, WeatherCondition.RAIN_HEAVY -> R.drawable.icon_rain
-            WeatherCondition.FREEZING_RAIN, WeatherCondition.SNOW_RAIN, WeatherCondition.SLEET -> R.drawable.icon_sleet
-            WeatherCondition.SNOW, WeatherCondition.SNOW_HEAVY -> R.drawable.icon_snow
+            WeatherCondition.DRIZZLE, WeatherCondition.RAIN -> R.drawable.icon_rain
+            WeatherCondition.DRIZZLE_HEAVY, WeatherCondition.RAIN_HEAVY -> R.drawable.icon_heavy_rain
+            WeatherCondition.FREEZING_RAIN, WeatherCondition.SNOW_RAIN, WeatherCondition.SLEET -> R.drawable.icon_snow_and_rain
+            WeatherCondition.SNOW -> R.drawable.icon_light_snow
+            WeatherCondition.SNOW_HEAVY -> R.drawable.icon_snow
             WeatherCondition.THUNDER, WeatherCondition.THUNDER_DRIZZLE, WeatherCondition.THUNDER_DRIZZLE_HEAVY, WeatherCondition.THUNDER_RAIN, WeatherCondition.THUNDER_RAIN_HEAVY -> R.drawable.icon_storm
-            WeatherCondition.MIST, WeatherCondition.SMOKE, WeatherCondition.HAZE, WeatherCondition.FOG, WeatherCondition.SQUALL, WeatherCondition.TORNADO -> R.drawable.icon_haze
-            WeatherCondition.DUST, WeatherCondition.SAND, WeatherCondition.ASH -> R.drawable.icon_dust
+            WeatherCondition.MIST, WeatherCondition.HAZE, WeatherCondition.FOG -> if (isNight) R.drawable.icon_fog_night else R.drawable.icon_fog_day
+            WeatherCondition.SMOKE -> R.drawable.icon_smoke
+            WeatherCondition.DUST, WeatherCondition.SAND, WeatherCondition.ASH -> R.drawable.icon_particles
+            WeatherCondition.SQUALL -> R.drawable.icon_wind
+            WeatherCondition.TORNADO -> R.drawable.icon_tornado
         })
     }
 
-    fun resolveArt(context: Context, condition: WeatherCondition?): Drawable? {
+    fun resolveArt(context: Context, condition: WeatherCondition?, isNight: Boolean): Drawable? {
 
+        // TODO This is being called twice from the main binding for some reason, even though the condition definitely only changes once
         if (condition == null) return null
+        
+        return ContextCompat.getDrawable(context, when (condition) {
 
-        val art = listOf(R.drawable.cloudy_art, R.drawable.clear_night_art, R.drawable.sunny_art)
-        return ContextCompat.getDrawable(context, art.random())
+            WeatherCondition.CLEAR -> if (isNight) R.drawable.art_clear_night else R.drawable.art_clear
+            WeatherCondition.CLOUDS_FEW, WeatherCondition.CLOUDS_SCATTERED -> R.drawable.art_few_clouds
+            WeatherCondition.CLOUDS_BROKEN, WeatherCondition.CLOUDS_OVERCAST -> if (isNight) R.drawable.art_cloudy_night else R.drawable.art_cloudy
+            WeatherCondition.RAIN_LIGHT, WeatherCondition.RAIN, WeatherCondition.RAIN_HEAVY -> if (isNight) R.drawable.art_rain_night else R.drawable.art_rain
+            else -> R.drawable.art_cloudy
+        })
     }
 
     fun resolveName(context: Context, condition: WeatherCondition?): String? {

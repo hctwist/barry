@@ -11,14 +11,15 @@ import uk.henrytwist.projectbarry.application.view.components.HeaderAdapter
 import uk.henrytwist.projectbarry.domain.models.HourlyForecast
 import uk.henrytwist.projectbarry.domain.usecases.GetHourlyPopForecast
 import uk.henrytwist.projectbarry.domain.usecases.GetHourlyTemperatureForecast
-import uk.henrytwist.projectbarry.domain.usecases.GetSelectedLocation
+import uk.henrytwist.projectbarry.domain.usecases.GetHourlyUVIndexForecast
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class HourlyViewModel @Inject constructor(
         private val getHourlyPopForecast: GetHourlyPopForecast,
-        private val getHourlyTemperatureForecast: GetHourlyTemperatureForecast
+        private val getHourlyTemperatureForecast: GetHourlyTemperatureForecast,
+        private val getHourlyUVIndexForecast: GetHourlyUVIndexForecast
 ) : NavigatorViewModel(), HeaderAdapter.Handler, HourlyHeaderAdapter.Handler {
 
     private var currentType = HourlyElementType.TEMPERATURE
@@ -57,7 +58,9 @@ class HourlyViewModel @Inject constructor(
 
                 HourlyElementType.TEMPERATURE -> getHourlyTemperatureForecast()
 
-                HourlyElementType.UV -> TODO()
+                HourlyElementType.UV -> getHourlyUVIndexForecast()
+
+                HourlyElementType.WIND_SPEED -> TODO()
             }
 
             outcome.ifSuccessful {

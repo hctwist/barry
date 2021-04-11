@@ -20,6 +20,8 @@ class HourlyFragment : Fragment(R.layout.hourly_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        viewModel.observeNavigation(this)
+
         val headerAdapter = HeaderAdapter().apply {
 
             handler = viewModel

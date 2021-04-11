@@ -398,7 +398,7 @@ class ShiftingNavigationView(context: Context, attrs: AttributeSet) : ViewGroup(
         requestLayout()
     }
 
-    override fun onSaveInstanceState(): Parcelable? {
+    override fun onSaveInstanceState(): Parcelable {
 
         val state = SavedState(super.onSaveInstanceState())
         state.selectedItemId = selectedItem.id

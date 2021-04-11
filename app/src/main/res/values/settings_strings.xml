@@ -22,4 +22,13 @@
         <item>Fahrenheit (&#xb0;F)</item>
         <item>Kelvin (K)</item>
     </string-array>
+    <string name="settings_wind_speed_scale">Wind speed scale</string>
+    <string name="settings_wind_speed_scale_key">wind_speed_scale</string>
+    <string-array name="settings_wind_speed_scale_entries">
+
+        <item>Metres per second (m/s)</item>
+        <item>Miles per hour (mph)</item>
+        <item>Kilometres per hour (kph)</item>
+        <item>Knots (kn)</item>
+    </string-array>
 </resources>

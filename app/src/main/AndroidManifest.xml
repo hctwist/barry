@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uk.henrytwist.projectbarry">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -12,7 +13,7 @@
         android:name="uk.henrytwist.projectbarry.application.HiltApplication"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".application.view.main.ActivityMain">
+        <activity android:name=".application.view.ActivityMain">
 
             <intent-filter>
 
@@ -23,5 +24,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

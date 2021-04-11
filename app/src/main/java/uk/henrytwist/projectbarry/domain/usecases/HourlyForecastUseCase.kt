@@ -4,9 +4,9 @@ import uk.henrytwist.projectbarry.domain.data.PremiumRepository
 import uk.henrytwist.projectbarry.domain.data.currentlocation.CurrentLocationRepository
 import uk.henrytwist.projectbarry.domain.data.savedlocations.SavedLocationsRepository
 import uk.henrytwist.projectbarry.domain.data.selectedlocation.SelectedLocationRepository
+import uk.henrytwist.projectbarry.domain.models.ConditionChange
 import uk.henrytwist.projectbarry.domain.models.ForecastElement
 import uk.henrytwist.projectbarry.domain.models.HourlyForecast
-import uk.henrytwist.projectbarry.domain.models.ConditionChange
 import uk.henrytwist.projectbarry.domain.models.WeatherCondition
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit

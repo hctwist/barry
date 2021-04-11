@@ -24,12 +24,12 @@ class ScaledTemperature constructor(val value: Double, val scale: Scale) {
     }
 
     fun to(scale: Scale) = ScaledTemperature(
-        when (scale) {
+            when (scale) {
 
-            Scale.CELSIUS -> celsius()
-            Scale.FAHRENHEIT -> fahrenheit()
-            Scale.KELVIN -> kelvin()
-        }, scale
+                Scale.CELSIUS -> celsius()
+                Scale.FAHRENHEIT -> fahrenheit()
+                Scale.KELVIN -> kelvin()
+            }, scale
     )
 
     companion object {

@@ -24,7 +24,7 @@
             style="@style/Body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ForecastResolver.INSTANCE.getElementTitle(context, element)}" />
+            android:text="@{ForecastElementResolver.INSTANCE.getElementTitle(context, element)}" />
 
         <View
             android:layout_width="0dp"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin"
-            android:text="@{ForecastResolver.INSTANCE.getElementDisplayString(context, element)}" />
+            android:text="@{ForecastElementResolver.INSTANCE.getElementDisplayString(context, element)}" />
 
         <uk.henrytwist.projectbarry.application.view.components.ElementTag
             android:layout_width="wrap_content"

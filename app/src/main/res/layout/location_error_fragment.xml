@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="uk.henrytwist.projectbarry.application.view.main.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/location_permission_title"
+            style="@style/Heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+            android:text="@string/location_error_title"
+            app:layout_constraintBottom_toTopOf="@id/location_permission_body"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/location_permission_body"
+            style="@style/Body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+            android:layout_marginTop="@dimen/margin"
+            android:text="@string/location_error_message"
+            app:layout_constraintBottom_toTopOf="@id/location_permission_grant"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/location_permission_title" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/location_permission_grant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+            android:layout_marginBottom="@dimen/margin"
+            android:onClick="@{() -> viewModel.onRequestLocationServicesClicked()}"
+            android:text="@string/location_error_turn_on_services"
+            app:layout_constraintBottom_toTopOf="@id/location_permission_other"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/location_permission_other"
+            style="@style/TextMaterialButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+            android:layout_marginBottom="@dimen/bottom_layout_margin"
+            android:onClick="@{() -> viewModel.onChooseLocationClicked()}"
+            android:text="@string/location_error_choose"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -18,10 +18,13 @@
     <dimen name="horizontal_layout_margin">22dp</dimen>
     <dimen name="top_layout_margin">56dp</dimen>
     <dimen name="bottom_layout_margin">48dp</dimen>
-    <dimen name="vertical_layout_margin">48dp</dimen>
+    <dimen name="top_toolbar_layout_margin">24dp</dimen>
+    <dimen name="top_toolbar_content_layout_margin">32dp</dimen>
+
     <dimen name="small_content_margin">32dp</dimen>
     <dimen name="medium_content_margin">42dp</dimen>
     <dimen name="large_content_margin">72dp</dimen>
+
     <dimen name="card_inset">16dp</dimen>
 
     <dimen name="gutter_margin">24dp</dimen>
@@ -42,25 +45,13 @@
     <dimen name="icon_small">18dp</dimen>
     <dimen name="icon_extra_small">14dp</dimen>
 
-    <!-- Images -->
-    <dimen name="display_image_width">256dp</dimen>
-
     <!-- Main -->
     <dimen name="main_refresh_over_drag">64dp</dimen>
-    <dimen name="main_refresh_icon">64dp</dimen>
-    <dimen name="main_hourly_snapshot_icon">48dp</dimen>
-    <dimen name="main_hourly_snapshot_icon_padding">12dp</dimen>
-    <dimen name="main_titles_margin">22dp</dimen>
-    <dimen name="main_daily_snapshot_dot">4dp</dimen>
-    <dimen name="main_day_snapshot_icon">24dp</dimen>
 
     <!-- Phase view -->
     <dimen name="phase_view_dot">4dp</dimen>
     <dimen name="phase_view_line">1dp</dimen>
 
     <!-- Hourly -->
-    <dimen name="hourly_view_hour_spacing">32dp</dimen>
-    <dimen name="hourly_view_graph_margin">@dimen/margin</dimen>
-    <dimen name="hourly_view_graph_height">196dp</dimen>
-    <dimen name="hourly_view_graph_stroke">2dp</dimen>
+    <dimen name="hourly_bar_height">8dp</dimen>
 </resources>

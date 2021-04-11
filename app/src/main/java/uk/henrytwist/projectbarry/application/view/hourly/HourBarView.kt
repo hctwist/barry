@@ -21,6 +21,8 @@ class HourBarView(context: Context, attributeSet: AttributeSet) : ViewGroup(cont
 
     private var value = 0F
 
+    private val barStartingWidth = resources.getDimensionPixelSize(R.dimen.hourly_bar_height)
+
     init {
 
         inflate(context, R.layout.hour_bar_view, this)
@@ -56,7 +58,6 @@ class HourBarView(context: Context, attributeSet: AttributeSet) : ViewGroup(cont
     fun setColor(color: Int) {
 
         barView.backgroundTintList = ColorStateList.valueOf(color)
-//        valueView.setTextColor(color)
     }
 
     private fun getValueFraction() = if (isInEditMode) 0.4F else (value - minValue) / (maxValue - minValue)
@@ -83,9 +84,9 @@ class HourBarView(context: Context, attributeSet: AttributeSet) : ViewGroup(cont
         h = max(h, valueView.measuredHeight)
 
         val fullWidth = MeasureSpec.getSize(widthMeasureSpec)
-        val remainingWidth = fullWidth - valueView.measuredWidth - valueView.marginStart
+        val remainingWidth = fullWidth - valueView.measuredWidth - valueView.marginStart - barStartingWidth
 
-        val barWidth = (remainingWidth * getValueFraction()).toInt()
+        val barWidth = barStartingWidth + (remainingWidth * getValueFraction()).toInt()
         barView.layoutParams.width = barWidth
         measureChild(barView, heightMeasureSpec, widthMeasureSpec)
         h = max(h, barView.measuredHeight)

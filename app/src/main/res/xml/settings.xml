@@ -18,5 +18,11 @@
             android:key="@string/settings_temperature_scale_key"
             android:title="@string/settings_temperature_scale"
             app:useSimpleSummaryProvider="true" />
+
+        <uk.henrytwist.projectbarry.application.view.settings.IntegerBackedListPreference
+            android:entries="@array/settings_wind_speed_scale_entries"
+            android:key="@string/settings_wind_speed_scale_key"
+            android:title="@string/settings_wind_speed_scale"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 </PreferenceScreen>

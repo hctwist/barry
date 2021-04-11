@@ -6,9 +6,9 @@ import com.android.volley.toolbox.JsonObjectRequest
 import uk.henrytwist.kotlinbasics.Outcome
 import uk.henrytwist.kotlinbasics.asSuccess
 import uk.henrytwist.kotlinbasics.failure
-import uk.henrytwist.projectbarry.domain.models.Location
 import uk.henrytwist.projectbarry.domain.data.APIKeyStore
 import uk.henrytwist.projectbarry.domain.data.forecast.ForecastRemoteSource
+import uk.henrytwist.projectbarry.domain.models.Location
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -31,6 +31,7 @@ class ForecastRemoteSourceImpl @Inject constructor(private val volleyRequestQueu
                                     val time = current.getLong("dt")
                                     val currentTemperature = current.getDouble("temp")
                                     val feelsLike = current.getDouble("feels_like")
+                                    val uvIndex = current.getDouble("uvi")
                                     val humidity = current.getInt("humidity")
                                     val windSpeed = current.getDouble("wind_speed")
 
@@ -45,11 +46,13 @@ class ForecastRemoteSourceImpl @Inject constructor(private val volleyRequestQueu
                                         val hourTemp = hour.getDouble("temp")
                                         val hourConditionCode =
                                                 hour.getJSONArray("weather").getJSONObject(0).getInt("id")
+                                        val hourUVIndex = hour.getDouble("uvi")
                                         val hourPop = hour.getDouble("pop")
                                         ForecastModel.Hour(
                                                 hourTime,
                                                 hourTemp,
                                                 hourConditionCode,
+                                                hourUVIndex,
                                                 hourPop
                                         )
                                     }
@@ -64,7 +67,9 @@ class ForecastRemoteSourceImpl @Inject constructor(private val volleyRequestQueu
                                         val dayTempHigh = dayTemp.getDouble("max")
                                         val dayConditionCode =
                                                 day.getJSONArray("weather").getJSONObject(0).getInt("id")
+                                        val dayUVIndex = day.getDouble("uvi")
                                         val dayPop = day.getDouble("pop")
+                                        val dayWindSpeed = day.getDouble("wind_speed")
                                         val daySunrise = day.getLong("sunrise")
                                         val daySunset = day.getLong("sunset")
                                         ForecastModel.Day(
@@ -72,7 +77,9 @@ class ForecastRemoteSourceImpl @Inject constructor(private val volleyRequestQueu
                                                 dayTempLow,
                                                 dayTempHigh,
                                                 dayConditionCode,
+                                                dayUVIndex,
                                                 dayPop,
+                                                dayWindSpeed,
                                                 daySunrise,
                                                 daySunset
                                         )
@@ -84,6 +91,7 @@ class ForecastRemoteSourceImpl @Inject constructor(private val volleyRequestQueu
                                             currentTemperature,
                                             conditionCode,
                                             feelsLike,
+                                            uvIndex,
                                             humidity,
                                             windSpeed,
                                             hourlyData,

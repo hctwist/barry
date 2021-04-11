@@ -5,7 +5,5 @@ import uk.henrytwist.projectbarry.domain.models.LocationCoordinates
 
 interface CurrentLocationRemoteSource {
 
-    suspend fun getLastLocation(): Outcome<LocationCoordinates>
-
-    suspend fun getLocationUpdate(): Outcome<LocationCoordinates>
+    suspend fun getLocation(): Outcome<LocationCoordinates>
 }

@@ -15,6 +15,7 @@ class CurrentLocationRepository @Inject constructor(
         private val geocodingRemoteSource: GeocodingRemoteSource
 ) {
 
+    // TODO This cache should expire
     private val cacheMutex = Mutex()
     private var cache: Location? = null
 
@@ -26,8 +27,10 @@ class CurrentLocationRepository @Inject constructor(
 
             cache?.let { return it.asSuccess() }
 
-            val lastLocation = currentLocationRemoteSource.getLastLocation()
-            val upToDateLocation = if (lastLocation is Outcome.Success) lastLocation else currentLocationRemoteSource.getLocationUpdate()
+//            val lastLocation = currentLocationRemoteSource.getLastLocation()
+//            val upToDateLocation = if (lastLocation is Outcome.Success) lastLocation else currentLocationRemoteSource.getLocationUpdate()
+
+            val upToDateLocation = currentLocationRemoteSource.getLocation()
 
             val location = upToDateLocation.switchMap {
 

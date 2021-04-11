@@ -12,6 +12,7 @@ import uk.henrytwist.projectbarry.domain.data.selectedlocation.SelectedLocationR
 import uk.henrytwist.projectbarry.domain.models.ForecastElement
 import uk.henrytwist.projectbarry.domain.models.HourlyForecast
 import uk.henrytwist.projectbarry.domain.models.Location
+import uk.henrytwist.projectbarry.domain.util.ForecastUtil
 import java.time.ZoneId
 import javax.inject.Inject
 import kotlin.math.max
@@ -41,10 +42,11 @@ class GetHourlyTemperatureForecast @Inject constructor(
 
         val hours = forecast.hourly.mapFirst(numberOfHoursToFetch) {
 
+            val time = it.time.atZone(ZoneId.systemDefault())
             val temp = it.temp.to(temperatureScale)
             HourlyForecast.Hour(
-
-                    it.time.atZone(ZoneId.systemDefault()),
+                    time,
+                    ForecastUtil.isNight(time, forecast),
                     it.condition,
                     ForecastElement.Temperature(temp)
             )

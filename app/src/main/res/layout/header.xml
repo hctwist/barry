@@ -11,14 +11,14 @@
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/top_layout_margin">
+        android:paddingBottom="@dimen/top_toolbar_content_layout_margin">
 
         <uk.henrytwist.buttons.MarginCollapsingImageButton
             style="@style/IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/horizontal_layout_margin"
-            android:layout_marginTop="@dimen/horizontal_layout_margin"
+            android:layout_marginTop="@dimen/top_toolbar_layout_margin"
             android:onClick="@{() -> handler.onClickBack()}"
             android:src="@drawable/outline_arrow_back_24" />
     </FrameLayout>

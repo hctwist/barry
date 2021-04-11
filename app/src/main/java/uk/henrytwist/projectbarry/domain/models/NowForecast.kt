@@ -5,6 +5,7 @@ import java.time.ZonedDateTime
 class NowForecast(
         val condition: WeatherCondition,
         val conditionChange: ConditionChange,
+        val isNight: Boolean,
         val temp: ScaledTemperature,
         val feelsLike: ScaledTemperature,
         val elements: List<ForecastElement>,

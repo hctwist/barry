@@ -1,6 +1,5 @@
 package uk.henrytwist.projectbarry.application.view.components
 
-import uk.henrytwist.androidbasics.recyclerview.BindingItemAdapter
 import uk.henrytwist.androidbasics.recyclerview.SingleBindingItemAdapter
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.databinding.HeaderBinding

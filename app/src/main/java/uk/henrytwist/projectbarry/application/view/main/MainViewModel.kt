@@ -1,44 +1,55 @@
 package uk.henrytwist.projectbarry.application.view.main
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.lifecycle.*
+import androidx.navigation.NavController
+import com.google.android.gms.common.api.ResolvableApiException
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import uk.henrytwist.androidbasics.livedata.event
 import uk.henrytwist.androidbasics.livedata.immutable
 import uk.henrytwist.androidbasics.livedata.trigger
+import uk.henrytwist.androidbasics.navigation.NavigationCommand
 import uk.henrytwist.androidbasics.navigation.NavigatorViewModel
-import uk.henrytwist.kotlinbasics.Outcome
-import uk.henrytwist.kotlinbasics.Trigger
-import uk.henrytwist.kotlinbasics.successOrNull
-import uk.henrytwist.kotlinbasics.waiting
+import uk.henrytwist.kotlinbasics.*
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.domain.models.Location
 import uk.henrytwist.projectbarry.domain.models.NowForecast
 import uk.henrytwist.projectbarry.domain.models.SelectedLocation
 import uk.henrytwist.projectbarry.domain.usecases.GetNowForecast
-import uk.henrytwist.projectbarry.domain.usecases.GetSelectedLocation
-import uk.henrytwist.projectbarry.domain.usecases.NeedsLocationPermission
+import uk.henrytwist.projectbarry.domain.usecases.GetSelectedLocationInvalidationTracker
+import uk.henrytwist.projectbarry.domain.usecases.GetSelectedLocationOneCall
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
+
 @HiltViewModel
 class MainViewModel @Inject constructor(
-        private val getSelectedLocation: GetSelectedLocation,
-        private val needsLocationPermission: NeedsLocationPermission,
+        getSelectedLocationInvalidationTracker: GetSelectedLocationInvalidationTracker,
+        private val getSelectedLocationOneCall: GetSelectedLocationOneCall,
         private val getNowForecast: GetNowForecast
 ) : NavigatorViewModel() {
 
-    private val _locationPermissionQuery = MutableLiveData<Trigger>()
-    val locationPermissionQuery: LiveData<Trigger>
-        get() = _locationPermissionQuery
+    private val _queryLocationPermission = MutableLiveData<Trigger>()
+    val queryLocationPermission = _queryLocationPermission.immutable()
 
     private val _requestLocationPermission = MutableLiveData<Trigger>()
     val requestLocationPermission = _requestLocationPermission.immutable()
 
+    private val _queryLocationServices = MutableLiveData<Trigger>()
+    val queryLocationServices = _queryLocationServices.immutable()
+
+    private val _requestLocationServices = MutableLiveData<Event<ResolvableApiException>>()
+    val requestLocationServices = _requestLocationServices.immutable()
+    private var locationServicesRequested = false
+    private var locationServicesAPIException: ResolvableApiException? = null
+
+    private val selectedLocationInvalidationTracker = getSelectedLocationInvalidationTracker()
     private val _selectedLocation = MutableStateFlow<Outcome<SelectedLocation>>(waiting())
     val selectedLocation = _selectedLocation.map { it.successOrNull() }.asLiveData()
 
@@ -53,6 +64,8 @@ class MainViewModel @Inject constructor(
 
     val conditionChange = successfulCurrentForecast.map { it?.conditionChange }
 
+    val isNight = successfulCurrentForecast.map { it?.isNight ?: false }
+
     val currentTemperature = successfulCurrentForecast.map { it?.temp }
 
     val feelsLikeTemperature = successfulCurrentForecast.map { it?.feelsLike }
@@ -63,48 +76,147 @@ class MainViewModel @Inject constructor(
 
     val hourSnapshots = successfulCurrentForecast.map { it?.hourSnapshots ?: listOf() }
 
-    val loadingStatus = MutableLiveData(LoadingStatus.LOADING_LOCATION)
+    private val _status = MutableLiveData(Status.LOADING)
+    val status = _status.distinctUntilChanged()
+
+    private val _loadingStatus = MutableLiveData(LoadingStatus.LOADING_LOCATION)
+    val loadingStatus = _loadingStatus.immutable()
+    private var permissionStatus = PermissionStatus.RATIONALE
 
     init {
 
         viewModelScope.launch {
 
-            if (needsLocationPermission()) {
+            selectedLocationInvalidationTracker.collect {
 
-                _locationPermissionQuery.value = Trigger()
-            } else {
+                if (it == null) {
 
-                startFetching()
+                    _selectedLocation.value = SelectedLocation(null, true).asSuccess()
+                    _queryLocationPermission.trigger()
+                } else {
+
+                    _selectedLocation.value = SelectedLocation(null, false).asSuccess()
+                    collectLocation()
+                }
             }
-        }
-    }
-
-    fun onLocationPermissionResult(granted: Boolean, shouldShowRationale: Boolean) {
-
-        when {
-            granted -> startFetching()
-            shouldShowRationale -> navigate(R.id.action_fragmentMain2_to_fragmentLocationPermission)
-            else -> _requestLocationPermission.trigger()
-        }
-    }
-
-    private fun startFetching() {
-
-        viewModelScope.launch {
-
-            _selectedLocation.emitAll(getSelectedLocation())
         }
 
         viewModelScope.launch {
 
             _selectedLocation.collect { outcome ->
 
-                outcome.successOrNull()?.location?.let {
+                // TODO Compiler bug?
+                when (outcome) {
 
-                    fetchForecast(it)
+                    Outcome.Waiting -> {
+                    }
+
+                    is Outcome.Success<SelectedLocation> -> {
+
+                        outcome.successOrNull()?.location?.let {
+
+                            fetchForecast(it)
+                        }
+                    }
+
+                    Outcome.Failure -> {
+
+                        _status.value = Status.LOCATION_ERROR
+                    }
                 }
             }
         }
+    }
+
+    fun onLocationQueryResult(granted: Boolean, shouldShowRationale: Boolean) {
+
+        viewModelScope.launch {
+
+            when {
+
+                granted -> onLocationPermissionGranted()
+
+                shouldShowRationale -> _status.value = Status.NO_PERMISSION
+
+                else -> _requestLocationPermission.trigger()
+            }
+        }
+    }
+
+    fun onLocationPermissionResult(granted: Boolean, shouldShowRationale: Boolean) {
+
+        if (granted) {
+
+            onLocationPermissionGranted()
+        } else {
+
+            permissionStatus = if (shouldShowRationale) PermissionStatus.RATIONALE else PermissionStatus.DENIED
+            _status.value = Status.NO_PERMISSION
+        }
+    }
+
+    private fun onLocationPermissionGranted() {
+
+        _queryLocationServices.trigger()
+    }
+
+    fun onLocationServicesResult(enabled: Boolean, exception: ResolvableApiException?) {
+
+        if (enabled) {
+
+            collectLocation()
+        } else {
+
+            if (exception != null) locationServicesAPIException = exception
+
+            if (!locationServicesRequested && exception != null) {
+
+                _requestLocationServices.event = exception
+            } else {
+
+                _status.value = Status.LOCATION_ERROR
+            }
+        }
+    }
+
+    private fun collectLocation() {
+
+        viewModelScope.launch {
+
+            _status.value = Status.LOADING
+            _loadingStatus.value = LoadingStatus.LOADING_LOCATION
+            _selectedLocation.value = getSelectedLocationOneCall()
+        }
+    }
+
+    fun onGrantPermissionClicked() {
+
+        if (permissionStatus == PermissionStatus.RATIONALE) {
+
+            _requestLocationPermission.trigger()
+        } else {
+
+            navigate(object : NavigationCommand {
+
+                override fun navigateWith(context: Context, navController: NavController) {
+
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    val uri = Uri.fromParts("package", context.packageName, null)
+                    intent.data = uri
+                    context.startActivity(intent)
+                }
+            })
+        }
+    }
+
+    fun onChooseLocationClicked() {
+
+        navigate(R.id.action_mainFragmentContainer_to_fragmentLocations)
+    }
+
+    fun onRequestLocationServicesClicked() {
+
+        _requestLocationServices.event = locationServicesAPIException
     }
 
     fun onRefresh() {
@@ -124,9 +236,19 @@ class MainViewModel @Inject constructor(
 
     private suspend fun fetchForecast(location: Location) {
 
-        loadingStatus.value = LoadingStatus.LOADING_FORECAST
-        _currentForecast.value = getNowForecast.invoke(location)
-        loadingStatus.value = LoadingStatus.LOADED
+        _status.value = Status.LOADING
+        _loadingStatus.value = LoadingStatus.LOADING_FORECAST
+
+        val forecast = getNowForecast.invoke(location)
+
+        if (forecast is Outcome.Success) {
+
+            _status.value = Status.LOADED
+            _currentForecast.value = forecast
+        } else {
+
+            _status.value = Status.FORECAST_ERROR
+        }
     }
 
     fun onLocationClicked() {
@@ -149,8 +271,18 @@ class MainViewModel @Inject constructor(
         navigate(R.id.action_fragmentMain_to_dailyFragment)
     }
 
+    enum class Status {
+
+        LOADING, FORECAST_ERROR, LOCATION_ERROR, NO_PERMISSION, LOADED
+    }
+
     enum class LoadingStatus {
 
-        LOADING_LOCATION, LOADING_FORECAST, LOADED
+        LOADING_LOCATION, LOADING_FORECAST
+    }
+
+    enum class PermissionStatus {
+
+        RATIONALE, DENIED
     }
 }

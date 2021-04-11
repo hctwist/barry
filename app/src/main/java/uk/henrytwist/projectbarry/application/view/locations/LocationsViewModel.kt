@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import uk.henrytwist.androidbasics.navigation.NavigatorViewModel
 import uk.henrytwist.projectbarry.domain.models.LocationSearchResult

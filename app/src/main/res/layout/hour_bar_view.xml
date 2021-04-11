@@ -6,7 +6,7 @@
     <ImageView
         android:id="@+id/hour_bar_bar"
         android:layout_width="wrap_content"
-        android:layout_height="8dp"
+        android:layout_height="@dimen/hourly_bar_height"
         android:background="@drawable/hour_pop_bar" />
 
     <TextView

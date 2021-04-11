@@ -1,7 +1,5 @@
 package uk.henrytwist.projectbarry.domain.usecases
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import uk.henrytwist.kotlinbasics.Outcome
 import uk.henrytwist.kotlinbasics.failure
@@ -12,21 +10,20 @@ import uk.henrytwist.projectbarry.domain.data.forecast.Forecast
 import uk.henrytwist.projectbarry.domain.data.forecast.ForecastRepository
 import uk.henrytwist.projectbarry.domain.data.savedlocations.SavedLocationsRepository
 import uk.henrytwist.projectbarry.domain.data.selectedlocation.SelectedLocationRepository
-import uk.henrytwist.projectbarry.domain.data.uv.UVRepository
 import uk.henrytwist.projectbarry.domain.models.*
+import uk.henrytwist.projectbarry.domain.util.ForecastUtil
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 class GetNowForecast @Inject constructor(
         selectedLocationRepository: SelectedLocationRepository,
         currentLocationRepository: CurrentLocationRepository,
         savedLocationsRepository: SavedLocationsRepository,
         private val forecastRepository: ForecastRepository,
-        private val UVRepository: UVRepository,
         private val settingsRepository: SettingsRepository
 ) : LocationUseCase<NowForecast>(selectedLocationRepository, currentLocationRepository, savedLocationsRepository) {
 
@@ -34,15 +31,11 @@ class GetNowForecast @Inject constructor(
 
         return coroutineScope {
 
-            val forecastJob = async { forecastRepository.get(location) }
-            val uvJob = async { UVRepository.get(location) }
+            val forecast = forecastRepository.get(location)
 
-            val forecast = forecastJob.await()
-            val uv = uvJob.await()
+            if (forecast is Outcome.Success) {
 
-            if (forecast is Outcome.Success && uv is Outcome.Success) {
-
-                success(buildCurrentForecast(forecast.data, uv.data))
+                success(buildCurrentForecast(forecast.data))
             } else {
 
                 failure()
@@ -50,12 +43,10 @@ class GetNowForecast @Inject constructor(
         }
     }
 
-    private fun buildCurrentForecast(
-            forecast: Forecast,
-            uv: UV
-    ): NowForecast {
+    private fun buildCurrentForecast(forecast: Forecast): NowForecast {
 
         val temperatureScale = settingsRepository.getTemperatureScale()
+        val windSpeedScale = settingsRepository.getWindSpeedScale()
 
         val nPopHours = 2
         var totalPop = 0.0
@@ -69,8 +60,8 @@ class GetNowForecast @Inject constructor(
         val elements = listOf(
 
                 ForecastElement.Pop(pop),
-                ForecastElement.UVIndex(uv.uv),
-                ForecastElement.WindSpeed(forecast.windSpeed),
+                ForecastElement.UVIndex(forecast.uvIndex),
+                ForecastElement.WindSpeed(forecast.windSpeed.to(windSpeedScale)),
                 ForecastElement.Humidity(forecast.humidity)
         )
 
@@ -84,7 +75,7 @@ class GetNowForecast @Inject constructor(
         val today = forecast.daily.first()
         val shouldShowToday = Instant.now().isBefore(today.sunset)
         val day = if (shouldShowToday) today else forecast.daily[1]
-        val todaySnapshot = NowForecast.DaySnapshot(
+        val daySnapshot = NowForecast.DaySnapshot(
                 shouldShowToday,
                 day.condition,
                 day.tempLow.to(temperatureScale),
@@ -96,10 +87,11 @@ class GetNowForecast @Inject constructor(
         return NowForecast(
                 forecast.condition,
                 computeConditionChange(hourSnapshots),
+                ForecastUtil.isNight(ZonedDateTime.now(), forecast),
                 forecast.temp.to(temperatureScale),
                 forecast.feelsLike.to(temperatureScale),
                 elements,
-                todaySnapshot,
+                daySnapshot,
                 hourSnapshots
         )
     }

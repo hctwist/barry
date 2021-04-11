@@ -25,7 +25,9 @@ sealed class ForecastElement {
         override fun getValue() = index
 
         override fun getSeverity(): Double {
-            TODO("Not yet implemented")
+
+            // TODO
+            return 0.5
         }
 
         fun getTag(): Tag {
@@ -109,9 +111,9 @@ sealed class ForecastElement {
         }
     }
 
-    class WindSpeed(val speed: Double) : ForecastElement() {
+    class WindSpeed(val speed: ScaledWindSpeed) : ForecastElement() {
 
-        override fun getValue() = speed
+        override fun getValue() = speed.metresPerSecond()
 
         override fun getSeverity(): Double {
             TODO("Not yet implemented")
@@ -119,7 +121,7 @@ sealed class ForecastElement {
 
         fun getTag(): Tag {
 
-            return when (speed) {
+            return when (speed.metresPerSecond()) {
 
                 in 0.0..1.5 -> Tag.CALM
                 in 1.5..5.5 -> Tag.GENTLE

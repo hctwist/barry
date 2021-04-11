@@ -15,9 +15,12 @@
         <TextView
             android:id="@+id/location_name"
             style="@style/Label"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin"
+            android:ellipsize="end"
+            android:lines="1"
             android:textSize="@dimen/text_small"
             android:textStyle="bold" />
 

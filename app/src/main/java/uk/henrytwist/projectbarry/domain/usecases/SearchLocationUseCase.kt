@@ -1,9 +1,8 @@
 package uk.henrytwist.projectbarry.domain.usecases
 
-import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
-import uk.henrytwist.projectbarry.domain.data.locationsearch.LocationSearchRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import uk.henrytwist.kotlinbasics.Outcome
+import uk.henrytwist.projectbarry.domain.data.locationsearch.LocationSearchRepository
+import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
 import javax.inject.Inject
 
 class SearchLocationUseCase @Inject constructor(private val searchRepository: LocationSearchRepository<*>) {

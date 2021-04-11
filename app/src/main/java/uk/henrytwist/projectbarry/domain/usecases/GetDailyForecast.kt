@@ -35,6 +35,7 @@ class GetDailyForecast @Inject constructor(
     private fun build(forecast: Forecast): DailyForecast {
 
         val temperatureScale = settingsRepository.getTemperatureScale()
+        val windSpeedScale = settingsRepository.getWindSpeedScale()
 
         val days = forecast.daily.map {
 
@@ -43,7 +44,9 @@ class GetDailyForecast @Inject constructor(
                     it.condition,
                     it.tempHigh.to(temperatureScale),
                     it.tempLow.to(temperatureScale),
-                    it.pop
+                    it.uvIndex,
+                    it.pop,
+                    it.windSpeed.to(windSpeedScale)
             )
         }
 

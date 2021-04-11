@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:overScrollMode="never"
-    android:paddingVertical="@dimen/vertical_layout_margin"
+    android:paddingTop="@dimen/top_layout_margin"
+    android:paddingBottom="@dimen/bottom_layout_margin"
     app:navigationItemBackgroundColor="@color/navigation_item_background"
     app:navigationItemForegroundColor="@color/navigation_item_foreground"
     app:navigationItemHorizontalPadding="@dimen/horizontal_layout_margin" />

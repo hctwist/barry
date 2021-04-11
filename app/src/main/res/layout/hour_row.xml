@@ -6,8 +6,6 @@
 
         <import type="uk.henrytwist.projectbarry.application.view.TimeDisplayUtil" />
 
-        <import type="uk.henrytwist.projectbarry.application.view.resolvers.ForecastResolver" />
-
         <import type="uk.henrytwist.projectbarry.application.view.resolvers.WeatherConditionResolver" />
 
         <import type="uk.henrytwist.projectbarry.application.view.resolvers.ForecastElementResolver" />
@@ -46,7 +44,7 @@
             android:layout_width="@dimen/icon_small"
             android:layout_height="@dimen/icon_small"
             android:layout_marginStart="@dimen/half_margin"
-            android:src="@{WeatherConditionResolver.INSTANCE.resolveIcon(context, hour.condition)}"
+            android:src="@{WeatherConditionResolver.INSTANCE.resolveIcon(context, hour.condition, hour.isNight)}"
             bind:tint="?android:attr/colorControlNormal" />
 
         <uk.henrytwist.projectbarry.application.view.hourly.HourBarView
@@ -58,6 +56,6 @@
             android:layout_weight="1"
             bind:color="@{ForecastElementResolver.INSTANCE.resolveSeverityColor(context, hour.element)}"
             bind:value="@{(float) ForecastElementResolver.INSTANCE.resolveValue(hour.element)}"
-            bind:valueLabel="@{ForecastResolver.INSTANCE.getElementDisplayString(context, hour.element)}" />
+            bind:valueLabel="@{ForecastElementResolver.INSTANCE.getElementDisplayString(context, hour.element)}" />
     </LinearLayout>
 </layout>

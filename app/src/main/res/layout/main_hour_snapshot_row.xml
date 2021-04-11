@@ -26,7 +26,7 @@
             <ImageView
                 android:layout_width="@dimen/icon_medium"
                 android:layout_height="@dimen/icon_medium"
-                android:src="@{WeatherConditionResolver.INSTANCE.resolveIcon(context, snapshot.condition)}"
+                android:src="@{WeatherConditionResolver.INSTANCE.resolveIcon(context, snapshot.condition, false)}"
                 app:tint="?android:attr/colorControlNormal" />
 
             <FrameLayout

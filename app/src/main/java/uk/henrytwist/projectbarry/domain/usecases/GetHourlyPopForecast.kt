@@ -10,6 +10,7 @@ import uk.henrytwist.projectbarry.domain.data.selectedlocation.SelectedLocationR
 import uk.henrytwist.projectbarry.domain.models.ForecastElement
 import uk.henrytwist.projectbarry.domain.models.HourlyForecast
 import uk.henrytwist.projectbarry.domain.models.Location
+import uk.henrytwist.projectbarry.domain.util.ForecastUtil
 import java.time.ZoneId
 import javax.inject.Inject
 
@@ -33,15 +34,15 @@ class GetHourlyPopForecast @Inject constructor(
 
         val hours = forecast.hourly.mapFirst(numberOfHoursToFetch) {
 
+            val time = it.time.atZone(ZoneId.systemDefault())
             HourlyForecast.Hour(
-
-                    it.time.atZone(ZoneId.systemDefault()),
+                    time,
+                    ForecastUtil.isNight(time, forecast),
                     it.condition,
                     ForecastElement.Pop(it.pop)
             )
         }
 
-        // TODO -0.1 is a bit dirty, let the view allocate extra space for looks maybe?
-        return HourlyForecast(hours, -0.1, 1.0, getChange(hours))
+        return HourlyForecast(hours, 0.0, 1.0, getChange(hours))
     }
 }

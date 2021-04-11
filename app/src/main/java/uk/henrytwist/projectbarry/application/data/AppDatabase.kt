@@ -10,7 +10,7 @@ import uk.henrytwist.projectbarry.application.data.savedlocations.SavedLocationE
 import uk.henrytwist.projectbarry.application.data.uv.UVDao
 import uk.henrytwist.projectbarry.application.data.uv.UVEntity
 
-@Database(entities = [SavedLocationEntity::class, CurrentForecastEntity::class, HourForecastEntity::class, DayForecastEntity::class, UVEntity::class], version = 23)
+@Database(entities = [SavedLocationEntity::class, CurrentForecastEntity::class, HourForecastEntity::class, DayForecastEntity::class, UVEntity::class], version = 24)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun savedLocationDao(): SavedLocationEntity.Dao

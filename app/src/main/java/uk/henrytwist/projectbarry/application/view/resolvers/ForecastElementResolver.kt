@@ -1,14 +1,67 @@
 package uk.henrytwist.projectbarry.application.view.resolvers
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import uk.henrytwist.projectbarry.R
+import uk.henrytwist.projectbarry.application.view.TimeDisplayUtil
 import uk.henrytwist.projectbarry.application.view.components.ElementTag
 import uk.henrytwist.projectbarry.domain.models.ForecastElement
+import uk.henrytwist.projectbarry.domain.util.DisplayUtil
 
 // TODO Move functions from ForecastResolver here
 object ForecastElementResolver {
+
+    fun getElementDisplayString(context: Context, element: ForecastElement): String {
+
+        return when (element) {
+
+            is ForecastElement.Temperature -> ForecastResolver.displayTemperature(context, element.temperature)!!
+            is ForecastElement.UVIndex -> ForecastResolver.displayUVIndex(element.index)
+            is ForecastElement.Pop -> ForecastResolver.displayPop(context, element.pop)
+            is ForecastElement.FeelsLike -> ForecastResolver.displayTemperature(context, element.temperature)!!
+            is ForecastElement.Humidity -> DisplayUtil.percentage(context, element.humidity)
+            is ForecastElement.WindSpeed -> ForecastResolver.displaySpeed(context, element.speed)
+            is ForecastElement.Sunrise -> TimeDisplayUtil.displayTime(element.time)
+            is ForecastElement.Sunset -> TimeDisplayUtil.displayTime(element.time)
+        }
+    }
+
+    fun getElementTitle(context: Context, element: ForecastElement): String {
+
+        return context.getString(
+                when (element) {
+
+                    is ForecastElement.Temperature -> R.string.element_temperature
+                    is ForecastElement.UVIndex -> R.string.element_uv_index
+                    is ForecastElement.Pop -> R.string.element_pop
+                    is ForecastElement.FeelsLike -> R.string.element_feels_like
+                    is ForecastElement.Humidity -> R.string.element_humidity
+                    is ForecastElement.WindSpeed -> R.string.element_wind_speed
+                    is ForecastElement.Sunrise -> R.string.element_sunrise
+                    is ForecastElement.Sunset -> R.string.element_sunset
+                }
+        )
+    }
+
+    fun getElementIcon(context: Context, element: ForecastElement): Drawable? {
+
+        return when (element) {
+
+            is ForecastElement.UVIndex -> R.drawable.standard_beach_ball
+            is ForecastElement.Pop -> R.drawable.standard_umbrella
+            is ForecastElement.FeelsLike -> R.drawable.standard_jacket
+            is ForecastElement.Humidity -> R.drawable.standard_droplet
+            is ForecastElement.WindSpeed -> R.drawable.standard_wind_turbine
+            is ForecastElement.Sunrise -> R.drawable.standard_bird
+            is ForecastElement.Sunset -> R.drawable.standard_owl
+            else -> null
+        }?.let {
+
+            ContextCompat.getDrawable(context, it)
+        }
+    }
 
     fun resolveValue(forecastElement: ForecastElement): Double {
 

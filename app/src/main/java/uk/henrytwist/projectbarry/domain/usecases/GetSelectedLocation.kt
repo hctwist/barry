@@ -14,6 +14,7 @@ import uk.henrytwist.projectbarry.domain.data.selectedlocation.SelectedLocationR
 import uk.henrytwist.projectbarry.domain.models.SelectedLocation
 import javax.inject.Inject
 
+@Deprecated("Replaced with GetSelectedLocationOneCall")
 @ExperimentalCoroutinesApi
 class GetSelectedLocation @Inject constructor(
         private val selectedLocationRepository: SelectedLocationRepository,
