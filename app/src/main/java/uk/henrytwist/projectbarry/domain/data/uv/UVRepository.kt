@@ -1,8 +1,8 @@
 package uk.henrytwist.projectbarry.domain.data.uv
 
-import uk.henrytwist.kotlinbasics.Outcome
-import uk.henrytwist.kotlinbasics.asSuccess
-import uk.henrytwist.kotlinbasics.failure
+import uk.henrytwist.kotlinbasics.outcomes.Outcome
+import uk.henrytwist.kotlinbasics.outcomes.asSuccess
+import uk.henrytwist.kotlinbasics.outcomes.failure
 import uk.henrytwist.projectbarry.domain.data.KeyedCacheRepository
 import uk.henrytwist.projectbarry.domain.models.Location
 import uk.henrytwist.projectbarry.domain.models.UV

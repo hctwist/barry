@@ -1,4 +1,4 @@
-package uk.henrytwist.projectbarry.application.view.main
+package uk.henrytwist.projectbarry.application.view.main.permissionerror
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import uk.henrytwist.projectbarry.application.view.main.MainViewModel
 import uk.henrytwist.projectbarry.databinding.LocationPermissionFragmentBinding
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package uk.henrytwist.projectbarry.application.view.main
+package uk.henrytwist.projectbarry.application.view.main.forecast
 
 import uk.henrytwist.androidbasics.recyclerview.BindingItemAdapter
 import uk.henrytwist.projectbarry.R

@@ -8,27 +8,31 @@ sealed class ForecastElement {
 
     abstract fun getValue(): Double
 
-    abstract fun getSeverity(): Double
-
     class Temperature(val temperature: ScaledTemperature) : ForecastElement() {
 
         override fun getValue() = temperature.celsius()
 
-        override fun getSeverity(): Double {
+        fun getTag(): Tag {
 
-            return computeSeverity(temperature.celsius(), 8.0, -5.0, 15.0, 30.0)
+            return when (temperature.celsius()) {
+
+                in -Double.MAX_VALUE..0.0 -> Tag.FREEZING
+                in 0.0..10.0 -> Tag.CHILLY
+                in 10.0..19.0 -> Tag.MODERATE
+                in 19.0..25.0 -> Tag.WARM
+                else -> Tag.HOT
+            }
+        }
+
+        enum class Tag {
+
+            FREEZING, CHILLY, MODERATE, WARM, HOT
         }
     }
 
     class UVIndex(val index: Double) : ForecastElement() {
 
         override fun getValue() = index
-
-        override fun getSeverity(): Double {
-
-            // TODO
-            return 0.5
-        }
 
         fun getTag(): Tag {
 
@@ -54,16 +58,11 @@ sealed class ForecastElement {
 
         override fun getValue() = pop
 
-        override fun getSeverity(): Double {
-
-            return computeSeverity(pop, 0.25, 1.0)
-        }
-
         fun getTag(): Tag {
 
             return when (pop) {
 
-                // TODO Think about this
+                // TODO Think about this, maybe add uncertain for 0.3 - 0.5 ish?
                 in 0.0..0.2 -> Tag.UNLIKELY
                 else -> Tag.LIKELY
             }
@@ -78,19 +77,11 @@ sealed class ForecastElement {
     class FeelsLike(val temperature: ScaledTemperature) : ForecastElement() {
 
         override fun getValue() = temperature.celsius()
-
-        override fun getSeverity(): Double {
-            TODO("Not yet implemented")
-        }
     }
 
     class Humidity(val humidity: Int) : ForecastElement() {
 
         override fun getValue() = humidity.toDouble()
-
-        override fun getSeverity(): Double {
-            TODO("Not yet implemented")
-        }
 
         fun getTag(): Tag {
 
@@ -115,10 +106,6 @@ sealed class ForecastElement {
 
         override fun getValue() = speed.metresPerSecond()
 
-        override fun getSeverity(): Double {
-            TODO("Not yet implemented")
-        }
-
         fun getTag(): Tag {
 
             return when (speed.metresPerSecond()) {
@@ -135,47 +122,6 @@ sealed class ForecastElement {
         enum class Tag {
 
             CALM, GENTLE, MODERATE, STRONG, GALE, DANGEROUS
-        }
-    }
-
-    class Sunset(val time: ZonedDateTime) : ForecastElement() {
-
-        override fun getValue() = throw elementValueException()
-
-        override fun getSeverity(): Double {
-            TODO("Not yet implemented")
-        }
-    }
-
-    class Sunrise(val time: ZonedDateTime) : ForecastElement() {
-
-        override fun getValue() = throw elementValueException()
-
-        override fun getSeverity(): Double {
-            TODO("Not yet implemented")
-        }
-    }
-
-    protected fun elementValueException() = RuntimeException("This element does not have a value")
-
-    protected fun computeSeverity(value: Double, highThreshold: Double, highMax: Double): Double {
-
-        return fractionBetween(value, highThreshold, highMax)
-    }
-
-    protected fun computeSeverity(value: Double, lowThreshold: Double, lowMin: Double, highThreshold: Double, highMax: Double): Double {
-
-        return when {
-
-            value <= lowThreshold -> {
-
-                -fractionBetween(value, lowThreshold, lowMin)
-            }
-            value > highThreshold -> {
-
-                fractionBetween(value, highThreshold, highMax)
-            }
-            else -> 0.0
         }
     }
 }

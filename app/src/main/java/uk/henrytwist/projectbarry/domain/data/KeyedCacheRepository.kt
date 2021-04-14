@@ -1,7 +1,7 @@
 package uk.henrytwist.projectbarry.domain.data
 
-import uk.henrytwist.kotlinbasics.Outcome
-import uk.henrytwist.kotlinbasics.success
+import uk.henrytwist.kotlinbasics.outcomes.Outcome
+import uk.henrytwist.kotlinbasics.outcomes.asSuccess
 
 abstract class KeyedCacheRepository<Key, Value> {
 
@@ -27,7 +27,7 @@ abstract class KeyedCacheRepository<Key, Value> {
             }
         } else {
 
-            success(cacheResult)
+            cacheResult.asSuccess()
         }
     }
 

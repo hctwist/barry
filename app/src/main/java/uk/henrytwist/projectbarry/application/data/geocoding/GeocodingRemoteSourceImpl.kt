@@ -2,13 +2,14 @@ package uk.henrytwist.projectbarry.application.data.geocoding
 
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
-import uk.henrytwist.kotlinbasics.Outcome
-import uk.henrytwist.kotlinbasics.asSuccess
-import uk.henrytwist.kotlinbasics.failure
-import uk.henrytwist.projectbarry.domain.models.Location
-import uk.henrytwist.projectbarry.domain.models.LocationCoordinates
+import uk.henrytwist.kotlinbasics.outcomes.NetworkFailure
+import uk.henrytwist.kotlinbasics.outcomes.Outcome
+import uk.henrytwist.kotlinbasics.outcomes.asSuccess
+import uk.henrytwist.kotlinbasics.outcomes.failure
 import uk.henrytwist.projectbarry.domain.data.APIKeyStore
 import uk.henrytwist.projectbarry.domain.data.geocoding.GeocodingRemoteSource
+import uk.henrytwist.projectbarry.domain.models.Location
+import uk.henrytwist.projectbarry.domain.models.LocationCoordinates
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -56,7 +57,7 @@ class GeocodingRemoteSourceImpl @Inject constructor(private val volleyQueue: Req
                     },
                     {
 
-                        cont.resume(failure())
+                        cont.resume(NetworkFailure())
                     }
             )
 

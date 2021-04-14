@@ -34,14 +34,6 @@ object ForecastResolver {
         return context.getString(R.string.main_feels_like, displayTemperature(context, temperature))
     }
 
-    fun resolveSunriseSunset(context: Context, sunriseSunset: SunriseSunset?): String? {
-
-        sunriseSunset ?: return null
-
-        val res = if (sunriseSunset.isSunrise) R.string.main_sunrise else R.string.main_sunset
-        return context.getString(res, TimeDisplayUtil.displayTime(sunriseSunset.time))
-    }
-
     fun displaySpeed(context: Context, windSpeed: ScaledWindSpeed): String {
 
         return context.getString(when (windSpeed.scale) {

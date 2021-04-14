@@ -16,7 +16,7 @@ object ForecastUtil {
 
             if (sunrise.toLocalDate() == timeLocalDate) {
 
-                return time.until(sunrise, ChronoUnit.MINUTES) >= 70 || it.sunset.atZone(ZoneId.systemDefault()).until(time, ChronoUnit.MINUTES) >= 70
+                return time.until(sunrise, ChronoUnit.MINUTES) >= 60 || it.sunset.until(time, ChronoUnit.MINUTES) >= 60
             }
         }
 

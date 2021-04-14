@@ -3,7 +3,7 @@
 
     <data>
 
-        <import type="uk.henrytwist.projectbarry.application.view.main.MainLoadingStatusResolver" />
+        <import type="uk.henrytwist.projectbarry.application.view.main.loading.MainLoadingStatusResolver" />
 
         <variable
             name="viewModel"

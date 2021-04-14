@@ -1,6 +1,6 @@
 package uk.henrytwist.projectbarry.domain.data.locationsearch
 
-import uk.henrytwist.kotlinbasics.Outcome
+import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.projectbarry.domain.models.Location
 import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
 import uk.henrytwist.projectbarry.domain.data.geocoding.GeocodingRemoteSource

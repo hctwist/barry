@@ -3,14 +3,14 @@ package uk.henrytwist.projectbarry.application.data.currentlocation
 import android.annotation.SuppressLint
 import android.location.Location
 import android.os.Looper
-import android.util.Log
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeoutOrNull
-import uk.henrytwist.kotlinbasics.Outcome
-import uk.henrytwist.kotlinbasics.asSuccess
-import uk.henrytwist.kotlinbasics.failure
+import uk.henrytwist.kotlinbasics.outcomes.Outcome
+import uk.henrytwist.kotlinbasics.outcomes.asSuccess
+import uk.henrytwist.kotlinbasics.outcomes.failure
+import uk.henrytwist.projectbarry.domain.data.LocationFailure
 import uk.henrytwist.projectbarry.domain.data.currentlocation.CurrentLocationRemoteSource
 import uk.henrytwist.projectbarry.domain.models.LocationCoordinates
 import javax.inject.Inject
@@ -20,29 +20,6 @@ import kotlin.coroutines.suspendCoroutine
 class CurrentLocationRemoteSourceImpl @Inject constructor(
         private val locationClient: FusedLocationProviderClient
 ) : CurrentLocationRemoteSource {
-
-    @Deprecated("Not needed?")
-    @SuppressLint("MissingPermission")
-    suspend fun isLocationAvailable(): Boolean {
-
-        Log.v("Barry", "Checking availability")
-
-        return suspendCoroutine { continuation ->
-
-            locationClient.locationAvailability.addOnCompleteListener {
-
-                if (!it.isSuccessful || !it.result.isLocationAvailable) {
-
-                    Log.v("Barry", "Not available")
-                    continuation.resume(false)
-                } else {
-
-                    Log.v("Barry", "Available")
-                    continuation.resume(true)
-                }
-            }
-        }
-    }
 
     override suspend fun getLocation(): Outcome<LocationCoordinates> {
 
@@ -70,7 +47,6 @@ class CurrentLocationRemoteSourceImpl @Inject constructor(
             val cancellationSource = CancellationTokenSource()
             continuation.invokeOnCancellation { cancellationSource.cancel() }
 
-            // TODO getLastLocation first? Does this already try a cache?
             locationClient.getCurrentLocation(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY, cancellationSource.token).addOnCompleteListener {
 
                 val result = it.result
@@ -80,7 +56,7 @@ class CurrentLocationRemoteSourceImpl @Inject constructor(
                     continuation.resume(result.asSuccess())
                 } else {
 
-                    continuation.resume(failure())
+                    continuation.resume(LocationFailure())
                 }
             }
         }
@@ -105,7 +81,7 @@ class CurrentLocationRemoteSourceImpl @Inject constructor(
                     }
                 } catch (e: Exception) {
 
-                    cont.resume(failure())
+                    cont.resume(LocationFailure())
                 }
             }
         }

@@ -74,4 +74,9 @@
     <string name="wind_speed_tag_strong">Strong</string>
     <string name="wind_speed_tag_gale">Gale</string>
     <string name="wind_speed_tag_dangerous">Dangerous</string>
+    <string name="temperature_tag_freezing">Freezing</string>
+    <string name="temperature_tag_chilly">Chilly</string>
+    <string name="temperature_tag_moderate">Moderate</string>
+    <string name="temperature_tag_warm">Warm</string>
+    <string name="temperature_tag_hot">Hot</string>
 </resources>

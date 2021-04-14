@@ -1,6 +1,6 @@
 package uk.henrytwist.projectbarry.domain.usecases
 
-import uk.henrytwist.kotlinbasics.Outcome
+import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.projectbarry.domain.data.locationsearch.LocationSearchRepository
 import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
 import javax.inject.Inject

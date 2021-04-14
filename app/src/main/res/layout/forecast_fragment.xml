@@ -188,7 +188,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/main_today_high" />
 
-        <uk.henrytwist.projectbarry.application.view.main.SunriseSunsetView
+        <uk.henrytwist.projectbarry.application.view.main.forecast.SunriseSunsetView
             android:id="@+id/main_today_phase"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

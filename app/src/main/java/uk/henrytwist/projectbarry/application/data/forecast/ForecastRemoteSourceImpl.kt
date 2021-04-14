@@ -3,9 +3,9 @@ package uk.henrytwist.projectbarry.application.data.forecast
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
-import uk.henrytwist.kotlinbasics.Outcome
-import uk.henrytwist.kotlinbasics.asSuccess
-import uk.henrytwist.kotlinbasics.failure
+import uk.henrytwist.kotlinbasics.outcomes.Outcome
+import uk.henrytwist.kotlinbasics.outcomes.asSuccess
+import uk.henrytwist.kotlinbasics.outcomes.failure
 import uk.henrytwist.projectbarry.domain.data.APIKeyStore
 import uk.henrytwist.projectbarry.domain.data.forecast.ForecastRemoteSource
 import uk.henrytwist.projectbarry.domain.models.Location
@@ -44,8 +44,7 @@ class ForecastRemoteSourceImpl @Inject constructor(private val volleyRequestQueu
                                         val hour = hourly.getJSONObject(it)
                                         val hourTime = hour.getLong("dt")
                                         val hourTemp = hour.getDouble("temp")
-                                        val hourConditionCode =
-                                                hour.getJSONArray("weather").getJSONObject(0).getInt("id")
+                                        val hourConditionCode = hour.getJSONArray("weather").getJSONObject(0).getInt("id")
                                         val hourUVIndex = hour.getDouble("uvi")
                                         val hourPop = hour.getDouble("pop")
                                         ForecastModel.Hour(

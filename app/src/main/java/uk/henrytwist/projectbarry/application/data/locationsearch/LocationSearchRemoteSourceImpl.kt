@@ -4,11 +4,11 @@ import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
-import uk.henrytwist.kotlinbasics.Outcome
-import uk.henrytwist.kotlinbasics.asSuccess
-import uk.henrytwist.kotlinbasics.failure
-import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
+import uk.henrytwist.kotlinbasics.outcomes.Outcome
+import uk.henrytwist.kotlinbasics.outcomes.asSuccess
+import uk.henrytwist.kotlinbasics.outcomes.failure
 import uk.henrytwist.projectbarry.domain.data.locationsearch.LocationSearchRemoteSource
+import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -29,10 +29,9 @@ class LocationSearchRemoteSourceImpl @Inject constructor(private val placesClien
                     .setTypeFilter(TypeFilter.REGIONS).setSessionToken(sessionToken).build()
             placesClient.findAutocompletePredictions(request).addOnCompleteListener { response ->
 
-                val result = response.result
-                if (response.isSuccessful && result != null) {
+                if (response.isSuccessful && response.result != null) {
 
-                    val searchResults = result.autocompletePredictions.map {
+                    val searchResults = response.result.autocompletePredictions.map {
 
                         LocationSearchResult(
                                 it.placeId,

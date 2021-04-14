@@ -1,7 +1,7 @@
 package uk.henrytwist.projectbarry.domain.data.locationsearch
 
 import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
-import uk.henrytwist.kotlinbasics.Outcome
+import uk.henrytwist.kotlinbasics.outcomes.Outcome
 
 interface LocationSearchRemoteSource<SessionToken> {
 

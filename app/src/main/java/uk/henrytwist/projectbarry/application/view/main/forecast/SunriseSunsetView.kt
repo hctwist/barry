@@ -1,4 +1,4 @@
-package uk.henrytwist.projectbarry.application.view.main
+package uk.henrytwist.projectbarry.application.view.main.forecast
 
 import android.content.Context
 import android.content.res.ColorStateList

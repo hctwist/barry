@@ -3,14 +3,11 @@ package uk.henrytwist.projectbarry.application.view.resolvers
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.ColorUtils
 import uk.henrytwist.projectbarry.R
-import uk.henrytwist.projectbarry.application.view.TimeDisplayUtil
 import uk.henrytwist.projectbarry.application.view.components.ElementTag
 import uk.henrytwist.projectbarry.domain.models.ForecastElement
 import uk.henrytwist.projectbarry.domain.util.DisplayUtil
 
-// TODO Move functions from ForecastResolver here
 object ForecastElementResolver {
 
     fun getElementDisplayString(context: Context, element: ForecastElement): String {
@@ -23,8 +20,6 @@ object ForecastElementResolver {
             is ForecastElement.FeelsLike -> ForecastResolver.displayTemperature(context, element.temperature)!!
             is ForecastElement.Humidity -> DisplayUtil.percentage(context, element.humidity)
             is ForecastElement.WindSpeed -> ForecastResolver.displaySpeed(context, element.speed)
-            is ForecastElement.Sunrise -> TimeDisplayUtil.displayTime(element.time)
-            is ForecastElement.Sunset -> TimeDisplayUtil.displayTime(element.time)
         }
     }
 
@@ -39,8 +34,6 @@ object ForecastElementResolver {
                     is ForecastElement.FeelsLike -> R.string.element_feels_like
                     is ForecastElement.Humidity -> R.string.element_humidity
                     is ForecastElement.WindSpeed -> R.string.element_wind_speed
-                    is ForecastElement.Sunrise -> R.string.element_sunrise
-                    is ForecastElement.Sunset -> R.string.element_sunset
                 }
         )
     }
@@ -54,8 +47,6 @@ object ForecastElementResolver {
             is ForecastElement.FeelsLike -> R.drawable.standard_jacket
             is ForecastElement.Humidity -> R.drawable.standard_droplet
             is ForecastElement.WindSpeed -> R.drawable.standard_wind_turbine
-            is ForecastElement.Sunrise -> R.drawable.standard_bird
-            is ForecastElement.Sunset -> R.drawable.standard_owl
             else -> null
         }?.let {
 
@@ -68,46 +59,33 @@ object ForecastElementResolver {
         return forecastElement.getValue()
     }
 
-    fun resolveSeverityColor(context: Context, element: ForecastElement): Int {
+    fun resolveTagColor(context: Context, element: ForecastElement): Int {
 
-        val baseColor = ContextCompat.getColor(context, R.color.severity_base)
-
-        val highColor = when (element) {
-
-            is ForecastElement.Pop -> ContextCompat.getColor(context, R.color.pop_severe)
-            is ForecastElement.Temperature -> ContextCompat.getColor(context, R.color.temperature_severe_high)
-            else -> null
-        }
-
-        val lowColor = when (element) {
-
-            is ForecastElement.Temperature -> ContextCompat.getColor(context, R.color.temperature_severe_low)
-            else -> null
-        }
-
-        val severity = element.getSeverity()
-
-        return if (severity > 0 && highColor != null) {
-
-            ColorUtils.blendARGB(baseColor, highColor, severity.toFloat())
-        } else if (severity < 0 && lowColor != null) {
-
-            ColorUtils.blendARGB(baseColor, lowColor, -severity.toFloat())
-        } else {
-
-            baseColor
-        }
+        return ContextCompat.getColor(context, resolveTag(element)!!.colorRes)
     }
 
     fun resolveTag(forecastElement: ForecastElement): ElementTag.Tag? {
 
         return when (forecastElement) {
 
+            is ForecastElement.Temperature -> resolveTag(forecastElement)
             is ForecastElement.UVIndex -> resolveTag(forecastElement)
             is ForecastElement.Pop -> resolveTag(forecastElement)
             is ForecastElement.Humidity -> resolveTag(forecastElement)
             is ForecastElement.WindSpeed -> resolveTag(forecastElement)
             else -> null
+        }
+    }
+
+    private fun resolveTag(temperatureElement: ForecastElement.Temperature): ElementTag.Tag {
+
+        return when (temperatureElement.getTag()) {
+
+            ForecastElement.Temperature.Tag.FREEZING -> elementTag(R.string.temperature_tag_freezing, R.color.temperature_tag_freezing)
+            ForecastElement.Temperature.Tag.CHILLY -> elementTag(R.string.temperature_tag_chilly, R.color.temperature_tag_chilly)
+            ForecastElement.Temperature.Tag.MODERATE -> elementTag(R.string.temperature_tag_moderate, R.color.temperature_tag_moderate)
+            ForecastElement.Temperature.Tag.WARM -> elementTag(R.string.temperature_tag_warm, R.color.temperature_tag_warm)
+            ForecastElement.Temperature.Tag.HOT -> elementTag(R.string.temperature_tag_hot, R.color.temperature_tag_hot)
         }
     }
 

@@ -1,9 +1,7 @@
 package uk.henrytwist.projectbarry.domain.usecases
 
 import kotlinx.coroutines.coroutineScope
-import uk.henrytwist.kotlinbasics.Outcome
-import uk.henrytwist.kotlinbasics.failure
-import uk.henrytwist.kotlinbasics.success
+import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.projectbarry.domain.data.SettingsRepository
 import uk.henrytwist.projectbarry.domain.data.currentlocation.CurrentLocationRepository
 import uk.henrytwist.projectbarry.domain.data.forecast.Forecast
@@ -33,12 +31,9 @@ class GetNowForecast @Inject constructor(
 
             val forecast = forecastRepository.get(location)
 
-            if (forecast is Outcome.Success) {
+            forecast.map {
 
-                success(buildCurrentForecast(forecast.data))
-            } else {
-
-                failure()
+                buildCurrentForecast(it)
             }
         }
     }

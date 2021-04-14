@@ -1,6 +1,6 @@
 package uk.henrytwist.projectbarry.domain.data.forecast
 
-import uk.henrytwist.kotlinbasics.Outcome
+import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.projectbarry.application.data.forecast.ForecastModel
 import uk.henrytwist.projectbarry.domain.data.KeyedCacheRepository
 import uk.henrytwist.projectbarry.domain.data.toInstant

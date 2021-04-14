@@ -17,21 +17,23 @@ import uk.henrytwist.androidbasics.livedata.immutable
 import uk.henrytwist.androidbasics.livedata.trigger
 import uk.henrytwist.androidbasics.navigation.NavigationCommand
 import uk.henrytwist.androidbasics.navigation.NavigatorViewModel
-import uk.henrytwist.kotlinbasics.*
+import uk.henrytwist.kotlinbasics.Event
+import uk.henrytwist.kotlinbasics.Trigger
+import uk.henrytwist.kotlinbasics.outcomes.*
 import uk.henrytwist.projectbarry.R
+import uk.henrytwist.projectbarry.domain.data.LocationFailure
 import uk.henrytwist.projectbarry.domain.models.Location
 import uk.henrytwist.projectbarry.domain.models.NowForecast
 import uk.henrytwist.projectbarry.domain.models.SelectedLocation
 import uk.henrytwist.projectbarry.domain.usecases.GetNowForecast
+import uk.henrytwist.projectbarry.domain.usecases.GetSelectedLocation
 import uk.henrytwist.projectbarry.domain.usecases.GetSelectedLocationInvalidationTracker
-import uk.henrytwist.projectbarry.domain.usecases.GetSelectedLocationOneCall
 import javax.inject.Inject
-
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
         getSelectedLocationInvalidationTracker: GetSelectedLocationInvalidationTracker,
-        private val getSelectedLocationOneCall: GetSelectedLocationOneCall,
+        private val getSelectedLocation: GetSelectedLocation,
         private val getNowForecast: GetNowForecast
 ) : NavigatorViewModel() {
 
@@ -108,10 +110,10 @@ class MainViewModel @Inject constructor(
                 // TODO Compiler bug?
                 when (outcome) {
 
-                    Outcome.Waiting -> {
+                    is Outcome.Waiting -> {
                     }
 
-                    is Outcome.Success<SelectedLocation> -> {
+                    is Outcome.Success -> {
 
                         outcome.successOrNull()?.location?.let {
 
@@ -119,9 +121,9 @@ class MainViewModel @Inject constructor(
                         }
                     }
 
-                    Outcome.Failure -> {
+                    is Outcome.Failure -> {
 
-                        _status.value = Status.LOCATION_ERROR
+                        onLocationFailure(outcome)
                     }
                 }
             }
@@ -185,7 +187,8 @@ class MainViewModel @Inject constructor(
 
             _status.value = Status.LOADING
             _loadingStatus.value = LoadingStatus.LOADING_LOCATION
-            _selectedLocation.value = getSelectedLocationOneCall()
+            val l = getSelectedLocation()
+            _selectedLocation.value = l
         }
     }
 
@@ -234,6 +237,11 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun onRetry() {
+
+        collectLocation()
+    }
+
     private suspend fun fetchForecast(location: Location) {
 
         _status.value = Status.LOADING
@@ -245,9 +253,18 @@ class MainViewModel @Inject constructor(
 
             _status.value = Status.LOADED
             _currentForecast.value = forecast
-        } else {
+        } else if (forecast is Outcome.Failure) {
 
-            _status.value = Status.FORECAST_ERROR
+            onLocationFailure(forecast)
+        }
+    }
+
+    private fun onLocationFailure(failure: Outcome.Failure) {
+
+        when (failure) {
+
+            is LocationFailure -> _status.value = Status.LOCATION_ERROR
+            is NetworkFailure -> _status.value = Status.NETWORK_ERROR
         }
     }
 
@@ -273,7 +290,7 @@ class MainViewModel @Inject constructor(
 
     enum class Status {
 
-        LOADING, FORECAST_ERROR, LOCATION_ERROR, NO_PERMISSION, LOADED
+        LOADING, NETWORK_ERROR, LOCATION_ERROR, NO_PERMISSION, LOADED
     }
 
     enum class LoadingStatus {

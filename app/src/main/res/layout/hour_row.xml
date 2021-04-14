@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin"
             android:layout_weight="1"
-            bind:color="@{ForecastElementResolver.INSTANCE.resolveSeverityColor(context, hour.element)}"
+            bind:color="@{ForecastElementResolver.INSTANCE.resolveTagColor(context, hour.element)}"
             bind:value="@{(float) ForecastElementResolver.INSTANCE.resolveValue(hour.element)}"
             bind:valueLabel="@{ForecastElementResolver.INSTANCE.getElementDisplayString(context, hour.element)}" />
     </LinearLayout>

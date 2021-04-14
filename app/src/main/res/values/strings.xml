@@ -10,16 +10,13 @@
     <string name="main_tomorrow">Tomorrow</string>
     <string name="main_hourly">Coming up</string>
 
+    <string name="main_feels_like">Feels like %1$s</string>
+
     <string name="main_day_button">Next 7 days</string>
     <string name="main_hourly_button">Next 24 hours</string>
 
     <string name="main_loading_location">Fetching location</string>
     <string name="main_loading_forecast">Loading forecast</string>
-
-    <!-- TODO Sort -->
-    <string name="main_feels_like">Feels like %1$s</string>
-    <string name="main_sunrise">Sunrise at %1$s</string>
-    <string name="main_sunset">Sunset at %1$s</string>
 
     <!-- Location permission -->
     <string name="location_permission_title">We cannot access your location</string>
@@ -32,6 +29,11 @@
     <string name="location_error_message">We can\'t access your location at the moment, make sure your location services are enabled or choose a fixed location.</string>
     <string name="location_error_turn_on_services">Turn on location services</string>
     <string name="location_error_choose">Choose a location</string>
+
+    <!-- Network error -->
+    <string name="network_error_title">Could not reach the network</string>
+    <string name="network_error_message">We can\'t fetch your forecast at the moment. Make sure your internet connection is available.</string>
+    <string name="network_error_retry">Retry</string>
 
     <!-- Locations -->
     <string name="current_location">Current location</string>

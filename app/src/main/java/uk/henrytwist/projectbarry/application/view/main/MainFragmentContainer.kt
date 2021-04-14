@@ -16,6 +16,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import uk.henrytwist.androidbasics.livedata.observeEvent
 import uk.henrytwist.projectbarry.R
+import uk.henrytwist.projectbarry.application.view.main.forecast.ForecastFragment
+import uk.henrytwist.projectbarry.application.view.main.loading.MainLoadingFragment
+import uk.henrytwist.projectbarry.application.view.main.locationerror.LocationErrorFragment
+import uk.henrytwist.projectbarry.application.view.main.networkerror.NetworkErrorFragment
+import uk.henrytwist.projectbarry.application.view.main.permissionerror.LocationPermissionFragment
 import uk.henrytwist.projectbarry.databinding.MainFragmentContainerBinding
 
 @ExperimentalCoroutinesApi
@@ -92,7 +97,7 @@ class MainFragmentContainer : Fragment() {
             if (status == MainViewModel.Status.LOADED) {
 
                 lastErrorFragment?.let { childFragmentManager.beginTransaction().remove(it).commit() }
-                childFragmentManager.beginTransaction().replace(R.id.main_container, MainFragment()).commit()
+                childFragmentManager.beginTransaction().replace(R.id.main_container, ForecastFragment()).commit()
             } else {
 
                 childFragmentManager.findFragmentById(R.id.main_container)?.let { childFragmentManager.beginTransaction().remove(it).commit() }
@@ -101,7 +106,7 @@ class MainFragmentContainer : Fragment() {
 
                     MainViewModel.Status.LOADING -> MainLoadingFragment()
                     MainViewModel.Status.NO_PERMISSION -> LocationPermissionFragment()
-                    MainViewModel.Status.FORECAST_ERROR -> ForecastErrorFragment()
+                    MainViewModel.Status.NETWORK_ERROR -> NetworkErrorFragment()
                     MainViewModel.Status.LOCATION_ERROR -> LocationErrorFragment()
                     else -> null
                 }?.let {

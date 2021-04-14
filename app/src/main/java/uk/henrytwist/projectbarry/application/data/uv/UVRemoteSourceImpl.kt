@@ -2,8 +2,8 @@ package uk.henrytwist.projectbarry.application.data.uv
 
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
-import uk.henrytwist.kotlinbasics.Outcome
-import uk.henrytwist.kotlinbasics.failure
+import uk.henrytwist.kotlinbasics.outcomes.Outcome
+import uk.henrytwist.kotlinbasics.outcomes.failure
 import uk.henrytwist.projectbarry.domain.models.Location
 import uk.henrytwist.projectbarry.domain.data.APIKeyStore
 import uk.henrytwist.projectbarry.domain.models.UV

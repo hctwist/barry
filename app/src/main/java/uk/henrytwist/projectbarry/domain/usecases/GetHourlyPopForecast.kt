@@ -1,6 +1,6 @@
 package uk.henrytwist.projectbarry.domain.usecases
 
-import uk.henrytwist.kotlinbasics.Outcome
+import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.projectbarry.domain.data.PremiumRepository
 import uk.henrytwist.projectbarry.domain.data.currentlocation.CurrentLocationRepository
 import uk.henrytwist.projectbarry.domain.data.forecast.Forecast
