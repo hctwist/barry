@@ -54,4 +54,9 @@
 
     <!-- Hourly -->
     <dimen name="hourly_bar_height">8dp</dimen>
+    <dimen name="hourly_row_min_height">48dp</dimen>
+
+    <!-- Element tag -->
+    <dimen name="element_tag_padding_vertical">3dp</dimen>
+    <dimen name="element_tag_padding_horizontal">10dp</dimen>
 </resources>

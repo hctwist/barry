@@ -1,8 +1,12 @@
 package uk.henrytwist.projectbarry.application.view
 
+import android.content.Context
+import uk.henrytwist.projectbarry.R
+import java.time.LocalDate
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import java.time.temporal.ChronoUnit
 
 object TimeDisplayUtil {
 
@@ -11,7 +15,7 @@ object TimeDisplayUtil {
         return DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).format(dateTime)
     }
 
-    fun displayHumanDay(dateTime: ZonedDateTime): String {
+    fun displayDay(dateTime: ZonedDateTime): String {
 
         return DateTimeFormatter.ofPattern("EEEE").format(dateTime)
     }
@@ -24,5 +28,16 @@ object TimeDisplayUtil {
     fun displayDayOfMonth(dateTime: ZonedDateTime): String {
 
         return DateTimeFormatter.ofPattern("d").format(dateTime)
+    }
+
+    fun displayFutureDay(context: Context, time: ZonedDateTime): String {
+
+        val now = LocalDate.now()
+
+        return when (now.until(time.toLocalDate(), ChronoUnit.DAYS).toInt()) {
+
+            1 -> context.getString(R.string.tomorrow)
+            else -> displayDay(time)
+        }
     }
 }

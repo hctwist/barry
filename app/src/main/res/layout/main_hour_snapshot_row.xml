@@ -20,13 +20,13 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin"
-            android:paddingVertical="@dimen/margin">
+            android:paddingHorizontal="@dimen/card_inset"
+            android:paddingVertical="@dimen/card_inset">
 
             <ImageView
                 android:layout_width="@dimen/icon_medium"
                 android:layout_height="@dimen/icon_medium"
-                android:src="@{WeatherConditionResolver.INSTANCE.resolveIcon(context, snapshot.condition, false)}"
+                android:src="@{WeatherConditionResolver.INSTANCE.resolveIcon(context, snapshot.condition, snapshot.isNight)}"
                 app:tint="?android:attr/colorControlNormal" />
 
             <FrameLayout

@@ -5,8 +5,8 @@ import uk.henrytwist.projectbarry.application.data.forecast.ForecastModel
 import uk.henrytwist.projectbarry.domain.data.KeyedCacheRepository
 import uk.henrytwist.projectbarry.domain.data.toInstant
 import uk.henrytwist.projectbarry.domain.models.Location
+import uk.henrytwist.projectbarry.domain.models.ScaledSpeed
 import uk.henrytwist.projectbarry.domain.models.ScaledTemperature
-import uk.henrytwist.projectbarry.domain.models.ScaledWindSpeed
 import uk.henrytwist.projectbarry.domain.models.WeatherCondition
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -48,6 +48,7 @@ class ForecastRepository @Inject constructor(private val localSource: ForecastLo
                     it.temp.kelvin(),
                     it.condition.ordinal,
                     it.uvIndex,
+                    it.windSpeed.metresPerSecond(),
                     it.pop
             )
         }
@@ -74,7 +75,7 @@ class ForecastRepository @Inject constructor(private val localSource: ForecastLo
                 condition.ordinal,
                 feelsLike.kelvin(),
                 uvIndex,
-                humidity,
+                dewPoint.kelvin(),
                 windSpeed.metresPerSecond(),
                 hours,
                 days
@@ -90,6 +91,7 @@ class ForecastRepository @Inject constructor(private val localSource: ForecastLo
                     conditionCodeMapper(it.conditionCode),
                     ScaledTemperature.fromKelvin(it.temp),
                     it.uvIndex,
+                    ScaledSpeed.fromMetresPerSecond(it.windSpeed),
                     it.pop
             )
         }
@@ -103,7 +105,7 @@ class ForecastRepository @Inject constructor(private val localSource: ForecastLo
                     conditionCodeMapper(it.conditionCode),
                     it.uvIndex,
                     it.pop,
-                    ScaledWindSpeed.fromMetresPerSecond(it.windSpeed),
+                    ScaledSpeed.fromMetresPerSecond(it.windSpeed),
                     it.sunrise.toInstant(),
                     it.sunset.toInstant()
             )
@@ -116,8 +118,8 @@ class ForecastRepository @Inject constructor(private val localSource: ForecastLo
                 conditionCodeMapper(conditionCode),
                 ScaledTemperature.fromKelvin(feelsLike),
                 uvIndex,
-                humidity,
-                ScaledWindSpeed.fromMetresPerSecond(windSpeed),
+                ScaledTemperature.fromKelvin(dewPoint),
+                ScaledSpeed.fromMetresPerSecond(windSpeed),
                 hours,
                 days
         )

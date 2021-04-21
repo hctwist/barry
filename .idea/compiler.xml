@@ -5,6 +5,7 @@
       <module name="Project_Barry.android-basics" target="1.8" />
       <module name="Project_Barry.app" target="1.8" />
       <module name="Project_Barry.buttons" target="1.8" />
+      <module name="Project_Barry.htp-core" target="1.8" />
       <module name="Project_Barry.skeletonlayout" target="1.8" />
     </bytecodeTargetLevel>
   </component>

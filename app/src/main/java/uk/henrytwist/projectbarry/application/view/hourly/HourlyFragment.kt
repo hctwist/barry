@@ -11,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.application.view.components.HeaderAdapter
+import uk.henrytwist.projectbarry.domain.models.HourlyForecast
 
 @AndroidEntryPoint
 @ExperimentalCoroutinesApi
@@ -30,21 +31,39 @@ class HourlyFragment : Fragment(R.layout.hourly_fragment) {
 
             handler = viewModel
         }
-        val hourlyAdapter = HourlyAdapter()
 
-        view.findViewById<RecyclerView>(R.id.hourly_recycler).run {
+        val conditionAdapter = HourlyConditionAdapter()
+        val elementAdapter = HourlyElementAdapter()
 
-            layoutManager = LinearLayoutManager(context)
-            adapter = ConcatAdapter(headerAdapter, hourlyHeaderAdapter, hourlyAdapter)
+        val forecastAdapter = ConcatAdapter(headerAdapter, hourlyHeaderAdapter, conditionAdapter)
+
+        viewModel.forecastType.observe(viewLifecycleOwner) {
+
+            hourlyHeaderAdapter.selectedType = it
+            hourlyHeaderAdapter.notifyDataSetChanged()
         }
 
         viewModel.forecast.observe(viewLifecycleOwner) {
 
-            hourlyHeaderAdapter.change = it.change
-            hourlyHeaderAdapter.notifyDataSetChanged()
+            when (it) {
 
-            hourlyAdapter.forecast = it
-            hourlyAdapter.notifyDataSetChanged()
+                is HourlyForecast.Conditions -> {
+
+                    if (forecastAdapter.removeAdapter(elementAdapter)) forecastAdapter.addAdapter(2, conditionAdapter)
+                    conditionAdapter.rows = it.blocks
+                    conditionAdapter.notifyDataSetChanged()
+                }
+                is HourlyForecast.Elements -> {
+
+                    if (forecastAdapter.removeAdapter(conditionAdapter)) forecastAdapter.addAdapter(2, elementAdapter)
+                    elementAdapter.rows = it.elements
+                    elementAdapter.notifyDataSetChanged()
+                }
+            }
         }
+
+        val recycler = view.findViewById<RecyclerView>(R.id.hourly_recycler)
+        recycler.layoutManager = LinearLayoutManager(context)
+        recycler.adapter = forecastAdapter
     }
 }

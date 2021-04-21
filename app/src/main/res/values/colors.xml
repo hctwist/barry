@@ -14,36 +14,4 @@
 
     <color name="location_pinned_background">#FFDDDD</color>
     <color name="location_pinned">#ED3030</color>
-
-    <!-- Element tags -->
-    <color name="tag_grey">#616161</color>
-    <color name="tag_red">#cb4444</color>
-    <color name="tag_orange">#cb9044</color>
-    <color name="tag_yellow">#d8c43f</color>
-    <color name="tag_green">#64cb44</color>
-    <color name="tag_violet">#aa44cb</color>
-    <color name="tag_blue">#44a3cb</color>
-    <color name="uv_tag_zero">@color/tag_grey</color>
-    <color name="uv_tag_low">@color/tag_green</color>
-    <color name="uv_tag_moderate">@color/tag_yellow</color>
-    <color name="uv_tag_high">@color/tag_orange</color>
-    <color name="uv_tag_very_high">@color/tag_red</color>
-    <color name="uv_tag_extremely_high">@color/tag_violet</color>
-    <color name="pop_tag_unlikely">@color/tag_grey</color>
-    <color name="pop_tag_likely">@color/tag_blue</color>
-    <color name="humidity_tag_low">@color/tag_red</color>
-    <color name="humidity_tag_fair">@color/tag_orange</color>
-    <color name="humidity_tag_healthy">@color/tag_green</color>
-    <color name="humidity_tag_high">@color/tag_red</color>
-    <color name="wind_speed_tag_calm">@color/tag_grey</color>
-    <color name="wind_speed_tag_gentle">@color/tag_blue</color>
-    <color name="wind_speed_tag_moderate">@color/tag_green</color>
-    <color name="wind_speed_tag_strong">@color/tag_yellow</color>
-    <color name="wind_speed_tag_gale">@color/tag_orange</color>
-    <color name="wind_speed_tag_dangerous">@color/tag_red</color>
-    <color name="temperature_tag_freezing">@color/tag_blue</color>
-    <color name="temperature_tag_chilly">@color/tag_blue</color>
-    <color name="temperature_tag_moderate">@color/tag_grey</color>
-    <color name="temperature_tag_warm">@color/tag_yellow</color>
-    <color name="temperature_tag_hot">@color/tag_red</color>
 </resources>

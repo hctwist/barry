@@ -1,13 +1,9 @@
 package uk.henrytwist.projectbarry.domain.usecases
 
-import kotlinx.coroutines.coroutineScope
 import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.projectbarry.domain.data.SettingsRepository
-import uk.henrytwist.projectbarry.domain.data.currentlocation.CurrentLocationRepository
 import uk.henrytwist.projectbarry.domain.data.forecast.Forecast
 import uk.henrytwist.projectbarry.domain.data.forecast.ForecastRepository
-import uk.henrytwist.projectbarry.domain.data.savedlocations.SavedLocationsRepository
-import uk.henrytwist.projectbarry.domain.data.selectedlocation.SelectedLocationRepository
 import uk.henrytwist.projectbarry.domain.models.*
 import uk.henrytwist.projectbarry.domain.util.ForecastUtil
 import java.time.Instant
@@ -18,23 +14,15 @@ import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 class GetNowForecast @Inject constructor(
-        selectedLocationRepository: SelectedLocationRepository,
-        currentLocationRepository: CurrentLocationRepository,
-        savedLocationsRepository: SavedLocationsRepository,
         private val forecastRepository: ForecastRepository,
         private val settingsRepository: SettingsRepository
-) : LocationUseCase<NowForecast>(selectedLocationRepository, currentLocationRepository, savedLocationsRepository) {
+) {
 
-    override suspend fun invoke(location: Location): Outcome<NowForecast> {
+    suspend operator fun invoke(location: Location): Outcome<NowForecast> {
 
-        return coroutineScope {
+        return forecastRepository.get(location).map {
 
-            val forecast = forecastRepository.get(location)
-
-            forecast.map {
-
-                buildCurrentForecast(it)
-            }
+            buildCurrentForecast(it)
         }
     }
 
@@ -57,14 +45,15 @@ class GetNowForecast @Inject constructor(
                 ForecastElement.Pop(pop),
                 ForecastElement.UVIndex(forecast.uvIndex),
                 ForecastElement.WindSpeed(forecast.windSpeed.to(windSpeedScale)),
-                ForecastElement.Humidity(forecast.humidity)
+                ForecastElement.DewPoint(forecast.dewPoint.to(temperatureScale))
         )
 
         val nHourSnapshots = 12
         val hourSnapshots = List(nHourSnapshots) {
 
             val hour = forecast.hourly[it]
-            NowForecast.HourSnapshot(hour.time.atZone(ZoneId.systemDefault()), hour.condition)
+            val time = hour.time.atZone(ZoneId.systemDefault())
+            NowForecast.HourSnapshot(time, hour.condition, ForecastUtil.isNight(time, forecast))
         }
 
         val today = forecast.daily.first()

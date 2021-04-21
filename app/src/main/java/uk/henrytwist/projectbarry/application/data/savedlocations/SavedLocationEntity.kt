@@ -1,9 +1,6 @@
 package uk.henrytwist.projectbarry.application.data.savedlocations
 
-import androidx.room.Entity
-import androidx.room.Insert
-import androidx.room.PrimaryKey
-import androidx.room.Query
+import androidx.room.*
 
 @Entity
 class SavedLocationEntity(
@@ -17,7 +14,7 @@ class SavedLocationEntity(
     @androidx.room.Dao
     interface Dao {
 
-        @Insert
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
         suspend fun insert(location: SavedLocationEntity): Long
 
         @Query("SELECT * FROM SavedLocationEntity")

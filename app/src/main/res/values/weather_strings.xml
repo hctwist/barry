@@ -50,7 +50,7 @@
     <string name="element_pop">Rain</string>
     <string name="element_uv_index">UV index</string>
     <string name="element_feels_like">Feels like</string>
-    <string name="element_humidity">Humidity</string>
+    <string name="element_dew_point">Dew point</string>
     <string name="element_wind_speed">Wind speed</string>
     <string name="element_sunrise">Sunrise</string>
     <string name="element_sunset">Sunset</string>
@@ -62,12 +62,14 @@
     <string name="uv_tag_high">High</string>
     <string name="uv_tag_very_high">Very high</string>
     <string name="uv_tag_extremely_high">Extremely high</string>
+    <string name="pop_tag_none">None</string>
     <string name="pop_tag_unlikely">Unlikely</string>
+    <string name="pop_tag_possible">Possible</string>
     <string name="pop_tag_likely">Likely</string>
-    <string name="humidity_tag_low">Low</string>
-    <string name="humidity_tag_fair">Fair</string>
-    <string name="humidity_tag_healthy">Healthy</string>
-    <string name="humidity_tag_high">High</string>
+    <string name="pop_tag_very_likely">Very likely</string>
+    <string name="dew_point_comfortable">Comfortable</string>
+    <string name="dew_point_muggy">Muggy</string>
+    <string name="dew_point_uncomfortable">Uncomfortable</string>
     <string name="wind_speed_tag_calm">Calm</string>
     <string name="wind_speed_tag_gentle">Gentle</string>
     <string name="wind_speed_tag_moderate">Moderate</string>

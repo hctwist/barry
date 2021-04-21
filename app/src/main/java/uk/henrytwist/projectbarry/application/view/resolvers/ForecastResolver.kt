@@ -34,14 +34,14 @@ object ForecastResolver {
         return context.getString(R.string.main_feels_like, displayTemperature(context, temperature))
     }
 
-    fun displaySpeed(context: Context, windSpeed: ScaledWindSpeed): String {
+    fun displaySpeed(context: Context, windSpeed: ScaledSpeed): String {
 
         return context.getString(when (windSpeed.scale) {
 
-            ScaledWindSpeed.Scale.METRES_PER_SECOND -> R.string.format_mps
-            ScaledWindSpeed.Scale.MILES_PER_HOUR -> R.string.format_mph
-            ScaledWindSpeed.Scale.KILOMETRES_PER_HOUR -> R.string.format_kph
-            ScaledWindSpeed.Scale.KNOTS -> R.string.format_knots
+            ScaledSpeed.Scale.METRES_PER_SECOND -> R.string.format_mps
+            ScaledSpeed.Scale.MILES_PER_HOUR -> R.string.format_mph
+            ScaledSpeed.Scale.KILOMETRES_PER_HOUR -> R.string.format_kph
+            ScaledSpeed.Scale.KNOTS -> R.string.format_knots
         }, DisplayUtil.decimalPlaces(windSpeed.value, 1))
     }
 

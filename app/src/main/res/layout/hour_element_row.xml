@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="uk.henrytwist.projectbarry.application.view.resolvers.TagResolver" />
+
+        <import type="uk.henrytwist.projectbarry.application.view.TimeDisplayUtil" />
+
+        <import type="uk.henrytwist.projectbarry.application.view.resolvers.WeatherConditionResolver" />
+
+        <import type="uk.henrytwist.projectbarry.application.view.resolvers.ForecastElementResolver" />
+
+        <import type="uk.henrytwist.projectbarry.domain.models.ForecastElement" />
+
+        <variable
+            name="element"
+            type="uk.henrytwist.projectbarry.domain.models.HourElementForecast.Element" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/hourly_row_min_height"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/half_margin">
+
+        <include
+            layout="@layout/hour_time"
+            bind:time="@{element.time}" />
+
+        <uk.henrytwist.projectbarry.application.view.hourly.HourlyElementBarView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            bind:element="@{element}" />
+    </LinearLayout>
+</layout>

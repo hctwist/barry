@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="uk.henrytwist.projectbarry.application.view.TimeDisplayUtil" />
+
+        <variable
+            name="time"
+            type="java.time.ZonedDateTime" />
+    </data>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="4"
+        android:text="@{TimeDisplayUtil.INSTANCE.displayMeridiemHour(time)}" />
+</layout>

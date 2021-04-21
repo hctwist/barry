@@ -11,7 +11,7 @@ import uk.henrytwist.projectbarry.domain.data.SettingsRepository
 import uk.henrytwist.projectbarry.domain.data.SettingsRepository.Companion.DEFAULT_TEMPERATURE_SCALE
 import uk.henrytwist.projectbarry.domain.data.SettingsRepository.Companion.DEFAULT_WIND_SPEED
 import uk.henrytwist.projectbarry.domain.models.ScaledTemperature
-import uk.henrytwist.projectbarry.domain.models.ScaledWindSpeed
+import uk.henrytwist.projectbarry.domain.models.ScaledSpeed
 import javax.inject.Inject
 
 class SettingsRepositoryImpl @Inject constructor(
@@ -38,9 +38,9 @@ class SettingsRepositoryImpl @Inject constructor(
         )]
     }
 
-    override fun getWindSpeedScale(): ScaledWindSpeed.Scale {
+    override fun getWindSpeedScale(): ScaledSpeed.Scale {
 
-        return ScaledWindSpeed.Scale.values()[IntegerBackedListPreference.get(
+        return ScaledSpeed.Scale.values()[IntegerBackedListPreference.get(
                 sharedPreferences,
                 key(R.string.settings_wind_speed_scale_key),
                 DEFAULT_WIND_SPEED.ordinal

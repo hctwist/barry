@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/margin">
+        android:paddingVertical="@dimen/medium_content_margin">
 
         <TextView
             android:id="@+id/daily_day"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/gutter_margin"
-            android:text="@{TimeDisplayUtil.INSTANCE.displayHumanDay(day.date)}"
+            android:text="@{TimeDisplayUtil.INSTANCE.displayDay(day.date)}"
             app:layout_constraintStart_toEndOf="@id/daily_condition_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,7 +66,8 @@
                 android:layout_width="@dimen/icon_extra_small"
                 android:layout_height="@dimen/icon_extra_small"
                 android:layout_marginEnd="@dimen/quarter_margin"
-                android:src="@drawable/outline_arrow_downward_24" />
+                android:src="@drawable/outline_arrow_downward_24"
+                app:tint="?android:attr/textColorPrimary" />
 
             <TextView
                 android:id="@+id/daily_low"
@@ -81,7 +82,8 @@
                 android:layout_height="@dimen/icon_extra_small"
                 android:layout_marginStart="@dimen/margin"
                 android:layout_marginEnd="@dimen/quarter_margin"
-                android:src="@drawable/outline_arrow_upward_24" />
+                android:src="@drawable/outline_arrow_upward_24"
+                app:tint="?android:attr/textColorPrimary" />
 
             <TextView
                 android:id="@+id/daily_high"
@@ -91,52 +93,63 @@
                 android:text="@{ForecastResolver.INSTANCE.displayTemperature(context, day.tempHigh), default = 22}" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/daily_elements"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
+            android:layout_marginEnd="@dimen/horizontal_layout_margin"
+            android:overScrollMode="never"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/daily_condition"
-            app:layout_constraintTop_toBottomOf="@id/daily_condition">
+            app:layout_constraintTop_toBottomOf="@id/daily_condition" />
 
-            <ImageView
-                android:layout_width="@dimen/icon_extra_small"
-                android:layout_height="@dimen/icon_extra_small"
-                android:src="@drawable/standard_umbrella" />
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/margin"-->
+        <!--            android:gravity="center_vertical"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            app:layout_constraintStart_toStartOf="@id/daily_condition"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/daily_condition">-->
 
-            <TextView
-                style="@style/Body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/half_margin"
-                android:text="@{ForecastResolver.INSTANCE.displayPop(context, day.pop)}" />
+        <!--            <ImageView-->
+        <!--                android:layout_width="@dimen/icon_extra_small"-->
+        <!--                android:layout_height="@dimen/icon_extra_small"-->
+        <!--                android:src="@drawable/standard_umbrella" />-->
 
-            <ImageView
-                android:layout_width="@dimen/icon_extra_small"
-                android:layout_height="@dimen/icon_extra_small"
-                android:layout_marginStart="48dp"
-                android:src="@drawable/standard_beach_ball" />
+        <!--            <TextView-->
+        <!--                style="@style/Body"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginStart="@dimen/half_margin"-->
+        <!--                android:text="@{ForecastResolver.INSTANCE.displayPop(context, day.pop)}" />-->
 
-            <TextView
-                style="@style/Body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/half_margin"
-                android:text="@{ForecastResolver.INSTANCE.displayUVIndex(day.uvIndex)}" />
+        <!--            <ImageView-->
+        <!--                android:layout_width="@dimen/icon_extra_small"-->
+        <!--                android:layout_height="@dimen/icon_extra_small"-->
+        <!--                android:layout_marginStart="48dp"-->
+        <!--                android:src="@drawable/standard_beach_ball" />-->
 
-            <ImageView
-                android:layout_width="@dimen/icon_extra_small"
-                android:layout_height="@dimen/icon_extra_small"
-                android:layout_marginStart="48dp"
-                android:src="@drawable/standard_wind_turbine" />
+        <!--            <TextView-->
+        <!--                style="@style/Body"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginStart="@dimen/half_margin"-->
+        <!--                android:text="@{ForecastResolver.INSTANCE.displayUVIndex(day.uvIndex)}" />-->
 
-            <TextView
-                style="@style/Body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/half_margin"
-                android:text="@{ForecastResolver.INSTANCE.displaySpeed(context, day.windSpeed)}" />
-        </LinearLayout>
+        <!--            <ImageView-->
+        <!--                android:layout_width="@dimen/icon_extra_small"-->
+        <!--                android:layout_height="@dimen/icon_extra_small"-->
+        <!--                android:layout_marginStart="48dp"-->
+        <!--                android:src="@drawable/standard_wind_turbine" />-->
+
+        <!--            <TextView-->
+        <!--                style="@style/Body"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginStart="@dimen/half_margin"-->
+        <!--                android:text="@{ForecastResolver.INSTANCE.displaySpeed(context, day.windSpeed)}" />-->
+        <!--        </LinearLayout>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,6 +1,6 @@
 package uk.henrytwist.projectbarry.domain.models
 
-class ScaledWindSpeed constructor(val value: Double, val scale: Scale) {
+class ScaledSpeed constructor(val value: Double, val scale: Scale) {
 
     fun metresPerSecond() = when (scale) {
 
@@ -34,7 +34,7 @@ class ScaledWindSpeed constructor(val value: Double, val scale: Scale) {
         Scale.KNOTS -> value
     }
 
-    fun to(scale: Scale) = ScaledWindSpeed(
+    fun to(scale: Scale) = ScaledSpeed(
             when (scale) {
 
                 Scale.METRES_PER_SECOND -> metresPerSecond()
@@ -46,7 +46,7 @@ class ScaledWindSpeed constructor(val value: Double, val scale: Scale) {
 
     companion object {
 
-        fun fromMetresPerSecond(value: Double) = ScaledWindSpeed(value, Scale.METRES_PER_SECOND)
+        fun fromMetresPerSecond(value: Double) = ScaledSpeed(value, Scale.METRES_PER_SECOND)
 
         fun mphToMPS(mph: Double) = (mph / 3600) * 1609.344
         fun kphToMPS(kph: Double) = kph / 3.6

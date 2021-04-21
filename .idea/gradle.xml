@@ -12,6 +12,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/../../HTPCore/htp-core" />
             <option value="$PROJECT_DIR$/../../Source/android-basics" />
             <option value="$PROJECT_DIR$/../../Source/buttons" />
             <option value="$PROJECT_DIR$/../../Source/kotlin-basics" />

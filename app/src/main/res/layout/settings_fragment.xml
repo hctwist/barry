@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -9,19 +10,27 @@
         android:orientation="vertical">
 
         <uk.henrytwist.buttons.MarginCollapsingImageButton
+            android:id="@+id/settings_back"
             style="@style/IconButton"
             android:layout_width="wrap_content"
-            android:id="@+id/settings_back"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/horizontal_layout_margin"
             android:layout_marginTop="@dimen/top_toolbar_layout_margin"
             android:src="@drawable/outline_arrow_back_24" />
+
+        <TextView
+            style="@style/Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horizontal_layout_margin"
+            android:layout_marginTop="@dimen/top_toolbar_content_layout_margin"
+            android:text="Settings" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/settings_container"
             android:name="uk.henrytwist.projectbarry.application.view.settings.SettingsFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_toolbar_content_layout_margin" />
+            android:layout_marginTop="@dimen/medium_content_margin" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

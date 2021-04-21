@@ -9,5 +9,6 @@ class HourForecastEntity(
         val temp: Double,
         val conditionCode: Int,
         val uvIndex: Double,
+        val windSpeed: Double,
         val pop: Double
 )

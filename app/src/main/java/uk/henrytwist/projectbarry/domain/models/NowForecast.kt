@@ -15,5 +15,5 @@ class NowForecast(
 
     class DaySnapshot(val isToday: Boolean, val condition: WeatherCondition, val tempLow: ScaledTemperature, val tempHigh: ScaledTemperature, val sunrise: ZonedDateTime, val sunset: ZonedDateTime)
 
-    class HourSnapshot(val time: ZonedDateTime, val condition: WeatherCondition)
+    class HourSnapshot(val time: ZonedDateTime, val condition: WeatherCondition, val isNight: Boolean)
 }

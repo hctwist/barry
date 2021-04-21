@@ -1,16 +1,10 @@
 package uk.henrytwist.projectbarry.domain.models
 
-import uk.henrytwist.kotlinbasics.fractionBetween
-import java.time.ZonedDateTime
 import kotlin.math.roundToInt
 
 sealed class ForecastElement {
 
-    abstract fun getValue(): Double
-
     class Temperature(val temperature: ScaledTemperature) : ForecastElement() {
-
-        override fun getValue() = temperature.celsius()
 
         fun getTag(): Tag {
 
@@ -31,8 +25,6 @@ sealed class ForecastElement {
     }
 
     class UVIndex(val index: Double) : ForecastElement() {
-
-        override fun getValue() = index
 
         fun getTag(): Tag {
 
@@ -56,55 +48,45 @@ sealed class ForecastElement {
 
     class Pop(val pop: Double) : ForecastElement() {
 
-        override fun getValue() = pop
-
         fun getTag(): Tag {
 
             return when (pop) {
 
-                // TODO Think about this, maybe add uncertain for 0.3 - 0.5 ish?
-                in 0.0..0.2 -> Tag.UNLIKELY
-                else -> Tag.LIKELY
+                in 0.8..1.0 -> Tag.VERY_LIKELY
+                in 0.4..0.8 -> Tag.LIKELY
+                in 0.2..0.4 -> Tag.POSSIBLE
+                in 0.1..0.2 -> Tag.UNLIKELY
+                else -> Tag.NONE
             }
         }
 
         enum class Tag {
 
-            UNLIKELY, LIKELY
+            NONE, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY
         }
     }
 
-    class FeelsLike(val temperature: ScaledTemperature) : ForecastElement() {
+    class FeelsLike(val temperature: ScaledTemperature) : ForecastElement()
 
-        override fun getValue() = temperature.celsius()
-    }
-
-    class Humidity(val humidity: Int) : ForecastElement() {
-
-        override fun getValue() = humidity.toDouble()
+    class DewPoint(val dewPoint: ScaledTemperature) : ForecastElement() {
 
         fun getTag(): Tag {
 
-            // TODO This is for indoors, not out. Maybe consider dew point instead?
-            return when (humidity) {
+            return when (dewPoint.fahrenheit()) {
 
-                in 0..24 -> Tag.LOW
-                in 25..29 -> Tag.FAIR
-                in 30..59 -> Tag.HEALTHY
-                in 60..69 -> Tag.FAIR
-                else -> Tag.HIGH
+                in 0.0..55.0 -> Tag.COMFORTABLE
+                in 55.0..65.0 -> Tag.MUGGY
+                else -> Tag.UNCOMFORTABLE
             }
         }
 
         enum class Tag {
 
-            LOW, FAIR, HEALTHY, HIGH
+            COMFORTABLE, MUGGY, UNCOMFORTABLE
         }
     }
 
-    class WindSpeed(val speed: ScaledWindSpeed) : ForecastElement() {
-
-        override fun getValue() = speed.metresPerSecond()
+    class WindSpeed(val speed: ScaledSpeed) : ForecastElement() {
 
         fun getTag(): Tag {
 

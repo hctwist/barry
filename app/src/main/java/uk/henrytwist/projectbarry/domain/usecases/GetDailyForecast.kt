@@ -3,32 +3,28 @@ package uk.henrytwist.projectbarry.domain.usecases
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.projectbarry.domain.data.SettingsRepository
-import uk.henrytwist.projectbarry.domain.data.currentlocation.CurrentLocationRepository
 import uk.henrytwist.projectbarry.domain.data.forecast.Forecast
 import uk.henrytwist.projectbarry.domain.data.forecast.ForecastRepository
-import uk.henrytwist.projectbarry.domain.data.savedlocations.SavedLocationsRepository
-import uk.henrytwist.projectbarry.domain.data.selectedlocation.SelectedLocationRepository
 import uk.henrytwist.projectbarry.domain.models.DailyForecast
-import uk.henrytwist.projectbarry.domain.models.Location
+import uk.henrytwist.projectbarry.domain.models.ForecastElement
 import java.time.ZoneId
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 class GetDailyForecast @Inject constructor(
-        selectedLocationRepository: SelectedLocationRepository,
-        currentLocationRepository: CurrentLocationRepository,
-        savedLocationsRepository: SavedLocationsRepository,
+        private val locationUseCaseHelper: LocationUseCaseHelper,
         private val forecastRepository: ForecastRepository,
         private val settingsRepository: SettingsRepository
-) : LocationUseCase<DailyForecast>(selectedLocationRepository, currentLocationRepository, savedLocationsRepository) {
+) {
 
-    override suspend operator fun invoke(location: Location): Outcome<DailyForecast> {
+    suspend operator fun invoke(): Outcome<DailyForecast> {
 
-        val forecast = forecastRepository.get(location)
+        return locationUseCaseHelper.getLocation().switchMap { loc ->
 
-        return forecast.map {
+            forecastRepository.get(loc).map {
 
-            build(it)
+                build(it)
+            }
         }
     }
 
@@ -44,9 +40,11 @@ class GetDailyForecast @Inject constructor(
                     it.condition,
                     it.tempHigh.to(temperatureScale),
                     it.tempLow.to(temperatureScale),
-                    it.uvIndex,
-                    it.pop,
-                    it.windSpeed.to(windSpeedScale)
+                    listOf(
+                            ForecastElement.UVIndex(it.uvIndex),
+                            ForecastElement.Pop(it.pop),
+                            ForecastElement.WindSpeed(it.windSpeed.to(windSpeedScale))
+                    )
             )
         }
 

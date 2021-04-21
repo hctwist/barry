@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="uk.henrytwist.projectbarry.application.view.resolvers.TagResolver" />
+
         <import type="uk.henrytwist.projectbarry.application.view.resolvers.ForecastResolver" />
 
         <import type="uk.henrytwist.projectbarry.application.view.resolvers.ForecastElementResolver" />
@@ -40,10 +42,10 @@
             android:layout_marginStart="@dimen/margin"
             android:text="@{ForecastElementResolver.INSTANCE.getElementDisplayString(context, element)}" />
 
-        <uk.henrytwist.projectbarry.application.view.components.ElementTag
+        <uk.henrytwist.projectbarry.application.view.components.TagView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin"
-            bind:elementTag="@{ForecastElementResolver.INSTANCE.resolveTag(element)}" />
+            bind:tagContents="@{TagResolver.INSTANCE.resolveTag(context, element)}" />
     </LinearLayout>
 </layout>

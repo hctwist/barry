@@ -12,6 +12,6 @@ class CurrentForecastEntity(
         val conditionCode: Int,
         val feelsLike: Double,
         val uvIndex: Double,
-        val humidity: Int,
+        val dewPoint: Double,
         val windSpeed: Double,
 )

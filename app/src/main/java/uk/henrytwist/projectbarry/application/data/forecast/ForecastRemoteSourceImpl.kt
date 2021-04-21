@@ -3,9 +3,9 @@ package uk.henrytwist.projectbarry.application.data.forecast
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
+import uk.henrytwist.kotlinbasics.outcomes.NetworkFailure
 import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.kotlinbasics.outcomes.asSuccess
-import uk.henrytwist.kotlinbasics.outcomes.failure
 import uk.henrytwist.projectbarry.domain.data.APIKeyStore
 import uk.henrytwist.projectbarry.domain.data.forecast.ForecastRemoteSource
 import uk.henrytwist.projectbarry.domain.models.Location
@@ -32,7 +32,7 @@ class ForecastRemoteSourceImpl @Inject constructor(private val volleyRequestQueu
                                     val currentTemperature = current.getDouble("temp")
                                     val feelsLike = current.getDouble("feels_like")
                                     val uvIndex = current.getDouble("uvi")
-                                    val humidity = current.getInt("humidity")
+                                    val dewPoint = current.getDouble("dew_point")
                                     val windSpeed = current.getDouble("wind_speed")
 
                                     val conditionCode =
@@ -46,12 +46,14 @@ class ForecastRemoteSourceImpl @Inject constructor(private val volleyRequestQueu
                                         val hourTemp = hour.getDouble("temp")
                                         val hourConditionCode = hour.getJSONArray("weather").getJSONObject(0).getInt("id")
                                         val hourUVIndex = hour.getDouble("uvi")
+                                        val hourWindSpeed = hour.getDouble("wind_speed")
                                         val hourPop = hour.getDouble("pop")
                                         ForecastModel.Hour(
                                                 hourTime,
                                                 hourTemp,
                                                 hourConditionCode,
                                                 hourUVIndex,
+                                                hourWindSpeed,
                                                 hourPop
                                         )
                                     }
@@ -91,7 +93,7 @@ class ForecastRemoteSourceImpl @Inject constructor(private val volleyRequestQueu
                                             conditionCode,
                                             feelsLike,
                                             uvIndex,
-                                            humidity,
+                                            dewPoint,
                                             windSpeed,
                                             hourlyData,
                                             dailyData
@@ -101,7 +103,7 @@ class ForecastRemoteSourceImpl @Inject constructor(private val volleyRequestQueu
                                 },
                                 {
 
-                                    continuation.resume(failure())
+                                    continuation.resume(NetworkFailure())
                                 })
                 )
             }

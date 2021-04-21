@@ -3,35 +3,31 @@ package uk.henrytwist.projectbarry.application.view.hourly
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import uk.henrytwist.androidbasics.livedata.immutable
 import uk.henrytwist.androidbasics.navigation.NavigatorViewModel
 import uk.henrytwist.projectbarry.application.view.components.HeaderAdapter
 import uk.henrytwist.projectbarry.domain.models.HourlyForecast
-import uk.henrytwist.projectbarry.domain.usecases.GetHourlyPopForecast
-import uk.henrytwist.projectbarry.domain.usecases.GetHourlyTemperatureForecast
-import uk.henrytwist.projectbarry.domain.usecases.GetHourlyUVIndexForecast
+import uk.henrytwist.projectbarry.domain.usecases.GetHourlyForecast
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 @HiltViewModel
 class HourlyViewModel @Inject constructor(
-        private val getHourlyPopForecast: GetHourlyPopForecast,
-        private val getHourlyTemperatureForecast: GetHourlyTemperatureForecast,
-        private val getHourlyUVIndexForecast: GetHourlyUVIndexForecast
+        private val getHourlyForecast: GetHourlyForecast
 ) : NavigatorViewModel(), HeaderAdapter.Handler, HourlyHeaderAdapter.Handler {
 
-    private var currentType = HourlyElementType.TEMPERATURE
+    private val _forecastType = MutableLiveData(HourlyForecastType.FORECAST)
+    val forecastType = _forecastType.immutable()
 
-    private val _forecast = MutableLiveData<HourlyForecast<*>>()
+    private val _forecast = MutableLiveData<HourlyForecast>()
     val forecast = _forecast.immutable()
 
     init {
 
         viewModelScope.launch {
 
-            fetchPendingForecast()
+            fetchForecast(forecastType.value!!)
         }
     }
 
@@ -40,33 +36,22 @@ class HourlyViewModel @Inject constructor(
         navigateBack()
     }
 
-    override fun onTypeChanged(type: HourlyElementType) {
+    override fun onTypeChanged(type: HourlyForecastType) {
 
-        if (type == currentType) return
+        if (type == forecastType.value) return
 
-        currentType = type
-        fetchPendingForecast()
-    }
-
-    private fun fetchPendingForecast() {
-
+        _forecastType.value = type
         viewModelScope.launch {
 
-            val outcome = when (currentType) {
+            fetchForecast(type)
+        }
+    }
 
-                HourlyElementType.POP -> getHourlyPopForecast()
+    private suspend fun fetchForecast(type: HourlyForecastType) {
 
-                HourlyElementType.TEMPERATURE -> getHourlyTemperatureForecast()
+        getHourlyForecast(type).ifSuccessful {
 
-                HourlyElementType.UV -> getHourlyUVIndexForecast()
-
-                HourlyElementType.WIND_SPEED -> TODO()
-            }
-
-            outcome.ifSuccessful {
-
-                _forecast.value = it
-            }
+            _forecast.value = it
         }
     }
 }

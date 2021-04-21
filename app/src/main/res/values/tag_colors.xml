@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Element tags -->
+    <color name="tag_grey">#6b6b6b</color>
+    <color name="tag_red">#cb4444</color>
+    <color name="tag_orange">#cb9044</color>
+    <color name="tag_yellow">#EAC900</color>
+    <color name="tag_green">#64cb44</color>
+    <color name="tag_violet">#aa44cb</color>
+    <color name="tag_blue">#44a3cb</color>
+    <color name="uv_tag_zero">@color/tag_grey</color>
+    <color name="uv_tag_low">@color/tag_green</color>
+    <color name="uv_tag_moderate">@color/tag_yellow</color>
+    <color name="uv_tag_high">@color/tag_orange</color>
+    <color name="uv_tag_very_high">@color/tag_red</color>
+    <color name="uv_tag_extremely_high">@color/tag_violet</color>
+    <color name="pop_tag_none">@color/tag_grey</color>
+    <color name="pop_tag_unlikely">#617983</color>
+    <color name="pop_tag_possible">#58879B</color>
+    <color name="pop_tag_likely">#4E95B3</color>
+    <color name="pop_tag_very_likely">@color/tag_blue</color>
+    <color name="dew_point_tag_comfortable">@color/tag_green</color>
+    <color name="dew_point_tag_muggy">@color/tag_orange</color>
+    <color name="dew_point_tag_uncomfortable">@color/tag_red</color>
+    <color name="wind_speed_tag_calm">@color/tag_grey</color>
+    <color name="wind_speed_tag_gentle">@color/tag_blue</color>
+    <color name="wind_speed_tag_moderate">@color/tag_green</color>
+    <color name="wind_speed_tag_strong">@color/tag_yellow</color>
+    <color name="wind_speed_tag_gale">@color/tag_orange</color>
+    <color name="wind_speed_tag_dangerous">@color/tag_red</color>
+    <color name="temperature_tag_freezing">@color/tag_blue</color>
+    <color name="temperature_tag_chilly">@color/tag_blue</color>
+    <color name="temperature_tag_moderate">@color/tag_grey</color>
+    <color name="temperature_tag_warm">@color/tag_yellow</color>
+    <color name="temperature_tag_hot">@color/tag_red</color>
+
+    <!-- Condition tags -->
+    <color name="condition_tag_rain">@color/tag_blue</color>
+    <color name="condition_tag_thunder">@color/tag_yellow</color>
+    <color name="condition_tag_snow">@color/tag_grey</color>
+</resources>

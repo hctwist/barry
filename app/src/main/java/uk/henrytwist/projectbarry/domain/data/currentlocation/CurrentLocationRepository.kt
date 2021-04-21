@@ -15,26 +15,40 @@ class CurrentLocationRepository @Inject constructor(
         private val geocodingRemoteSource: GeocodingRemoteSource
 ) {
 
-    // TODO This cache should expire
     private val cacheMutex = Mutex()
-    private var cache: Location? = null
+    private var cache: TimestampedLocation? = null
 
     suspend fun get(): Outcome<Location> {
 
-        cache?.let { return it.asSuccess() }
+        cache.ifFresh { return it.asSuccess() }
 
         cacheMutex.withLock {
 
-            cache?.let { return it.asSuccess() }
+            cache.ifFresh { return it.asSuccess() }
 
             val location = currentLocationRemoteSource.getLocation().switchMap {
 
                 geocodingRemoteSource.findLocation(it)
             }
 
-            location.ifSuccessful { cache = it }
+            location.ifSuccessful { cache = TimestampedLocation(System.currentTimeMillis(), it) }
 
             return location
         }
+    }
+
+    private inline fun TimestampedLocation?.ifFresh(block: (Location) -> Unit) {
+
+        if (this != null && this.time + LOCATION_CACHE_EXPIRY > System.currentTimeMillis()) {
+
+            block(location)
+        }
+    }
+
+    class TimestampedLocation(val time: Long, val location: Location)
+
+    companion object {
+
+        const val LOCATION_CACHE_EXPIRY = 900000
     }
 }

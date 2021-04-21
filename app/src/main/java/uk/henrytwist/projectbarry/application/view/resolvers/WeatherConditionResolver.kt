@@ -36,7 +36,7 @@ object WeatherConditionResolver {
 
         // TODO This is being called twice from the main binding for some reason, even though the condition definitely only changes once
         if (condition == null) return null
-        
+
         return ContextCompat.getDrawable(context, when (condition) {
 
             WeatherCondition.CLEAR -> if (isNight) R.drawable.art_clear_night else R.drawable.art_clear

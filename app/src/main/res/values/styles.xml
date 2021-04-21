@@ -4,10 +4,13 @@
 
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorControlNormal">?android:attr/textColorPrimary</item>
+
+        <item name="android:textColorPrimary">#E6000000</item>
+
+        <item name="horizontalLayoutMargin">@dimen/horizontal_layout_margin</item>
 
         <item name="android:fontFamily">@font/open_sans_regular</item>
-
-        <item name="colorControlNormal">?android:attr/textColorPrimary</item>
 
         <item name="android:statusBarColor">?android:attr/colorBackground</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
@@ -16,6 +19,9 @@
         <item name="materialButtonStyle">@style/MaterialButton</item>
         <item name="materialCardViewStyle">@style/MaterialCardView</item>
         <item name="chipStyle">@style/Chip</item>
+
+        <item name="aboutHeadingTitleAppearance">@style/Display</item>
+        <item name="aboutHeadingSubtitleAppearance">@style/Body</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
@@ -129,11 +135,10 @@
         <item name="android:padding">12dp</item>
     </style>
 
-    <style name="ElementTag" parent="Label">
+    <style name="Tag" parent="Label">
 
-        <item name="android:textAlignment">center</item>
-        <item name="android:paddingVertical">3dp</item>
-        <item name="android:paddingHorizontal">10dp</item>
+        <item name="android:paddingVertical">@dimen/element_tag_padding_vertical</item>
+        <item name="android:paddingHorizontal">@dimen/element_tag_padding_horizontal</item>
         <item name="android:background">@drawable/element_tag_background</item>
     </style>
 </resources>

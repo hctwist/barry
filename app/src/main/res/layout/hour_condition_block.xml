@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="uk.henrytwist.projectbarry.application.view.TimeDisplayUtil" />
+
+        <import type="uk.henrytwist.projectbarry.application.view.resolvers.WeatherConditionResolver" />
+
+        <import type="uk.henrytwist.projectbarry.application.view.resolvers.TagResolver" />
+
+        <variable
+            name="block"
+            type="uk.henrytwist.projectbarry.domain.models.HourConditionForecast.ConditionBlock" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
+        android:layout_marginBottom="@dimen/margin"
+        android:orientation="horizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/margin">
+
+            <include
+                android:id="@+id/hour_condition_block_start_time"
+                layout="@layout/hour_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/hour_condition_block_time_divider"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:time="@{block.startTime}" />
+
+            <View
+                android:id="@+id/hour_condition_block_time_divider"
+                goneUnless="@{!block.sameStartAndEnd()}"
+                android:layout_width="16dp"
+                android:layout_height="1dp"
+                android:layout_marginVertical="@dimen/margin"
+                android:background="@color/divider"
+                app:layout_constraintBottom_toTopOf="@id/hour_condition_block_end_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hour_condition_block_start_time" />
+
+            <include
+                android:id="@+id/hour_condition_block_end_time"
+                goneUnless="@{!block.sameStartAndEnd()}"
+                layout="@layout/hour_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hour_condition_block_time_divider"
+                bind:time="@{block.endTime}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/card_inset">
+
+                <ImageView
+                    android:id="@+id/hour_condition_icon"
+                    android:layout_width="@dimen/icon_medium"
+                    android:layout_height="@dimen/icon_medium"
+                    android:src="@{WeatherConditionResolver.INSTANCE.resolveIcon(context, block.condition, block.isNight)}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="?android:attr/colorControlNormal" />
+
+                <uk.henrytwist.projectbarry.application.view.components.TagView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@id/hour_condition_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/hour_condition_icon"
+                    bind:tagContents="@{TagResolver.INSTANCE.resolveTag(context, block.condition)}" />
+
+                <TextView
+                    style="@style/Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin"
+                    android:text="@{WeatherConditionResolver.INSTANCE.resolveName(context, block.condition)}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/hour_condition_icon"
+                    app:layout_constraintVertical_bias="1" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</layout>

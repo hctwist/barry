@@ -8,24 +8,15 @@ import uk.henrytwist.projectbarry.domain.data.currentlocation.CurrentLocationRep
 import uk.henrytwist.projectbarry.domain.data.savedlocations.SavedLocationsRepository
 import uk.henrytwist.projectbarry.domain.data.selectedlocation.SelectedLocationRepository
 import uk.henrytwist.projectbarry.domain.models.Location
+import javax.inject.Inject
 
-abstract class LocationUseCase<T>(
+class LocationUseCaseHelper @Inject constructor(
         private val selectedLocationRepository: SelectedLocationRepository,
         private val currentLocationRepository: CurrentLocationRepository,
         private val savedLocationsRepository: SavedLocationsRepository
 ) {
 
-    abstract suspend fun invoke(location: Location): Outcome<T>
-
-    suspend operator fun invoke(): Outcome<T> {
-
-        return getLocation().switchMap {
-
-            invoke(it)
-        }
-    }
-
-    private suspend fun getLocation(): Outcome<Location> {
+    suspend fun getLocation(): Outcome<Location> {
 
         val selectedId = selectedLocationRepository.getSelectedPlaceId().first()
 

@@ -1,13 +1,14 @@
 <resources>
-    <string name="app_name">Project Barry</string>
+    <string name="app_name">Ray</string>
+
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
 
     <!-- Titles -->
     <string name="locations_title">Locations</string>
     <string name="settings_title">Settings</string>
 
     <!-- Main -->
-    <string name="main_today">Today</string>
-    <string name="main_tomorrow">Tomorrow</string>
     <string name="main_hourly">Coming up</string>
 
     <string name="main_feels_like">Feels like %1$s</string>
@@ -41,8 +42,10 @@
     <string name="location_pin">Pin</string>
 
     <!-- Hourly -->
+    <!-- TODO Refactor -->
     <string name="hourly_change_until">%1$s until %2$s</string>
     <string name="hourly_change_at">%1$s at %2$s</string>
     <string name="hourly_change_all_day">%1$s all day</string>
     <string name="hourly_change_tomorrow">%1$s all day. %2$s tomorrow at %3$s</string>
+    <string name="hourly_forecast_title">Forecast</string>
 </resources>

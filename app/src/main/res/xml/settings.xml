@@ -6,6 +6,7 @@
 
         <uk.henrytwist.projectbarry.application.view.settings.IntegerBackedListPreference
             android:entries="@array/settings_dark_mode_entries"
+            android:icon="@drawable/outline_dark_mode_24"
             android:key="@string/settings_dark_mode_key"
             android:title="@string/settings_dark_mode"
             app:useSimpleSummaryProvider="true" />
@@ -15,14 +16,24 @@
 
         <uk.henrytwist.projectbarry.application.view.settings.IntegerBackedListPreference
             android:entries="@array/settings_temperature_scale_entries"
+            android:icon="@drawable/outline_thermostat_24"
             android:key="@string/settings_temperature_scale_key"
             android:title="@string/settings_temperature_scale"
             app:useSimpleSummaryProvider="true" />
 
         <uk.henrytwist.projectbarry.application.view.settings.IntegerBackedListPreference
             android:entries="@array/settings_wind_speed_scale_entries"
+            android:icon="@drawable/outline_air_24"
             android:key="@string/settings_wind_speed_scale_key"
             android:title="@string/settings_wind_speed_scale"
             app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_category_about">
+
+        <Preference
+            android:icon="@drawable/outline_code_24"
+            android:title="@string/settings_about"
+            app:key="@string/settings_about_key" />
     </PreferenceCategory>
 </PreferenceScreen>

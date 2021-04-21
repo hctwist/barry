@@ -23,6 +23,7 @@ class ForecastLocalSourceImpl @Inject constructor(
                         it.temp,
                         it.conditionCode,
                         it.uvIndex,
+                        it.uvIndex,
                         it.pop
                 )
             }
@@ -50,7 +51,7 @@ class ForecastLocalSourceImpl @Inject constructor(
                     cf.conditionCode,
                     cf.feelsLike,
                     cf.uvIndex,
-                    cf.humidity,
+                    cf.dewPoint,
                     cf.windSpeed,
                     hours,
                     days
@@ -69,7 +70,7 @@ class ForecastLocalSourceImpl @Inject constructor(
                     model.conditionCode,
                     model.feelsLike,
                     model.uvIndex,
-                    model.humidity,
+                    model.dewPoint,
                     model.windSpeed
             )
 
@@ -81,6 +82,7 @@ class ForecastLocalSourceImpl @Inject constructor(
                         it.temp,
                         it.conditionCode,
                         it.uvIndex,
+                        it.windSpeed,
                         it.pop
                 )
             }

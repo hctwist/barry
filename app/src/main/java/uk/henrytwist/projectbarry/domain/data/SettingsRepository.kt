@@ -1,7 +1,7 @@
 package uk.henrytwist.projectbarry.domain.data
 
 import uk.henrytwist.projectbarry.domain.models.ScaledTemperature
-import uk.henrytwist.projectbarry.domain.models.ScaledWindSpeed
+import uk.henrytwist.projectbarry.domain.models.ScaledSpeed
 
 interface SettingsRepository {
 
@@ -9,11 +9,11 @@ interface SettingsRepository {
 
     fun getTemperatureScale(): ScaledTemperature.Scale
 
-    fun getWindSpeedScale(): ScaledWindSpeed.Scale
+    fun getWindSpeedScale(): ScaledSpeed.Scale
 
     companion object {
 
         val DEFAULT_TEMPERATURE_SCALE = ScaledTemperature.Scale.CELSIUS
-        val DEFAULT_WIND_SPEED = ScaledWindSpeed.Scale.METRES_PER_SECOND
+        val DEFAULT_WIND_SPEED = ScaledSpeed.Scale.METRES_PER_SECOND
     }
 }
