@@ -6,7 +6,8 @@
         <item name="colorSecondary">@color/color_secondary</item>
         <item name="colorControlNormal">?android:attr/textColorPrimary</item>
 
-        <item name="android:textColorPrimary">#E6000000</item>
+        <!-- TODO -->
+<!--        <item name="android:textColorPrimary">#E6000000</item>-->
 
         <item name="horizontalLayoutMargin">@dimen/horizontal_layout_margin</item>
 
