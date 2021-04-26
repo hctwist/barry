@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_main"
-    app:startDestination="@id/mainFragmentContainer">
+    android:id="@+id/nav_main">
     <fragment
         android:id="@+id/mainFragmentContainer"
         android:name="uk.henrytwist.projectbarry.application.view.main.MainFragmentContainer"
@@ -94,4 +93,14 @@
         android:id="@+id/aboutFragment"
         android:name="uk.henrytwist.projectbarry.application.view.settings.AboutFragment"
         android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/onboardingFragment"
+        android:name="uk.henrytwist.projectbarry.application.view.onboarding.OnboardingFragment"
+        android:label="OnboardingFragment">
+        <action
+            android:id="@+id/action_onboardingFragment_to_mainFragmentContainer"
+            app:destination="@id/mainFragmentContainer"
+            app:popUpTo="@id/onboardingFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

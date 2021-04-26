@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="onboarding_intro_title">Welcome to Ray</string>
+    <string name="onboarding_intro_body">Straightforward weather forecasts.</string>
+
+    <string name="onboarding_forecasts_title">Accurate and simple forecasts</string>
+    <string name="onboarding_forecasts_body">Get current, hourly and daily forecasts with everything you need to know.</string>
+
+    <string name="onboarding_settings_title">Let\'s get started</string>
+
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_finish">Finish</string>
+    <string name="onboarding_skip">Skip</string>
+</resources>

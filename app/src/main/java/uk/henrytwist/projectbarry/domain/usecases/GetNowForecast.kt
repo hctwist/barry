@@ -29,7 +29,7 @@ class GetNowForecast @Inject constructor(
     private fun buildCurrentForecast(forecast: Forecast): NowForecast {
 
         val temperatureScale = settingsRepository.getTemperatureScale()
-        val windSpeedScale = settingsRepository.getWindSpeedScale()
+        val windSpeedScale = settingsRepository.getSpeedScale()
 
         val nPopHours = 2
         var totalPop = 0.0

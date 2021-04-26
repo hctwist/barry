@@ -196,8 +196,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/main_today_condition"
-            app:sunrise="@{viewModel.daySnapshot.sunrise}"
-            app:sunset="@{viewModel.daySnapshot.sunset}" />
+            sunrise="@{viewModel.daySnapshot.sunrise}"
+            sunset="@{viewModel.daySnapshot.sunset}" />
 
         <TextView
             android:id="@+id/main_hourly_title"

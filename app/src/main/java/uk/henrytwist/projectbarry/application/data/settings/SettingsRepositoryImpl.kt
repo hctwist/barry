@@ -8,10 +8,10 @@ import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.application.di.SharedPreferencesModule
 import uk.henrytwist.projectbarry.application.view.settings.IntegerBackedListPreference
 import uk.henrytwist.projectbarry.domain.data.SettingsRepository
+import uk.henrytwist.projectbarry.domain.data.SettingsRepository.Companion.DEFAULT_SPEED_SCALE
 import uk.henrytwist.projectbarry.domain.data.SettingsRepository.Companion.DEFAULT_TEMPERATURE_SCALE
-import uk.henrytwist.projectbarry.domain.data.SettingsRepository.Companion.DEFAULT_WIND_SPEED
-import uk.henrytwist.projectbarry.domain.models.ScaledTemperature
 import uk.henrytwist.projectbarry.domain.models.ScaledSpeed
+import uk.henrytwist.projectbarry.domain.models.ScaledTemperature
 import javax.inject.Inject
 
 class SettingsRepositoryImpl @Inject constructor(
@@ -26,7 +26,7 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override fun setTemperatureScale(scale: ScaledTemperature.Scale) {
 
-        sharedPreferences.edit().putInt(key(R.string.settings_temperature_scale_key), scale.ordinal).apply()
+        IntegerBackedListPreference.set(sharedPreferences, key(R.string.settings_temperature_scale_key), scale.ordinal)
     }
 
     override fun getTemperatureScale(): ScaledTemperature.Scale {
@@ -38,12 +38,17 @@ class SettingsRepositoryImpl @Inject constructor(
         )]
     }
 
-    override fun getWindSpeedScale(): ScaledSpeed.Scale {
+    override fun setSpeedScale(scale: ScaledSpeed.Scale) {
+
+        IntegerBackedListPreference.set(sharedPreferences, key(R.string.settings_speed_scale_key), scale.ordinal)
+    }
+
+    override fun getSpeedScale(): ScaledSpeed.Scale {
 
         return ScaledSpeed.Scale.values()[IntegerBackedListPreference.get(
                 sharedPreferences,
-                key(R.string.settings_wind_speed_scale_key),
-                DEFAULT_WIND_SPEED.ordinal
+                key(R.string.settings_speed_scale_key),
+                DEFAULT_SPEED_SCALE.ordinal
         )]
     }
 

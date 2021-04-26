@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/horizontal_layout_margin">
+
+        <ImageView
+            android:id="@+id/onboarding_settings_icon"
+            android:layout_width="@dimen/icon_large"
+            android:layout_height="@dimen/icon_large"
+            android:src="@drawable/icon_tornado"
+            app:layout_constraintBottom_toTopOf="@id/onboarding_settings_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/onboarding_settings_title"
+            style="@style/Heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_content_margin"
+            android:text="@string/onboarding_settings_title"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@id/onboarding_settings_body_dummy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/onboarding_settings_icon" />
+
+        <TextView
+            android:id="@+id/onboarding_settings_body_dummy"
+            style="@style/Body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:lines="3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/onboarding_settings_title" />
+
+        <Spinner
+            android:id="@+id/onboarding_settings_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/onboarding_settings_body_dummy" />
+
+        <TextView
+            android:id="@+id/onboarding_settings_temperature_label"
+            style="@style/Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_temperature_scale"
+            app:layout_constraintBottom_toBottomOf="@id/onboarding_settings_temperature"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/onboarding_settings_temperature" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="@dimen/divider_margins"
+            android:background="@color/divider"
+            app:layout_constraintBottom_toBottomOf="@id/onboarding_settings_temperature"
+            app:layout_constraintEnd_toStartOf="@id/onboarding_settings_temperature"
+            app:layout_constraintStart_toEndOf="@id/onboarding_settings_temperature_label"
+            app:layout_constraintTop_toTopOf="@id/onboarding_settings_temperature" />
+
+        <Spinner
+            android:id="@+id/onboarding_settings_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/onboarding_settings_temperature" />
+
+        <TextView
+            android:id="@+id/onboarding_settings_speed_label"
+            style="@style/Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_speed_scale"
+            app:layout_constraintBottom_toBottomOf="@id/onboarding_settings_speed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/onboarding_settings_speed" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="@dimen/divider_margins"
+            android:background="@color/divider"
+            app:layout_constraintBottom_toBottomOf="@id/onboarding_settings_speed"
+            app:layout_constraintEnd_toStartOf="@id/onboarding_settings_speed"
+            app:layout_constraintStart_toEndOf="@id/onboarding_settings_speed_label"
+            app:layout_constraintTop_toTopOf="@id/onboarding_settings_speed" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

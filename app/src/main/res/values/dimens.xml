@@ -32,6 +32,8 @@
     <dimen name="title_margin">24dp</dimen>
     <dimen name="horizontal_icon_margin">8dp</dimen>
 
+    <dimen name="divider_margins">16dp</dimen>
+
     <!-- Text -->
     <dimen name="text_extra_small">12sp</dimen>
     <dimen name="text_small">14sp</dimen>
@@ -41,6 +43,7 @@
 
     <!-- Icons -->
     <dimen name="standard_icon_stroke">1.4</dimen>
+    <dimen name="icon_large">36dp</dimen>
     <dimen name="icon_medium">22dp</dimen>
     <dimen name="icon_small">18dp</dimen>
     <dimen name="icon_extra_small">14dp</dimen>

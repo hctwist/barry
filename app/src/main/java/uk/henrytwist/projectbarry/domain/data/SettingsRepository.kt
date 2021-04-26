@@ -9,11 +9,13 @@ interface SettingsRepository {
 
     fun getTemperatureScale(): ScaledTemperature.Scale
 
-    fun getWindSpeedScale(): ScaledSpeed.Scale
+    fun setSpeedScale(scale: ScaledSpeed.Scale)
+
+    fun getSpeedScale(): ScaledSpeed.Scale
 
     companion object {
 
         val DEFAULT_TEMPERATURE_SCALE = ScaledTemperature.Scale.CELSIUS
-        val DEFAULT_WIND_SPEED = ScaledSpeed.Scale.METRES_PER_SECOND
+        val DEFAULT_SPEED_SCALE = ScaledSpeed.Scale.METRES_PER_SECOND
     }
 }

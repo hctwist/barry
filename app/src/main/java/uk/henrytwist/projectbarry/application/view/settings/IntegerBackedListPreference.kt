@@ -3,6 +3,7 @@ package uk.henrytwist.projectbarry.application.view.settings
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.AttributeSet
+import androidx.core.content.edit
 import androidx.preference.ListPreference
 
 class IntegerBackedListPreference(context: Context, attrs: AttributeSet) :
@@ -20,6 +21,11 @@ class IntegerBackedListPreference(context: Context, attrs: AttributeSet) :
     }
 
     companion object {
+
+        fun set(preferences: SharedPreferences, key: String, value: Int) {
+
+            preferences.edit { putString(key, value.toString()) }
+        }
 
         fun get(preferences: SharedPreferences, key: String, defaultValue: Int): Int {
 

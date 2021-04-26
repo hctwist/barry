@@ -69,7 +69,7 @@ class SunriseSunsetView(context: Context, attributeSet: AttributeSet) : Constrai
 
     companion object {
 
-        @BindingAdapter("app:sunrise", "app:sunset")
+        @BindingAdapter("sunrise", "sunset")
         @JvmStatic
         fun sunriseSunset(sunriseSunsetView: SunriseSunsetView, sunrise: ZonedDateTime?, sunset: ZonedDateTime?) {
 

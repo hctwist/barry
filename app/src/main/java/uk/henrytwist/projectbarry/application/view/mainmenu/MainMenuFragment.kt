@@ -39,6 +39,5 @@ class MainMenuFragment : BottomSheetDialogFragment() {
     private fun navigate(id: Int) {
 
         findNavController().navigate(id)
-        dismiss()
     }
 }
