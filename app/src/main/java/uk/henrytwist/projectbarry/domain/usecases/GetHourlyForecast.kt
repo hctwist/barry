@@ -172,7 +172,7 @@ class GetHourlyForecast @Inject constructor(
 
         val suggestedMax = max(7.5, forecast.hourly.maxOfFirst(numberOfHoursToFetch) { it.windSpeed.metresPerSecond() })
 
-        val windSpeedScale = settingsRepository.getWindSpeedScale()
+        val windSpeedScale = settingsRepository.getSpeedScale()
 
         val builder = object : ElementForecastBuilder(forecast, numberOfHoursToFetch, 0.0, suggestedMax) {
 

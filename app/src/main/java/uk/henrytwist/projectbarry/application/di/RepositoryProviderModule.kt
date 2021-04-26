@@ -6,9 +6,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import uk.henrytwist.projectbarry.application.data.PremiumRepositoryImpl
+import uk.henrytwist.projectbarry.application.data.experience.ExperienceRepositoryImpl
 import uk.henrytwist.projectbarry.application.data.settings.SettingsRepositoryImpl
 import uk.henrytwist.projectbarry.domain.data.PremiumRepository
 import uk.henrytwist.projectbarry.domain.data.SettingsRepository
+import uk.henrytwist.projectbarry.domain.data.experience.ExperienceRepository
 import uk.henrytwist.projectbarry.domain.data.geocoding.GeocodingRemoteSource
 import uk.henrytwist.projectbarry.domain.data.locationsearch.LocationSearchRemoteSource
 import uk.henrytwist.projectbarry.domain.data.locationsearch.LocationSearchRepository
@@ -18,6 +20,9 @@ import uk.henrytwist.projectbarry.domain.data.savedlocations.SavedLocationsRepos
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryProviderModule {
+
+    @Provides
+    fun bindExperienceRepository(experienceRepository: ExperienceRepositoryImpl): ExperienceRepository = experienceRepository
 
     @Provides
     fun bindPremiumRepository(premiumRepository: PremiumRepositoryImpl): PremiumRepository = premiumRepository

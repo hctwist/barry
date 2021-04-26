@@ -22,10 +22,10 @@
             app:useSimpleSummaryProvider="true" />
 
         <uk.henrytwist.projectbarry.application.view.settings.IntegerBackedListPreference
-            android:entries="@array/settings_wind_speed_scale_entries"
+            android:entries="@array/settings_speed_scale_entries"
             android:icon="@drawable/outline_air_24"
-            android:key="@string/settings_wind_speed_scale_key"
-            android:title="@string/settings_wind_speed_scale"
+            android:key="@string/settings_speed_scale_key"
+            android:title="@string/settings_speed_scale"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
