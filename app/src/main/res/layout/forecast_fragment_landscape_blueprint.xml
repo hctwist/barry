@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/bottom_layout_margin">
+
+    <ImageView
+        android:id="@+id/main_condition_icon"
+        android:layout_width="@dimen/icon_medium"
+        android:layout_height="@dimen/icon_medium"
+        android:layout_marginStart="@dimen/horizontal_layout_margin"
+        app:layout_constraintBottom_toBottomOf="@id/main_condition"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/main_condition" />
+
+    <Space
+        android:id="@+id/main_gutter"
+        android:layout_width="@dimen/gutter_margin"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toEndOf="@id/main_condition_icon" />
+
+    <TextView
+        android:id="@+id/main_condition"
+        style="@style/Display"
+        android:layout_width="0dp"
+        app:layout_constraintHorizontal_weight="4"
+        android:layout_height="wrap_content"
+        android:text="Condition"
+        app:layout_constraintEnd_toStartOf="@id/main_art"
+        app:layout_constraintStart_toEndOf="@id/main_gutter"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/main_prediction"
+        style="@style/Body"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Prediction"
+        app:layout_constraintEnd_toEndOf="@id/main_condition"
+        app:layout_constraintStart_toStartOf="@id/main_condition"
+        app:layout_constraintTop_toBottomOf="@id/main_condition" />
+
+    <TextView
+        android:id="@+id/main_temperature"
+        style="@style/Display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_content_margin"
+        android:text="23degrees"
+        app:layout_constraintStart_toStartOf="@id/main_condition"
+        app:layout_constraintTop_toBottomOf="@id/main_prediction" />
+
+    <TextView
+        android:id="@+id/main_now_feels_like"
+        style="@style/Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Feels like"
+        app:layout_constraintStart_toStartOf="@id/main_temperature"
+        app:layout_constraintTop_toBottomOf="@id/main_temperature" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/main_art"
+        app:layout_constraintHorizontal_weight="6"
+        style="@style/MaterialCardView.Container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/horizontal_layout_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/main_condition"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            app:layout_constraintTop_toTopOf="parent" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/main_art_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="main_art, main_now_feels_like" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/main_now_elements_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/large_content_margin"
+        android:layout_marginEnd="@dimen/horizontal_layout_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/main_gutter"
+        app:layout_constraintTop_toBottomOf="@id/main_art_barrier" />
+</androidx.constraintlayout.widget.ConstraintLayout>

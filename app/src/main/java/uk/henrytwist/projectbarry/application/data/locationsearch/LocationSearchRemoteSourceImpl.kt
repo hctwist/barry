@@ -17,7 +17,6 @@ class LocationSearchRemoteSourceImpl @Inject constructor(private val placesClien
         LocationSearchRemoteSource<AutocompleteSessionToken> {
 
     // TODO Maybe have a method that releases the autocomplete token? Then would be called from repository? Check pricing to see whether it would be beneficial
-
     override suspend fun autocomplete(
             query: String,
             sessionToken: AutocompleteSessionToken

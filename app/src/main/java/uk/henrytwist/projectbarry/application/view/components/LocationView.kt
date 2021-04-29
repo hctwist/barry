@@ -2,7 +2,6 @@ package uk.henrytwist.projectbarry.application.view.components
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.card.MaterialCardView
@@ -27,17 +26,7 @@ class LocationView(context: Context, attributeSet: AttributeSet) : MaterialCardV
 
         if (location != null) {
 
-            val name = LocationResolver.resolveName(context, location)
-            if(name == null) {
-
-                nameView.visibility = View.GONE
-            }
-            else {
-
-                nameView.visibility = View.VISIBLE
-                nameView.text = name
-            }
-
+            nameView.text = LocationResolver.resolveName(context, location)
             iconView.setImageDrawable(LocationResolver.resolveIcon(context, location))
         }
     }

@@ -17,7 +17,7 @@ class LocationsViewModel @Inject constructor(
         private val selectLocationUseCase: SelectLocationUseCase,
         private val togglePinLocationUseCase: TogglePinLocationUseCase,
         private val saveSearchLocation: SaveSearchLocation
-) : NavigatorViewModel() {
+) : NavigatorViewModel(), LocationSearchAdapter.Handler, LocationChoiceAdapter.Handler {
 
     private val _searching = MutableLiveData(false)
     val searching = _searching.distinctUntilChanged()
@@ -45,7 +45,7 @@ class LocationsViewModel @Inject constructor(
         _savedLocations.value = savedLocations
     }
 
-    fun onClickChoice(location: SavedLocation) {
+    override fun onChooseLocation(location: SavedLocation) {
 
         viewModelScope.launch {
 
@@ -54,7 +54,7 @@ class LocationsViewModel @Inject constructor(
         }
     }
 
-    fun onPin(location: SavedLocation) {
+    override fun onPinLocation(location: SavedLocation) {
 
         viewModelScope.launch {
 
@@ -63,11 +63,11 @@ class LocationsViewModel @Inject constructor(
         }
     }
 
-    fun onClickSearch(result: LocationSearchResult) {
+    override fun onClickSearchResult(result: LocationSearchResult, pin: Boolean) {
 
         viewModelScope.launch {
 
-            saveSearchLocation(result)
+            saveSearchLocation(result, pin)
             navigateBack()
         }
     }

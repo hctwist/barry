@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BottomSheetDialogStyle" parent="Widget.MaterialComponents.BottomSheet">
+
+        <item name="behavior_peekHeight">168dp</item>
+    </style>
+</resources>

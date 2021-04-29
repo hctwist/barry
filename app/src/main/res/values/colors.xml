@@ -4,6 +4,8 @@
     <color name="color_primary_light">#26ff856d</color>
     <color name="color_secondary">#4d5266</color>
 
+    <color name="text_color_primary">#E6000000</color>
+
     <!-- UI Elements -->
     <color name="card">#0A000000</color>
     <color name="stroke">#EBEBEB</color>
@@ -12,6 +14,6 @@
     <color name="phase_view_line">#DFDFDF</color>
     <color name="phase_view_dot">@color/phase_view_line</color>
 
-    <color name="location_pinned_background">#FFDDDD</color>
-    <color name="location_pinned">#ED3030</color>
+    <color name="location_pinned_background">#33FF5252</color>
+    <color name="location_pinned">#FB3737</color>
 </resources>

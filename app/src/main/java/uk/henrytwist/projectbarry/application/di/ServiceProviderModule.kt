@@ -13,7 +13,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import uk.henrytwist.projectbarry.domain.data.APIKeyStore
+import uk.henrytwist.projectbarry.domain.data.keys.APIKeyStore
 import javax.inject.Singleton
 
 @Module

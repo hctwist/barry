@@ -1,7 +1,0 @@
-rootProject.name = "Project Barry"
-include ':app', ':skeletonlayout', ':android-basics', ':kotlin-basics', ':htp-core', ':buttons'
-project(':skeletonlayout').projectDir = new File('C:/Users/henry/Documents/Projects/Source/skeletonlayout')
-project(':android-basics').projectDir = new File('C:/Users/henry/Documents/Projects/Source/android-basics')
-project(':kotlin-basics').projectDir = new File('C:/Users/henry/Documents/Projects/Source/kotlin-basics')
-project(':buttons').projectDir = new File('C:/Users/henry/Documents/Projects/Source/buttons')
-project(':htp-core').projectDir = new File('C:/Users/henry/Documents/Projects/HTPCore/htp-core')

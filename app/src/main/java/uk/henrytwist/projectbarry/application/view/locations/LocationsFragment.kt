@@ -8,12 +8,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import uk.henrytwist.androidbasics.recyclerview.MarginItemDecoration
 import uk.henrytwist.androidbasics.showSoftKeyboard
-import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.databinding.LocationsFragmentBinding
-import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
-import uk.henrytwist.projectbarry.domain.models.SavedLocation
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -24,8 +20,8 @@ class LocationsFragment : Fragment() {
 
     private lateinit var binding: LocationsFragmentBinding
 
-    private val pinnedAdapter = LocationChoiceAdapter()
-    private val searchAdapter = LocationSearchAdapter()
+    private lateinit var choiceAdapter: LocationChoiceAdapter
+    private lateinit var searchAdapter: LocationSearchAdapter
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -44,6 +40,11 @@ class LocationsFragment : Fragment() {
 
         viewModel.observeNavigation(this)
 
+        choiceAdapter = LocationChoiceAdapter(viewModel)
+        searchAdapter = LocationSearchAdapter(viewModel)
+
+        binding.locationsResults.layoutManager = LinearLayoutManager(context)
+
         binding.locationsInput.addTextChangedListener {
 
             viewModel.onSearchTextChanged(it.toString())
@@ -51,55 +52,19 @@ class LocationsFragment : Fragment() {
 
         viewModel.searching.observe(viewLifecycleOwner) {
 
-            binding.locationsResults.adapter = if (it) searchAdapter else pinnedAdapter
+            binding.locationsResults.adapter = if (it) searchAdapter else choiceAdapter
         }
 
         viewModel.savedLocations.observe(viewLifecycleOwner) {
 
             if (it.isEmpty()) binding.locationsInput.showSoftKeyboard()
-            pinnedAdapter.submitList(it)
+            choiceAdapter.submitList(it)
         }
 
         viewModel.searchResults.observe(viewLifecycleOwner) {
 
-            searchAdapter.places = it
+            searchAdapter.searchResults = it
             searchAdapter.notifyDataSetChanged()
-        }
-
-        setupResults()
-    }
-
-    private fun setupResults() {
-
-        pinnedAdapter.clickHandler = object : LocationChoiceAdapter.ClickHandler {
-
-            override fun onClick(location: SavedLocation) {
-
-                viewModel.onClickChoice(location)
-            }
-
-            override fun onPin(location: SavedLocation) {
-
-                viewModel.onPin(location)
-            }
-        }
-
-        searchAdapter.clickListener = object : LocationSearchAdapter.ClickListener {
-
-            override fun onClick(result: LocationSearchResult) {
-
-                viewModel.onClickSearch(result)
-            }
-        }
-
-        binding.locationsResults.run {
-
-            layoutManager = LinearLayoutManager(context)
-            addItemDecoration(
-                    MarginItemDecoration(
-                            resources.getDimension(R.dimen.margin)
-                    )
-            )
         }
     }
 }

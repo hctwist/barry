@@ -22,6 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
+            app:tint="?android:attr/colorControlNormal"
             bind:imageResource="@{page.iconRes}" />
 
         <TextView
@@ -44,8 +45,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
-            android:minLines="3"
             android:layout_marginTop="@dimen/margin"
+            android:minLines="3"
             android:text="@{page.bodyRes}"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"

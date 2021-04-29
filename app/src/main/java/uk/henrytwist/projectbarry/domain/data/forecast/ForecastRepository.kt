@@ -16,8 +16,7 @@ class ForecastRepository @Inject constructor(private val localSource: ForecastLo
 
     override suspend fun isStale(value: Forecast): Boolean {
 
-        // TODO Decide on value
-        return value.time.until(Instant.now(), ChronoUnit.MINUTES) > 60
+        return value.time.until(Instant.now(), ChronoUnit.MINUTES) > 15
     }
 
     override suspend fun saveLocal(value: Forecast) {

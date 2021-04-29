@@ -6,10 +6,7 @@
         <item name="colorSecondary">@color/color_secondary</item>
         <item name="colorControlNormal">?android:attr/textColorPrimary</item>
 
-        <!-- TODO -->
-<!--        <item name="android:textColorPrimary">#E6000000</item>-->
-
-        <item name="horizontalLayoutMargin">@dimen/horizontal_layout_margin</item>
+        <item name="android:textColorPrimary">@color/text_color_primary</item>
 
         <item name="android:fontFamily">@font/open_sans_regular</item>
 
@@ -23,6 +20,10 @@
 
         <item name="aboutHeadingTitleAppearance">@style/Display</item>
         <item name="aboutHeadingSubtitleAppearance">@style/Body</item>
+
+        <item name="horizontalLayoutMargin">@dimen/horizontal_layout_margin</item>
+
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
@@ -118,6 +119,21 @@
         <item name="android:paddingRight">0dp</item>
         <item name="android:paddingEnd">@dimen/margin</item>
     </style>
+
+    <style name="ActionChip" parent="Widget.MaterialComponents.Chip.Action">
+
+        <item name="checkedIconVisible">false</item>
+        <item name="chipEndPadding">12dp</item>
+        <item name="chipStartPadding">12dp</item>
+        <item name="chipIconSize">@dimen/icon_extra_small</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+
+        <item name="bottomSheetStyle">@style/BottomSheetDialogStyle</item>
+    </style>
+
+    <style name="BottomSheetDialogStyle" parent="Widget.MaterialComponents.BottomSheet" />
 
     <style name="MediumShape" parent="ShapeAppearance.MaterialComponents.MediumComponent">
 

@@ -1,7 +1,6 @@
 package uk.henrytwist.projectbarry.application.di
 
 import android.content.Context
-import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,8 +17,7 @@ object RoomProviderModule {
     @Singleton
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
 
-        return Room.databaseBuilder(context, AppDatabase::class.java, "barry_db")
-                .fallbackToDestructiveMigration().build()
+        return AppDatabase.build(context)
     }
 
     @Provides
@@ -27,7 +25,4 @@ object RoomProviderModule {
 
     @Provides
     fun provideForecastDao(appDatabase: AppDatabase) = appDatabase.forecastDao()
-
-    @Provides
-    fun provideUVDao(appDatabase: AppDatabase) = appDatabase.uvDao()
 }

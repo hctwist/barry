@@ -95,6 +95,13 @@
             app:layout_constraintEnd_toEndOf="@id/main_temperature"
             app:layout_constraintTop_toBottomOf="@id/main_temperature" />
 
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/main_art_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="main_art, main_now_feels_like" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/main_now_elements_2"
             android:layout_width="0dp"
@@ -104,7 +111,7 @@
             android:overScrollMode="never"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/main_gutter"
-            app:layout_constraintTop_toBottomOf="@id/main_prediction" />
+            app:layout_constraintTop_toBottomOf="@id/main_art_barrier" />
 
         <TextView
             android:id="@+id/main_today_title"
@@ -117,6 +124,7 @@
             app:layout_constraintTop_toBottomOf="@id/main_now_elements_2" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/main_today_button"
             style="@style/TextMaterialButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -190,14 +198,14 @@
 
         <uk.henrytwist.projectbarry.application.view.main.forecast.SunriseSunsetView
             android:id="@+id/main_today_phase"
+            sunrise="@{viewModel.daySnapshot.sunrise}"
+            sunset="@{viewModel.daySnapshot.sunset}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_content_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/main_today_condition"
-            sunrise="@{viewModel.daySnapshot.sunrise}"
-            sunset="@{viewModel.daySnapshot.sunset}" />
+            app:layout_constraintTop_toBottomOf="@id/main_today_condition" />
 
         <TextView
             android:id="@+id/main_hourly_title"
@@ -210,6 +218,7 @@
             app:layout_constraintTop_toBottomOf="@id/main_today_phase" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/main_hourly_button"
             style="@style/TextMaterialButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

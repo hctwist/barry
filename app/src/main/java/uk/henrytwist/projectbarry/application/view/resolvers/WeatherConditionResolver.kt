@@ -43,7 +43,7 @@ object WeatherConditionResolver {
             WeatherCondition.CLOUDS_FEW, WeatherCondition.CLOUDS_SCATTERED -> R.drawable.art_few_clouds
             WeatherCondition.CLOUDS_BROKEN, WeatherCondition.CLOUDS_OVERCAST -> if (isNight) R.drawable.art_cloudy_night else R.drawable.art_cloudy
             WeatherCondition.RAIN_LIGHT, WeatherCondition.RAIN, WeatherCondition.RAIN_HEAVY -> if (isNight) R.drawable.art_rain_night else R.drawable.art_rain
-            else -> R.drawable.art_cloudy
+            else -> if (isNight) R.drawable.art_cloudy_night else R.drawable.art_cloudy
         })
     }
 

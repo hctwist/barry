@@ -6,7 +6,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import uk.henrytwist.kotlinbasics.outcomes.NetworkFailure
 import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.kotlinbasics.outcomes.asSuccess
-import uk.henrytwist.projectbarry.domain.data.APIKeyStore
+import uk.henrytwist.projectbarry.domain.data.keys.APIKeyStore
 import uk.henrytwist.projectbarry.domain.data.forecast.ForecastRemoteSource
 import uk.henrytwist.projectbarry.domain.models.Location
 import javax.inject.Inject

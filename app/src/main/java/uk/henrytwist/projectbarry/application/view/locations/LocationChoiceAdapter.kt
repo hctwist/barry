@@ -7,9 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import uk.henrytwist.projectbarry.databinding.LocationRowBinding
 import uk.henrytwist.projectbarry.domain.models.SavedLocation
 
-class LocationChoiceAdapter : ListAdapter<SavedLocation, LocationChoiceAdapter.VH>(SavedLocationDiff) {
-
-    lateinit var clickHandler: ClickHandler
+class LocationChoiceAdapter(private val handler: Handler) : ListAdapter<SavedLocation, LocationChoiceAdapter.VH>(SavedLocationDiff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
 
@@ -19,30 +17,30 @@ class LocationChoiceAdapter : ListAdapter<SavedLocation, LocationChoiceAdapter.V
 
     override fun onBindViewHolder(holder: VH, position: Int) {
 
-        holder.bind(getItem(position), clickHandler)
+        holder.bind(getItem(position), handler)
     }
 
     class VH(private val binding: LocationRowBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(location: SavedLocation, clickHandler: ClickHandler) {
+        fun bind(location: SavedLocation, handler: Handler) {
 
             binding.location = location
-            binding.clicklistener = clickHandler
+            binding.clicklistener = handler
 
             binding.locationPin.setOnClickListener {
 
                 binding.locationPin.toggle()
-                clickHandler.onPin(location)
+                handler.onPinLocation(location)
             }
 
             binding.executePendingBindings()
         }
     }
 
-    interface ClickHandler {
+    interface Handler {
 
-        fun onClick(location: SavedLocation)
+        fun onChooseLocation(location: SavedLocation)
 
-        fun onPin(location: SavedLocation)
+        fun onPinLocation(location: SavedLocation)
     }
 }

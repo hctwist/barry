@@ -12,8 +12,6 @@ import uk.henrytwist.projectbarry.application.data.geocoding.GeocodingRemoteSour
 import uk.henrytwist.projectbarry.application.data.locationsearch.LocationSearchRemoteSourceImpl
 import uk.henrytwist.projectbarry.application.data.savedlocations.SavedLocationsLocalSourceImpl
 import uk.henrytwist.projectbarry.application.data.selectedlocation.SelectedLocationLocalSourceImpl
-import uk.henrytwist.projectbarry.application.data.uv.UVLocalSourceImpl
-import uk.henrytwist.projectbarry.application.data.uv.UVRemoteSourceImpl
 import uk.henrytwist.projectbarry.domain.data.currentlocation.CurrentLocationRemoteSource
 import uk.henrytwist.projectbarry.domain.data.forecast.ForecastLocalSource
 import uk.henrytwist.projectbarry.domain.data.forecast.ForecastRemoteSource
@@ -21,8 +19,6 @@ import uk.henrytwist.projectbarry.domain.data.geocoding.GeocodingRemoteSource
 import uk.henrytwist.projectbarry.domain.data.locationsearch.LocationSearchRemoteSource
 import uk.henrytwist.projectbarry.domain.data.savedlocations.SavedLocationsLocalSource
 import uk.henrytwist.projectbarry.domain.data.selectedlocation.SelectedLocationLocalSource
-import uk.henrytwist.projectbarry.domain.data.uv.UVLocalSource
-import uk.henrytwist.projectbarry.domain.data.uv.UVRemoteSource
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -48,10 +44,4 @@ abstract class SourceBindingModule {
 
     @Binds
     abstract fun bindForecastRemoteSource(source: ForecastRemoteSourceImpl): ForecastRemoteSource
-
-    @Binds
-    abstract fun bindUVLocalSource(source: UVLocalSourceImpl): UVLocalSource
-
-    @Binds
-    abstract fun bindUVRemoteSource(source: UVRemoteSourceImpl): UVRemoteSource
 }

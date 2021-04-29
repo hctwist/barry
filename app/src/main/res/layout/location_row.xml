@@ -9,15 +9,17 @@
 
         <variable
             name="clicklistener"
-            type="uk.henrytwist.projectbarry.application.view.locations.LocationChoiceAdapter.ClickHandler" />
+            type="uk.henrytwist.projectbarry.application.view.locations.LocationChoiceAdapter.Handler" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
-        android:minHeight="@dimen/min_touch_size"
-        android:onClick="@{() -> clicklistener.onClick(location)}">
+        android:minHeight="@dimen/list_row_minimum_height"
+        android:onClick="@{() -> clicklistener.onChooseLocation(location)}"
+        android:paddingVertical="@dimen/list_row_vertical_padding">
 
         <TextView
             android:layout_width="0dp"
@@ -29,7 +31,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/location_pin"
-            style="@style/Widget.MaterialComponents.Chip.Action"
+            style="@style/ActionChip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin"
@@ -38,13 +40,8 @@
             android:checked="@{location.pinned}"
             android:text="@string/location_pin"
             android:textColor="@color/location_pin_text"
-            app:checkedIconEnabled="false"
             app:chipBackgroundColor="@color/location_pin_background"
-            app:chipEndPadding="12dp"
             app:chipIcon="@drawable/outline_pin_drop_24"
-            app:chipIconSize="@dimen/icon_extra_small"
-            app:chipIconTint="@color/location_pin_text"
-            app:chipStartPadding="12dp"
-            app:ensureMinTouchTargetSize="false" />
+            app:chipIconTint="@color/location_pin_text" />
     </LinearLayout>
 </layout>

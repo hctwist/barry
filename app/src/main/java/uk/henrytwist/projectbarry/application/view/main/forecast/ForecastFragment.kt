@@ -1,12 +1,16 @@
 package uk.henrytwist.projectbarry.application.view.main.forecast
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import uk.henrytwist.androidbasics.recyclerview.MarginItemDecoration
@@ -35,6 +39,13 @@ class ForecastFragment : Fragment() {
         binding = ForecastFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+            val landscapeConstraints = ConstraintSet()
+            landscapeConstraints.clone(context, R.layout.forecast_fragment_landscape_blueprint)
+            landscapeConstraints.applyTo(binding.root as ConstraintLayout)
+        }
 
         return binding.root
     }

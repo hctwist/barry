@@ -3,18 +3,16 @@ package uk.henrytwist.projectbarry.application.view.locations
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
 import uk.henrytwist.projectbarry.databinding.LocationSearchRowBinding
+import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
 
-class LocationSearchAdapter : RecyclerView.Adapter<LocationSearchAdapter.VH>() {
+class LocationSearchAdapter(private val handler: Handler) : RecyclerView.Adapter<LocationSearchAdapter.VH>() {
 
-    var places = listOf<LocationSearchResult>()
-
-    lateinit var clickListener: ClickListener
+    var searchResults = listOf<LocationSearchResult>()
 
     override fun getItemCount(): Int {
 
-        return places.size
+        return searchResults.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -25,22 +23,22 @@ class LocationSearchAdapter : RecyclerView.Adapter<LocationSearchAdapter.VH>() {
 
     override fun onBindViewHolder(holder: VH, position: Int) {
 
-        holder.bind(places[position], clickListener)
+        holder.bind(searchResults[position], handler)
     }
 
     class VH(private val binding: LocationSearchRowBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+            RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(result: LocationSearchResult, clickListener: ClickListener) {
+        fun bind(result: LocationSearchResult, handler: Handler) {
 
             binding.result = result
-            binding.clicklistener = clickListener
+            binding.handler = handler
             binding.executePendingBindings()
         }
     }
 
-    interface ClickListener {
+    interface Handler {
 
-        fun onClick(result: LocationSearchResult)
+        fun onClickSearchResult(result: LocationSearchResult, pin: Boolean)
     }
 }

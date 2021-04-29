@@ -13,13 +13,13 @@ class SaveSearchLocation @Inject constructor(
         private val searchRepository: LocationSearchRepository<*>
 ) {
 
-    suspend operator fun invoke(searchResult: LocationSearchResult) {
+    suspend operator fun invoke(searchResult: LocationSearchResult, pin: Boolean) {
 
         val location = searchRepository.getLocation(searchResult)
 
         location.ifSuccessful {
 
-            savedLocationsRepository.saveLocation(SavedLocation(it.placeId, it.name, it.coordinates, false))
+            savedLocationsRepository.saveLocation(SavedLocation(it.placeId, it.name, it.coordinates, pin))
             selectedLocationRepository.select(it.placeId)
         }
     }

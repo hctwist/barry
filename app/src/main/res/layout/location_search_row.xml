@@ -8,19 +8,21 @@
             type="uk.henrytwist.projectbarry.domain.models.LocationSearchResult" />
 
         <variable
-            name="clicklistener"
-            type="uk.henrytwist.projectbarry.application.view.locations.LocationSearchAdapter.ClickListener" />
+            name="handler"
+            type="uk.henrytwist.projectbarry.application.view.locations.LocationSearchAdapter.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/min_touch_size"
-        android:onClick="@{() -> clicklistener.onClick(result)}">
+        android:background="?android:attr/selectableItemBackground"
+        android:minHeight="@dimen/list_row_minimum_height"
+        android:onClick="@{() -> handler.onClickSearchResult(result, false)}"
+        android:paddingVertical="@dimen/list_row_vertical_padding">
 
         <ImageView
-            android:id="@+id/place_search_row_pin"
+            android:id="@+id/place_search_row_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
@@ -38,8 +40,8 @@
             android:text="@{result.namePrimary}"
             android:textColor="?android:attr/textColorPrimary"
             app:layout_constraintBottom_toTopOf="@id/place_search_row_secondary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/place_search_row_pin"
+            app:layout_constraintEnd_toStartOf="@id/place_search_row_pin"
+            app:layout_constraintStart_toEndOf="@id/place_search_row_icon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
@@ -50,8 +52,25 @@
             android:layout_marginEnd="@dimen/horizontal_layout_margin"
             android:text="@{result.nameSecondary.empty ? @string/location_search_secondary_empty : result.nameSecondary}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/place_search_row_pin"
             app:layout_constraintStart_toStartOf="@id/place_search_row_primary"
             app:layout_constraintTop_toBottomOf="@id/place_search_row_primary" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/place_search_row_pin"
+            style="@style/ActionChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/horizontal_layout_margin"
+            android:onClick="@{() -> handler.onClickSearchResult(result, true)}"
+            android:text="@string/location_pin"
+            android:textColor="@color/location_pin_text"
+            app:chipBackgroundColor="@color/location_pin_background"
+            app:chipIcon="@drawable/outline_pin_drop_24"
+            app:chipIconTint="@color/location_pin_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

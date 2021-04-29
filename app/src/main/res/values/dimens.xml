@@ -27,6 +27,9 @@
 
     <dimen name="card_inset">16dp</dimen>
 
+    <dimen name="list_row_vertical_padding">8dp</dimen>
+    <dimen name="list_row_minimum_height">@dimen/min_touch_size</dimen>
+
     <dimen name="gutter_margin">24dp</dimen>
     <dimen name="subtitle_margin">4dp</dimen>
     <dimen name="title_margin">24dp</dimen>

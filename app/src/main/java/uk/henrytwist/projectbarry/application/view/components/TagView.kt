@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.view.ContextThemeWrapper
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.graphics.ColorUtils
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.application.view.resolvers.TagResolver
 
@@ -19,9 +18,9 @@ open class TagView(context: Context, attributeSet: AttributeSet) : AppCompatText
             visibility = GONE
         } else {
 
-            visibility = VISIBLE
             text = tagContents.name
             setColor(tagContents.color)
+            visibility = VISIBLE
         }
     }
 
