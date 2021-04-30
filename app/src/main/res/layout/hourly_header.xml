@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
             android:text="@{selectedType.nameRes}"
+            android:textDirection="locale"
             app:layout_constraintTop_toTopOf="parent" />
 
         <HorizontalScrollView

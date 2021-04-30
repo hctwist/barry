@@ -59,10 +59,13 @@
         <TextView
             android:id="@+id/main_condition"
             style="@style/Display"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/medium_content_margin"
-            android:text="@{WeatherConditionResolver.INSTANCE.resolveName(context, viewModel.condition), default = Test}"
+            android:layout_marginEnd="@dimen/margin"
+            android:text="@{WeatherConditionResolver.INSTANCE.resolveName(context, viewModel.condition), default = Condition}"
+            android:textDirection="locale"
+            app:layout_constraintEnd_toStartOf="@id/main_temperature"
             app:layout_constraintStart_toEndOf="@id/main_gutter"
             app:layout_constraintTop_toBottomOf="@id/main_art" />
 
@@ -81,7 +84,8 @@
             style="@style/Body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{ForecastResolver.INSTANCE.resolveHourlyChange(context, viewModel.conditionChange)}"
+            android:text="@{ForecastResolver.INSTANCE.resolveHourlyChange(context, viewModel.conditionChange), default = Prediction}"
+            android:textDirection="locale"
             app:layout_constraintEnd_toStartOf="@id/main_now_feels_like"
             app:layout_constraintStart_toStartOf="@id/main_condition"
             app:layout_constraintTop_toBottomOf="@id/main_condition" />
@@ -91,9 +95,9 @@
             style="@style/Body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ForecastResolver.INSTANCE.displayFeelsLike(context, viewModel.feelsLikeTemperature)}"
+            android:text="@{ForecastResolver.INSTANCE.displayFeelsLike(context, viewModel.feelsLikeTemperature), default = Feels}"
             app:layout_constraintEnd_toEndOf="@id/main_temperature"
-            app:layout_constraintTop_toBottomOf="@id/main_temperature" />
+            app:layout_constraintTop_toTopOf="@id/main_prediction" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/main_art_barrier"

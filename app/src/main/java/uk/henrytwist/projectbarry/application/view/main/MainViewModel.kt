@@ -212,6 +212,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun onResume() {
+
+        viewModelScope.launch {
+
+            fetchForecast()
+        }
+    }
+
     fun onChooseLocationClicked() {
 
         navigate(R.id.action_mainFragmentContainer_to_fragmentLocations)
@@ -227,12 +235,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
 
             _refreshing.value = true
-
-            _selectedLocation.value.successOrNull()?.location?.let {
-
-                fetchForecast(it)
-            }
-
+            fetchForecast()
             _refreshing.value = false
         }
     }
@@ -240,6 +243,14 @@ class MainViewModel @Inject constructor(
     fun onRetry() {
 
         collectLocation()
+    }
+
+    private suspend fun fetchForecast() {
+
+        _selectedLocation.value.successOrNull()?.location?.let {
+
+            fetchForecast(it)
+        }
     }
 
     private suspend fun fetchForecast(location: Location) {

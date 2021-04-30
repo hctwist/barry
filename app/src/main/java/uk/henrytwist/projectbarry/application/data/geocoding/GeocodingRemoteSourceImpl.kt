@@ -1,10 +1,12 @@
 package uk.henrytwist.projectbarry.application.data.geocoding
 
+import android.location.Geocoder
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import uk.henrytwist.kotlinbasics.outcomes.NetworkFailure
 import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.kotlinbasics.outcomes.asSuccess
+import uk.henrytwist.kotlinbasics.outcomes.failure
 import uk.henrytwist.projectbarry.domain.data.geocoding.GeocodingRemoteSource
 import uk.henrytwist.projectbarry.domain.data.keys.APIKeyStore
 import uk.henrytwist.projectbarry.domain.models.Location

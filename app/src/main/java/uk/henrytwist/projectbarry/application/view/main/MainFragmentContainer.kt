@@ -117,4 +117,10 @@ class MainFragmentContainer : Fragment() {
             }
         }
     }
+
+    override fun onResume() {
+
+        viewModel.onResume()
+        super.onResume()
+    }
 }

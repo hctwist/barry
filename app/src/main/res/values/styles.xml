@@ -21,9 +21,12 @@
         <item name="aboutHeadingTitleAppearance">@style/Display</item>
         <item name="aboutHeadingSubtitleAppearance">@style/Body</item>
 
-        <item name="horizontalLayoutMargin">@dimen/horizontal_layout_margin</item>
+        <item name="android:listPreferredItemPaddingStart">@dimen/horizontal_layout_margin</item>
+        <item name="android:listPreferredItemPaddingEnd">@dimen/horizontal_layout_margin</item>
 
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
+
+        <item name="horizontalLayoutMargin">@dimen/horizontal_layout_margin</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
@@ -128,7 +131,7 @@
         <item name="chipIconSize">@dimen/icon_extra_small</item>
     </style>
 
-    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+    <style name="BottomSheetDialogTheme" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
 
         <item name="bottomSheetStyle">@style/BottomSheetDialogStyle</item>
     </style>

@@ -17,7 +17,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/card_inset"
@@ -46,7 +46,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:maxLines="2"
-                    android:text="@{WeatherConditionResolver.INSTANCE.resolveName(context, snapshot.condition)}" />
+                    android:text="@{WeatherConditionResolver.INSTANCE.resolveName(context, snapshot.condition), default = Cloudy}"
+                    android:textDirection="locale" />
             </FrameLayout>
 
             <TextView
@@ -54,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/subtitle_margin"
-                android:text="@{TimeDisplayUtil.INSTANCE.displayMeridiemHour(snapshot.time)}" />
+                android:text="@{TimeDisplayUtil.INSTANCE.displayMeridiemHour(snapshot.time), default = 4}" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -26,6 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
                         MIGRATION_25_26
                 ).build()
 
+        // TODO Remove and reset version on first production build
         private val MIGRATION_25_26 = object : Migration(25, 26) {
 
             override fun migrate(database: SupportSQLiteDatabase) {
