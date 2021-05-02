@@ -1,10 +1,9 @@
 package uk.henrytwist.projectbarry.domain.usecases
 
-import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
-import uk.henrytwist.projectbarry.domain.models.SavedLocation
 import uk.henrytwist.projectbarry.domain.data.locationsearch.LocationSearchRepository
 import uk.henrytwist.projectbarry.domain.data.savedlocations.SavedLocationsRepository
 import uk.henrytwist.projectbarry.domain.data.selectedlocation.SelectedLocationRepository
+import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
 import javax.inject.Inject
 
 class SaveSearchLocation @Inject constructor(
@@ -19,8 +18,8 @@ class SaveSearchLocation @Inject constructor(
 
         location.ifSuccessful {
 
-            savedLocationsRepository.saveLocation(SavedLocation(it.placeId, it.name, it.coordinates, pin))
-            selectedLocationRepository.select(it.placeId)
+            val id = savedLocationsRepository.saveLocation(it, pin)
+            selectedLocationRepository.select(id)
         }
     }
 }

@@ -33,7 +33,7 @@ class GetHourlyForecast @Inject constructor(
 
         return locationUseCaseHelper.getLocation().switchMap { loc ->
 
-            forecastRepository.get(loc).map {
+            forecastRepository.get(loc.coordinates).map {
 
                 when (type) {
 

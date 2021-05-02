@@ -8,7 +8,7 @@ import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.kotlinbasics.outcomes.asSuccess
 import uk.henrytwist.projectbarry.domain.data.keys.APIKeyStore
 import uk.henrytwist.projectbarry.domain.data.forecast.ForecastRemoteSource
-import uk.henrytwist.projectbarry.domain.models.Location
+import uk.henrytwist.projectbarry.domain.models.LocationCoordinates
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -16,13 +16,13 @@ import kotlin.coroutines.suspendCoroutine
 class ForecastRemoteSourceImpl @Inject constructor(private val volleyRequestQueue: RequestQueue) :
         ForecastRemoteSource {
 
-    override suspend fun get(location: Location) =
+    override suspend fun get(coordinates: LocationCoordinates) =
             suspendCoroutine<Outcome<ForecastModel>> { continuation ->
 
                 volleyRequestQueue.add(
                         JsonObjectRequest(
                                 Request.Method.GET,
-                                "https://api.openweathermap.org/data/2.5/onecall?lat=${location.coordinates.lat}&lon=${location.coordinates.lng}&exclude=minutely&appid=${APIKeyStore.getOpenWeatherKey()}",
+                                "https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lng}&exclude=minutely&appid=${APIKeyStore.getOpenWeatherKey()}",
                                 null,
                                 { root ->
 
@@ -87,7 +87,7 @@ class ForecastRemoteSourceImpl @Inject constructor(private val volleyRequestQueu
                                     }
 
                                     val result = ForecastModel(
-                                            location.placeId,
+                                            coordinates,
                                             time,
                                             currentTemperature,
                                             conditionCode,

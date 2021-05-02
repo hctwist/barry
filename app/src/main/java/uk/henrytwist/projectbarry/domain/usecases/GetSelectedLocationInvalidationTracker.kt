@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class GetSelectedLocationInvalidationTracker @Inject constructor(private val selectedLocationRepository: SelectedLocationRepository) {
 
-    operator fun invoke() = selectedLocationRepository.getSelectedPlaceId()
+    operator fun invoke() = selectedLocationRepository.getSelectedLocationId()
 }

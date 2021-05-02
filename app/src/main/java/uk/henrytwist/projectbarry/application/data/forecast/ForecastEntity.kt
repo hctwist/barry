@@ -6,8 +6,8 @@ import androidx.room.Relation
 class ForecastEntity(
         @Embedded
         val currentForecastEntity: CurrentForecastEntity,
-        @Relation(parentColumn = "placeId", entityColumn = "placeId")
+        @Relation(parentColumn = "id", entityColumn = "id")
         val hourForecastEntities: List<HourForecastEntity>,
-        @Relation(parentColumn = "placeId", entityColumn = "placeId")
+        @Relation(parentColumn = "id", entityColumn = "id")
         val dayForecastEntities: List<DayForecastEntity>,
 )

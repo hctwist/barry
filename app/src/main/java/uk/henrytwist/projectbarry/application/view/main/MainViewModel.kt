@@ -187,8 +187,7 @@ class MainViewModel @Inject constructor(
 
             _status.value = Status.LOADING
             _loadingStatus.value = LoadingStatus.LOADING_LOCATION
-            val l = getSelectedLocation()
-            _selectedLocation.value = l
+            _selectedLocation.value = getSelectedLocation()
         }
     }
 

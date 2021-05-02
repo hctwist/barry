@@ -3,18 +3,28 @@ package uk.henrytwist.projectbarry.application.data.forecast
 import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.kotlinbasics.outcomes.asSuccess
 import uk.henrytwist.kotlinbasics.outcomes.failure
+import uk.henrytwist.kotlinbasics.scanBy
 import uk.henrytwist.projectbarry.domain.data.forecast.ForecastLocalSource
+import uk.henrytwist.projectbarry.domain.models.LocationCoordinates
+import java.time.Instant
 import javax.inject.Inject
 
 class ForecastLocalSourceImpl @Inject constructor(
         private val dao: ForecastDao
 ) : ForecastLocalSource {
 
-    override suspend fun get(placeId: String): Outcome<ForecastModel> {
+    override suspend fun get(afterTime: Instant, coordinates: LocationCoordinates, distanceTolerance: Double): Outcome<ForecastModel> {
 
-        val entity = dao.get(placeId) ?: return failure()
+        val candidateCoordinates = dao.getCoordinates(afterTime.epochSecond)
 
-        return entity.let { forecast ->
+        val match = candidateCoordinates
+                .scanBy { coordinates.distanceTo(LocationCoordinates(it.lat, it.lng)) }
+                .filter { it < distanceTolerance }
+                .min() ?: return failure()
+
+        val result = dao.get(match.id)
+
+        return result.let { forecast ->
 
             val hours = forecast.hourForecastEntities.map {
 
@@ -45,7 +55,7 @@ class ForecastLocalSourceImpl @Inject constructor(
 
             val cf = forecast.currentForecastEntity
             ForecastModel(
-                    cf.placeId,
+                    LocationCoordinates(cf.lat, cf.lng),
                     cf.time,
                     cf.temp,
                     cf.conditionCode,
@@ -64,7 +74,9 @@ class ForecastLocalSourceImpl @Inject constructor(
         dao.insert(forecast.let { model ->
 
             val currentForecastEntity = CurrentForecastEntity(
-                    model.placeId,
+                    0,
+                    model.coordinates.lat,
+                    model.coordinates.lng,
                     model.time,
                     model.temp,
                     model.conditionCode,
@@ -77,7 +89,7 @@ class ForecastLocalSourceImpl @Inject constructor(
             val hourForecastEntities = model.hourly.map {
 
                 HourForecastEntity(
-                        model.placeId,
+                        0,
                         it.time,
                         it.temp,
                         it.conditionCode,
@@ -90,7 +102,7 @@ class ForecastLocalSourceImpl @Inject constructor(
             val dayForecastEntities = model.daily.map {
 
                 DayForecastEntity(
-                        model.placeId,
+                        0,
                         it.time,
                         it.tempLow,
                         it.tempHigh,
@@ -105,5 +117,10 @@ class ForecastLocalSourceImpl @Inject constructor(
 
             ForecastEntity(currentForecastEntity, hourForecastEntities, dayForecastEntities)
         })
+    }
+
+    override suspend fun delete(beforeTime: Instant) {
+
+        dao.deleteForecasts(beforeTime.epochSecond)
     }
 }

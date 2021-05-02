@@ -1,12 +1,14 @@
 package uk.henrytwist.projectbarry.domain.data.forecast
 
+import uk.henrytwist.projectbarry.domain.models.LocationCoordinates
 import uk.henrytwist.projectbarry.domain.models.ScaledTemperature
 import uk.henrytwist.projectbarry.domain.models.ScaledSpeed
 import uk.henrytwist.projectbarry.domain.models.WeatherCondition
 import java.time.Instant
 
+// TODO Does this need coordinates?
 class Forecast(
-        val placeId: String,
+        val coordinates: LocationCoordinates,
         val time: Instant,
         val temp: ScaledTemperature,
         val condition: WeatherCondition,

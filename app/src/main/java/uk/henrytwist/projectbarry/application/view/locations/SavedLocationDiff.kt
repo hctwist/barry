@@ -7,7 +7,7 @@ object SavedLocationDiff : DiffUtil.ItemCallback<SavedLocation>() {
 
     override fun areItemsTheSame(oldItem: SavedLocation, newItem: SavedLocation): Boolean {
 
-        return oldItem.placeId == newItem.placeId
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: SavedLocation, newItem: SavedLocation): Boolean {

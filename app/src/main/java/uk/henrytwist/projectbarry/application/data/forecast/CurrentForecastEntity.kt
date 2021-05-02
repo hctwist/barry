@@ -5,8 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity
 class CurrentForecastEntity(
-        @PrimaryKey
-        val placeId: String,
+        @PrimaryKey(autoGenerate = true)
+        val id: Int,
+        val lat: Double,
+        val lng: Double,
         val time: Long,
         val temp: Double,
         val conditionCode: Int,

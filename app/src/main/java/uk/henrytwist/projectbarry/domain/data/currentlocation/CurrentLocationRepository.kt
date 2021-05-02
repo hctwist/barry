@@ -49,6 +49,6 @@ class CurrentLocationRepository @Inject constructor(
 
     companion object {
 
-        const val LOCATION_CACHE_EXPIRY = 900000
+        const val LOCATION_CACHE_EXPIRY = 600000
     }
 }

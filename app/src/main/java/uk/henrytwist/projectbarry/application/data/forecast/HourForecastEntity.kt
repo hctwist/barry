@@ -2,9 +2,9 @@ package uk.henrytwist.projectbarry.application.data.forecast
 
 import androidx.room.Entity
 
-@Entity(primaryKeys = ["placeId", "time"])
+@Entity(primaryKeys = ["id", "time"])
 class HourForecastEntity(
-        val placeId: String,
+        var id: Int,
         val time: Long,
         val temp: Double,
         val conditionCode: Int,

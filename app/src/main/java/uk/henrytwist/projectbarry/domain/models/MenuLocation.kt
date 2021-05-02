@@ -6,7 +6,7 @@ sealed class MenuLocation(val selected: Boolean) {
 
     class Saved(
             selected: Boolean,
-            val placeId: String,
+            val id: Int,
             val name: String
     ) : MenuLocation(selected)
 }

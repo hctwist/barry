@@ -30,9 +30,4 @@ object DisplayUtil {
                 decimalPlaces(double * 100, decimalPlaces)
         )
     }
-
-    fun percentage(context: Context, i: Int): String {
-
-        return context.getString(R.string.format_percentage, i.toString())
-    }
 }

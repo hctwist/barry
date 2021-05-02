@@ -1,12 +1,13 @@
 package uk.henrytwist.projectbarry.domain.data.savedlocations
 
+import uk.henrytwist.projectbarry.domain.models.Location
 import uk.henrytwist.projectbarry.domain.models.SavedLocation
 
 class SavedLocationsRepository(private val savedLocationsLocalSource: SavedLocationsLocalSource) {
 
-    suspend fun getLocation(placeId: String): SavedLocation? {
+    suspend fun getLocation(id: Int): SavedLocation? {
 
-        return savedLocationsLocalSource.getLocation(placeId)
+        return savedLocationsLocalSource.getLocation(id)
     }
 
     suspend fun getLocations(): List<SavedLocation> {
@@ -19,9 +20,9 @@ class SavedLocationsRepository(private val savedLocationsLocalSource: SavedLocat
         return savedLocationsLocalSource.getPinnedLocations()
     }
 
-    suspend fun saveLocation(location: SavedLocation): Int {
+    suspend fun saveLocation(location: Location, pin: Boolean): Int {
 
-        return savedLocationsLocalSource.saveLocation(location)
+        return savedLocationsLocalSource.saveLocation(location, pin)
     }
 
     suspend fun pinLocation(location: SavedLocation, pinned: Boolean) {

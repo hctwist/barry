@@ -13,7 +13,7 @@ class GetMenuLocations @Inject constructor(
 
     suspend fun getMenuLocations(): List<MenuLocation> {
 
-        val selectedLocationId = selectedLocationRepository.getSelectedPlaceId().first()
+        val selectedLocationId = selectedLocationRepository.getSelectedLocationId().first()
 
         val currentLocation = if (selectedLocationId == null) {
 
@@ -29,7 +29,7 @@ class GetMenuLocations @Inject constructor(
         menuLocations.add(currentLocation)
         menuLocations.addAll(pinnedLocations.map {
 
-            MenuLocation.Saved(it.placeId == selectedLocationId, it.placeId, it.name)
+            MenuLocation.Saved(it.id == selectedLocationId, it.id, it.name)
         })
 
         return menuLocations

@@ -1,7 +1,9 @@
 package uk.henrytwist.projectbarry.application.data.forecast
 
+import uk.henrytwist.projectbarry.domain.models.LocationCoordinates
+
 class ForecastModel(
-        val placeId: String,
+        val coordinates: LocationCoordinates,
         val time: Long,
         val temp: Double,
         val conditionCode: Int,

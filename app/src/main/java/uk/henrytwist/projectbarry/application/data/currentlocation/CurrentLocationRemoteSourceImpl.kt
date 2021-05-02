@@ -33,10 +33,7 @@ class CurrentLocationRemoteSourceImpl @Inject constructor(
             getCurrentLocation()
         }
 
-        return location.map {
-
-            LocationCoordinates(it.latitude, it.longitude)
-        }
+        return location.map { LocationCoordinates(it.latitude, it.longitude) }
     }
 
     @SuppressLint("MissingPermission")
@@ -85,54 +82,5 @@ class CurrentLocationRemoteSourceImpl @Inject constructor(
                 }
             }
         }
-    }
-
-    @Deprecated("Replaced with getCurrentLocation")
-    @SuppressLint("MissingPermission")
-    suspend fun getLocationUpdate(): Outcome<LocationCoordinates> {
-
-        return withTimeoutOrNull(8000) {
-
-            val request = LocationRequest.create().apply {
-
-                numUpdates = 1
-                interval = 4000L
-            }
-
-            suspendCoroutine {
-
-                locationClient.requestLocationUpdates(
-                        request,
-                        object : LocationCallback() {
-
-                            override fun onLocationAvailability(availability: LocationAvailability?) {
-
-                                if (availability?.isLocationAvailable != true) {
-
-                                    locationClient.removeLocationUpdates(this)
-                                    it.resume(failure())
-                                }
-                            }
-
-                            override fun onLocationResult(result: LocationResult?) {
-
-                                locationClient.removeLocationUpdates(this)
-                                if (result != null) {
-
-                                    val lastLocation = result.lastLocation
-                                    it.resume(LocationCoordinates(
-                                            lastLocation.latitude,
-                                            lastLocation.longitude
-                                    ).asSuccess())
-                                } else {
-
-                                    it.resume(failure())
-                                }
-                            }
-                        },
-                        Looper.getMainLooper()
-                )
-            }
-        } ?: failure()
     }
 }

@@ -21,7 +21,7 @@ class GetDailyForecast @Inject constructor(
 
         return locationUseCaseHelper.getLocation().switchMap { loc ->
 
-            forecastRepository.get(loc).map {
+            forecastRepository.get(loc.coordinates).map {
 
                 build(it)
             }

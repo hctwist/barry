@@ -18,7 +18,7 @@ class GetSelectedLocation @Inject constructor(
 
     suspend operator fun invoke(): Outcome<SelectedLocation> {
 
-        val selectedId = selectedLocationRepository.getSelectedPlaceId().first()
+        val selectedId = selectedLocationRepository.getSelectedLocationId().first()
 
         return if (selectedId == null) {
 

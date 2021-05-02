@@ -1,30 +1,32 @@
 package uk.henrytwist.projectbarry.application.data.selectedlocation
 
-import android.content.SharedPreferences
-import uk.henrytwist.projectbarry.application.di.SharedPreferencesModule
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import uk.henrytwist.projectbarry.application.di.DataStoreProviderModule
 import uk.henrytwist.projectbarry.domain.data.selectedlocation.SelectedLocationLocalSource
 import javax.inject.Inject
 
-class SelectedLocationLocalSourceImpl @Inject constructor(@SharedPreferencesModule.Data private val dataPreferences: SharedPreferences) :
+class SelectedLocationLocalSourceImpl @Inject constructor(@DataStoreProviderModule.Data private val dataStore: DataStore<Preferences>) :
         SelectedLocationLocalSource {
 
-    override fun getSelectedLocationId(): String? {
+    private val selectedLocationKey = intPreferencesKey("selected_location")
 
-        return dataPreferences.getString(CHOSEN_LOCATION, null)
+    override fun getSelectedLocationId(): Flow<Int?> {
+
+        return dataStore.data.map { it[selectedLocationKey] }
     }
 
-    override fun select(placeId: String) {
+    override suspend fun select(id: Int) {
 
-        dataPreferences.edit().putString(CHOSEN_LOCATION, placeId).apply()
+        dataStore.edit { it[selectedLocationKey] = id }
     }
 
-    override fun removeSelection() {
+    override suspend fun removeSelection() {
 
-        dataPreferences.edit().remove(CHOSEN_LOCATION).apply()
-    }
-
-    companion object {
-
-        private const val CHOSEN_LOCATION = "chosen_location"
+        dataStore.edit { it.remove(selectedLocationKey) }
     }
 }

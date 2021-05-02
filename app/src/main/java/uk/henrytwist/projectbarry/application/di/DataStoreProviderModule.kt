@@ -11,6 +11,8 @@ import javax.inject.Qualifier
 
 val Context.experienceDataStore by preferencesDataStore("experience")
 
+val Context.dataDataStore by preferencesDataStore("data")
+
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStoreProviderModule {
@@ -19,7 +21,15 @@ object DataStoreProviderModule {
     @Provides
     fun provideExperienceDataStore(@ApplicationContext context: Context) = context.experienceDataStore
 
+    @Data
+    @Provides
+    fun provideDataDataStore(@ApplicationContext context: Context) = context.dataDataStore
+
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
     annotation class Experience
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class Data
 }

@@ -1,10 +1,12 @@
 package uk.henrytwist.projectbarry.domain.data.selectedlocation
 
+import kotlinx.coroutines.flow.Flow
+
 interface SelectedLocationLocalSource {
 
-    fun getSelectedLocationId(): String?
+    fun getSelectedLocationId(): Flow<Int?>
 
-    fun select(placeId: String)
+    suspend fun select(id: Int)
 
-    fun removeSelection()
+    suspend fun removeSelection()
 }

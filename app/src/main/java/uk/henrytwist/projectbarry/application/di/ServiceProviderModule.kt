@@ -2,6 +2,7 @@ package uk.henrytwist.projectbarry.application.di
 
 import android.content.Context
 import android.content.res.Resources
+import android.location.Geocoder
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -43,5 +44,12 @@ object ServiceProviderModule {
     fun createFusedLocationClient(@ApplicationContext context: Context): FusedLocationProviderClient {
 
         return LocationServices.getFusedLocationProviderClient(context.applicationContext)
+    }
+
+    @Provides
+    @Singleton
+    fun createGeocoder(@ApplicationContext context: Context): Geocoder {
+
+        return Geocoder(context)
     }
 }

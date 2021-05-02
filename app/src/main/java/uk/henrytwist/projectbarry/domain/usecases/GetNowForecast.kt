@@ -20,7 +20,7 @@ class GetNowForecast @Inject constructor(
 
     suspend operator fun invoke(location: Location): Outcome<NowForecast> {
 
-        return forecastRepository.get(location).map {
+        return forecastRepository.get(location.coordinates).map {
 
             buildCurrentForecast(it)
         }

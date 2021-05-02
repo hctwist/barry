@@ -8,6 +8,6 @@ class NeedsLocationPermission @Inject constructor(private val selectedLocationLo
 
     suspend operator fun invoke(): Boolean {
 
-        return selectedLocationLocalSource.getSelectedPlaceId().first() == null
+        return selectedLocationLocalSource.getSelectedLocationId().first() == null
     }
 }

@@ -4,7 +4,8 @@ import androidx.room.*
 
 @Entity
 class SavedLocationEntity(
-        @PrimaryKey val placeId: String,
+        @PrimaryKey(autoGenerate = true)
+        val id: Int,
         val name: String,
         val lat: Double,
         val lng: Double,
@@ -23,10 +24,10 @@ class SavedLocationEntity(
         @Query("SELECT * FROM SavedLocationEntity WHERE pinned")
         suspend fun getPinned(): List<SavedLocationEntity>
 
-        @Query("UPDATE SavedLocationEntity SET pinned = :pinned WHERE placeId = :placeId")
-        suspend fun updatePinned(placeId: String, pinned: Boolean)
+        @Query("UPDATE SavedLocationEntity SET pinned = :pinned WHERE id = :id")
+        suspend fun updatePinned(id: Int, pinned: Boolean)
 
-        @Query("SELECT * FROM SavedLocationEntity WHERE placeId = :placeId")
-        suspend fun get(placeId: String): SavedLocationEntity?
+        @Query("SELECT * FROM SavedLocationEntity WHERE id = :id")
+        suspend fun get(id: Int): SavedLocationEntity?
     }
 }

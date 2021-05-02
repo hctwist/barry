@@ -18,7 +18,7 @@ class LocationUseCaseHelper @Inject constructor(
 
     suspend fun getLocation(): Outcome<Location> {
 
-        val selectedId = selectedLocationRepository.getSelectedPlaceId().first()
+        val selectedId = selectedLocationRepository.getSelectedLocationId().first()
 
         return if (selectedId == null) {
 
