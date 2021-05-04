@@ -9,10 +9,14 @@ import androidx.appcompat.widget.AppCompatTextView
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.application.view.resolvers.TagResolver
 
+// TODO Is this theme causing the flash problem?
 open class TagView(context: Context, attributeSet: AttributeSet) : AppCompatTextView(ContextThemeWrapper(context, R.style.Tag), attributeSet) {
+
+    private var tagContents: TagContents? = null
 
     fun setTagContents(tagContents: TagContents?) {
 
+        this.tagContents = tagContents
         if (tagContents == null) {
 
             visibility = GONE
@@ -21,6 +25,15 @@ open class TagView(context: Context, attributeSet: AttributeSet) : AppCompatText
             text = tagContents.name
             setColor(tagContents.color)
             visibility = VISIBLE
+        }
+    }
+
+    override fun setVisibility(visibility: Int) {
+
+        when (visibility) {
+
+            VISIBLE -> if (tagContents != null) super.setVisibility(visibility)
+            INVISIBLE, GONE -> super.setVisibility(visibility)
         }
     }
 

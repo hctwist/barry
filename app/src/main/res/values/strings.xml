@@ -48,4 +48,7 @@
     <string name="hourly_change_all_day">%1$s all day</string>
     <string name="hourly_change_tomorrow">%1$s all day. %2$s tomorrow at %3$s</string>
     <string name="hourly_forecast_title">Forecast</string>
+
+    <!-- Daily -->
+    <string name="daily_title">Next 7 days</string>
 </resources>

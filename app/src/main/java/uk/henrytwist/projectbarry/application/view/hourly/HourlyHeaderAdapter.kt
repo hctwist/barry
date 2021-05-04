@@ -5,9 +5,8 @@ import uk.henrytwist.androidbasics.recyclerview.SingleBindingItemAdapter
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.databinding.HourlyHeaderBinding
 
-class HourlyHeaderAdapter : SingleBindingItemAdapter<HourlyHeaderBinding>(R.layout.hourly_header) {
+class HourlyHeaderAdapter(private val handler: Handler) : SingleBindingItemAdapter<HourlyHeaderBinding>(R.layout.hourly_header) {
 
-    lateinit var handler: Handler
     var selectedType: HourlyForecastType? = null
 
     override fun onBind(binding: HourlyHeaderBinding) {

@@ -17,14 +17,13 @@ class AboutFragment : Fragment(R.layout.about_fragment) {
 
         val recycler = view as RecyclerView
 
-        val headerAdapter = HeaderAdapter()
-        headerAdapter.handler = object : HeaderAdapter.Handler {
+        val headerAdapter = HeaderAdapter(object : HeaderAdapter.Handler {
 
             override fun onClickBack() {
 
                 findNavController().popBackStack()
             }
-        }
+        })
 
         val aboutAdapter = AboutAdapter()
 

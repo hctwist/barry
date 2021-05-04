@@ -4,13 +4,12 @@ import uk.henrytwist.androidbasics.recyclerview.SingleBindingItemAdapter
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.databinding.HeaderBinding
 
-class HeaderAdapter : SingleBindingItemAdapter<HeaderBinding>(R.layout.header) {
-
-    lateinit var handler: Handler
+class HeaderAdapter(private val handler: Handler, var title: String? = null) : SingleBindingItemAdapter<HeaderBinding>(R.layout.header) {
 
     override fun onBind(binding: HeaderBinding) {
 
         binding.handler = handler
+        binding.title = title
     }
 
     interface Handler {

@@ -6,7 +6,6 @@ import uk.henrytwist.projectbarry.domain.models.ScaledSpeed
 import uk.henrytwist.projectbarry.domain.models.WeatherCondition
 import java.time.Instant
 
-// TODO Does this need coordinates?
 class Forecast(
         val coordinates: LocationCoordinates,
         val time: Instant,

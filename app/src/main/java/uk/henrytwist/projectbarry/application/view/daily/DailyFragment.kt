@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,22 +23,19 @@ class DailyFragment : Fragment(R.layout.daily_fragment) {
 
         viewModel.observeNavigation(this)
 
-        val headerAdapter = HeaderAdapter().apply {
-
-            handler = viewModel
-        }
-        val dailyAdapter = DailyAdapter()
+        val headerAdapter = HeaderAdapter(viewModel, getString(R.string.daily_title))
+        val dailyAdapter = DailyAdapter(viewModel)
 
         view.findViewById<RecyclerView>(R.id.daily_recycler).run {
 
             layoutManager = LinearLayoutManager(context)
             adapter = ConcatAdapter(headerAdapter, dailyAdapter)
+            itemAnimator = DailyExpansionAnimator()
         }
 
         viewModel.forecast.observe(viewLifecycleOwner) {
 
-            dailyAdapter.days = it.days
-            dailyAdapter.notifyDataSetChanged()
+            dailyAdapter.submitList(it)
         }
     }
 }

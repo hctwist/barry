@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -17,76 +18,60 @@
             type="uk.henrytwist.projectbarry.application.view.hourly.HourlyHeaderAdapter.Handler" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/margin">
+        android:clipToPadding="false"
+        android:paddingHorizontal="@dimen/horizontal_layout_margin"
+        android:paddingBottom="@dimen/margin"
+        android:scrollbars="none">
 
-        <TextView
-            style="@style/Display"
-            android:layout_width="match_parent"
+        <!-- TODO Replace with tabs for better UX behaviour -->
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/horizontal_layout_margin"
-            android:text="@{selectedType.nameRes}"
-            android:textDirection="locale"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:selectionRequired="true"
+            app:singleSelection="true">
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/large_content_margin"
-            android:clipToPadding="false"
-            android:paddingHorizontal="@dimen/horizontal_layout_margin"
-            android:scrollbars="none">
-
-            <!-- TODO Replace with tabs for better UX behaviour -->
-            <com.google.android.material.button.MaterialButtonToggleGroup
+            <com.google.android.material.button.MaterialButton
+                style="@style/TextMaterialToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:selectionRequired="true"
-                app:singleSelection="true">
+                android:onClick="@{() -> handler.onTypeChanged(HourlyForecastType.FORECAST)}"
+                android:text="@{HourlyForecastType.FORECAST.nameRes}"
+                bind:checked="@{selectedType == HourlyForecastType.FORECAST}" />
 
-                <com.google.android.material.button.MaterialButton
-                    style="@style/TextMaterialToggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> handler.onTypeChanged(HourlyForecastType.FORECAST)}"
-                    android:text="@{HourlyForecastType.FORECAST.nameRes}"
-                    bind:checked="@{selectedType == HourlyForecastType.FORECAST}" />
+            <com.google.android.material.button.MaterialButton
+                style="@style/TextMaterialToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> handler.onTypeChanged(HourlyForecastType.TEMPERATURE)}"
+                android:text="@{HourlyForecastType.TEMPERATURE.nameRes}"
+                bind:checked="@{selectedType == HourlyForecastType.TEMPERATURE}" />
 
-                <com.google.android.material.button.MaterialButton
-                    style="@style/TextMaterialToggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> handler.onTypeChanged(HourlyForecastType.TEMPERATURE)}"
-                    android:text="@{HourlyForecastType.TEMPERATURE.nameRes}"
-                    bind:checked="@{selectedType == HourlyForecastType.TEMPERATURE}" />
+            <com.google.android.material.button.MaterialButton
+                style="@style/TextMaterialToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> handler.onTypeChanged(HourlyForecastType.POP)}"
+                android:text="@{HourlyForecastType.POP.nameRes}"
+                bind:checked="@{selectedType == HourlyForecastType.POP}" />
 
-                <com.google.android.material.button.MaterialButton
-                    style="@style/TextMaterialToggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> handler.onTypeChanged(HourlyForecastType.POP)}"
-                    android:text="@{HourlyForecastType.POP.nameRes}"
-                    bind:checked="@{selectedType == HourlyForecastType.POP}" />
+            <com.google.android.material.button.MaterialButton
+                style="@style/TextMaterialToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> handler.onTypeChanged(HourlyForecastType.UV)}"
+                android:text="@{HourlyForecastType.UV.nameRes}"
+                bind:checked="@{selectedType == HourlyForecastType.UV}" />
 
-                <com.google.android.material.button.MaterialButton
-                    style="@style/TextMaterialToggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> handler.onTypeChanged(HourlyForecastType.UV)}"
-                    android:text="@{HourlyForecastType.UV.nameRes}"
-                    bind:checked="@{selectedType == HourlyForecastType.UV}" />
-
-                <com.google.android.material.button.MaterialButton
-                    style="@style/TextMaterialToggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> handler.onTypeChanged(HourlyForecastType.WIND_SPEED)}"
-                    android:text="@{HourlyForecastType.WIND_SPEED.nameRes}"
-                    bind:checked="@{selectedType == HourlyForecastType.WIND_SPEED}" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-        </HorizontalScrollView>
-    </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                style="@style/TextMaterialToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> handler.onTypeChanged(HourlyForecastType.WIND_SPEED)}"
+                android:text="@{HourlyForecastType.WIND_SPEED.nameRes}"
+                bind:checked="@{selectedType == HourlyForecastType.WIND_SPEED}" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+    </HorizontalScrollView>
 </layout>

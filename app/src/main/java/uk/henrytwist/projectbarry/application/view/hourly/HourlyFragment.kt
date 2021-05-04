@@ -23,14 +23,8 @@ class HourlyFragment : Fragment(R.layout.hourly_fragment) {
 
         viewModel.observeNavigation(this)
 
-        val headerAdapter = HeaderAdapter().apply {
-
-            handler = viewModel
-        }
-        val hourlyHeaderAdapter = HourlyHeaderAdapter().apply {
-
-            handler = viewModel
-        }
+        val headerAdapter = HeaderAdapter(viewModel)
+        val hourlyHeaderAdapter = HourlyHeaderAdapter(viewModel)
 
         val conditionAdapter = HourlyConditionAdapter()
         val elementAdapter = HourlyElementAdapter()
@@ -38,6 +32,9 @@ class HourlyFragment : Fragment(R.layout.hourly_fragment) {
         val forecastAdapter = ConcatAdapter(headerAdapter, hourlyHeaderAdapter, conditionAdapter)
 
         viewModel.forecastType.observe(viewLifecycleOwner) {
+
+            headerAdapter.title = getString(it.nameRes)
+            headerAdapter.notifyDataSetChanged()
 
             hourlyHeaderAdapter.selectedType = it
             hourlyHeaderAdapter.notifyDataSetChanged()

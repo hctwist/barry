@@ -16,9 +16,9 @@ import javax.inject.Inject
 @HiltViewModel
 class DailyViewModel @Inject constructor(
         private val getDailyForecast: GetDailyForecast
-) : NavigatorViewModel(), HeaderAdapter.Handler {
+) : NavigatorViewModel(), HeaderAdapter.Handler, DailyAdapter.Handler {
 
-    private val _forecast = MutableLiveData<DailyForecast>()
+    private val _forecast = MutableLiveData<List<DailyAdapter.DayRow>>()
     val forecast = _forecast.immutable()
 
     init {
@@ -27,7 +27,10 @@ class DailyViewModel @Inject constructor(
 
             getDailyForecast().ifSuccessful {
 
-                _forecast.value = it
+                _forecast.value = it.days.map {
+
+                    DailyAdapter.DayRow(it, false)
+                }
             }
         }
     }
@@ -35,5 +38,23 @@ class DailyViewModel @Inject constructor(
     override fun onClickBack() {
 
         navigateBack()
+    }
+
+    override fun onDayRowClick(day: DailyForecast.Day) {
+
+        _forecast.value?.map {
+
+            when {
+
+                it.day.date == day.date -> DailyAdapter.DayRow(it.day, !it.expanded)
+
+                it.expanded -> DailyAdapter.DayRow(it.day, false)
+
+                else -> it
+            }
+        }?.let {
+
+            _forecast.value = it
+        }
     }
 }
