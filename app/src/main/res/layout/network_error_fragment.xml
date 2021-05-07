@@ -47,6 +47,7 @@
             android:layout_marginBottom="@dimen/bottom_layout_margin"
             android:onClick="@{() -> viewModel.onRetry()}"
             android:text="@string/network_error_retry"
+            app:icon="@drawable/outline_refresh_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -17,5 +17,5 @@
         android:layout_marginStart="@dimen/horizontal_layout_margin"
         android:layout_marginTop="@dimen/small_content_margin"
         android:layout_marginBottom="@dimen/margin"
-        android:text="@{TimeDisplayUtil.INSTANCE.displayFutureDay(context, time)}" />
+        android:text="@{TimeDisplayUtil.INSTANCE.displayDayOrTomorrow(context, time)}" />
 </layout>

@@ -30,7 +30,18 @@ object TimeDisplayUtil {
         return DateTimeFormatter.ofPattern("d").format(dateTime)
     }
 
-    fun displayFutureDay(context: Context, time: ZonedDateTime): String {
+    fun displayDayOrToday(context: Context, time: ZonedDateTime): String {
+
+        return if (time.toLocalDate() == LocalDate.now()) {
+
+            context.getString(R.string.today)
+        } else {
+
+            displayDay(time)
+        }
+    }
+
+    fun displayDayOrTomorrow(context: Context, time: ZonedDateTime): String {
 
         val now = LocalDate.now()
 

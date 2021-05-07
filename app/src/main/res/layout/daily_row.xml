@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:onClick="@{() -> handler.onDayRowClick(day)}"
-        android:paddingVertical="@dimen/margin">
+        android:paddingVertical="20dp">
 
         <TextView
             android:id="@+id/daily_day"
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/gutter_margin"
-            android:text="@{TimeDisplayUtil.INSTANCE.displayDay(day.date), default = Day}"
+            android:text="@{TimeDisplayUtil.INSTANCE.displayDayOrToday(context, day.date), default = Day}"
             app:layout_constraintStart_toEndOf="@id/daily_condition_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,7 +42,7 @@
             android:id="@+id/daily_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/subtitle_margin"
+            android:layout_marginTop="@dimen/half_margin"
             app:layout_constraintStart_toStartOf="@id/daily_day"
             app:layout_constraintTop_toBottomOf="@id/daily_day"
             bind:tagContents="@{TagResolver.INSTANCE.resolveTag(context, day.condition)}" />

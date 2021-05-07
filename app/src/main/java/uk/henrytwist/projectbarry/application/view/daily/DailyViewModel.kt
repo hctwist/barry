@@ -7,9 +7,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import uk.henrytwist.androidbasics.livedata.immutable
 import uk.henrytwist.androidbasics.navigation.NavigatorViewModel
+import uk.henrytwist.kotlinbasics.findIndex
 import uk.henrytwist.projectbarry.application.view.components.HeaderAdapter
 import uk.henrytwist.projectbarry.domain.models.DailyForecast
 import uk.henrytwist.projectbarry.domain.usecases.GetDailyForecast
+import java.time.LocalDate
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -25,11 +27,12 @@ class DailyViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-            getDailyForecast().ifSuccessful {
+            getDailyForecast().ifSuccessful { f ->
 
-                _forecast.value = it.days.map {
+                val now = LocalDate.now()
+                _forecast.value = f.days.map {
 
-                    DailyAdapter.DayRow(it, false)
+                    DailyAdapter.DayRow(it, it.date.toLocalDate() == now)
                 }
             }
         }
@@ -42,19 +45,31 @@ class DailyViewModel @Inject constructor(
 
     override fun onDayRowClick(day: DailyForecast.Day) {
 
-        _forecast.value?.map {
+        _forecast.value?.let { currentList ->
 
-            when {
+            val newList = currentList.toMutableList()
+            val clickedIndex = newList.findIndex { it.day.date == day.date } ?: return
+            val wasExpanded = newList[clickedIndex].expanded
 
-                it.day.date == day.date -> DailyAdapter.DayRow(it.day, !it.expanded)
+            clearExpanded(newList)
 
-                it.expanded -> DailyAdapter.DayRow(it.day, false)
+            if (wasExpanded) {
 
-                else -> it
+                newList[0] = DailyAdapter.DayRow(newList[0].day, true)
+            } else {
+
+                newList[clickedIndex] = DailyAdapter.DayRow(newList[clickedIndex].day, true)
             }
-        }?.let {
 
-            _forecast.value = it
+            _forecast.value = newList
+        }
+    }
+
+    private fun clearExpanded(rows: MutableList<DailyAdapter.DayRow>) {
+
+        for (i in rows.indices) {
+
+            if (rows[i].expanded) rows[i] = DailyAdapter.DayRow(rows[i].day, false)
         }
     }
 }

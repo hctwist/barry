@@ -47,6 +47,7 @@
             android:layout_marginBottom="@dimen/margin"
             android:onClick="@{() -> viewModel.onRequestLocationServicesClicked()}"
             android:text="@string/location_error_turn_on_services"
+            app:icon="@drawable/outline_gps_fixed_24"
             app:layout_constraintBottom_toTopOf="@id/location_permission_other"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -91,30 +91,45 @@ class MainFragmentContainer : Fragment() {
             viewModel.onRefresh()
         }
 
-        var lastErrorFragment: Fragment? = null
         viewModel.status.observe(viewLifecycleOwner) { status ->
 
-            if (status == MainViewModel.Status.LOADED) {
+            requireNotNull(status)
 
-                lastErrorFragment?.let { childFragmentManager.beginTransaction().remove(it).commit() }
-                childFragmentManager.beginTransaction().replace(R.id.main_container, ForecastFragment()).commit()
-            } else {
+            // TODO Try and find a way to remove the need for this
+            childFragmentManager.executePendingTransactions()
 
-                childFragmentManager.findFragmentById(R.id.main_container)?.let { childFragmentManager.beginTransaction().remove(it).commit() }
+            val transaction = childFragmentManager.beginTransaction()
+            var skipAdding = false
 
-                when (status!!) {
+            childFragmentManager.fragments.forEach {
 
+                val fragmentStatus = MainViewModel.Status.valueOf(it.tag!!)
+
+                if (fragmentStatus != status || skipAdding) {
+
+                    transaction.remove(it)
+                } else {
+
+                    skipAdding = true
+                }
+            }
+
+            if (!skipAdding) {
+
+                val fragmentToAdd = when (status) {
+
+                    MainViewModel.Status.LOADED -> ForecastFragment()
                     MainViewModel.Status.LOADING -> MainLoadingFragment()
                     MainViewModel.Status.NO_PERMISSION -> LocationPermissionFragment()
                     MainViewModel.Status.NETWORK_ERROR -> NetworkErrorFragment()
                     MainViewModel.Status.LOCATION_ERROR -> LocationErrorFragment()
-                    else -> null
-                }?.let {
-
-                    lastErrorFragment = it
-                    childFragmentManager.beginTransaction().replace(R.id.main_error_container, it).commit()
                 }
+
+                val container = if (status == MainViewModel.Status.LOADED) R.id.main_container else R.id.main_error_container
+                transaction.add(container, fragmentToAdd, status.name)
             }
+
+            transaction.commit()
         }
     }
 

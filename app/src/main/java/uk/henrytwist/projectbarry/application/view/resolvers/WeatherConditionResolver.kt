@@ -2,9 +2,14 @@ package uk.henrytwist.projectbarry.application.view.resolvers
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.core.content.ContextCompat
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.domain.models.WeatherCondition
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
+import kotlin.time.minutes
+import kotlin.time.seconds
 
 object WeatherConditionResolver {
 
@@ -34,7 +39,6 @@ object WeatherConditionResolver {
 
     fun resolveArt(context: Context, condition: WeatherCondition?, isNight: Boolean): Drawable? {
 
-        // TODO This is being called twice from the main binding for some reason, even though the condition definitely only changes once
         if (condition == null) return null
 
         return ContextCompat.getDrawable(context, when (condition) {

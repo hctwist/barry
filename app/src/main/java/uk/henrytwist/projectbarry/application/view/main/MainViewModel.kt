@@ -107,7 +107,6 @@ class MainViewModel @Inject constructor(
 
             _selectedLocation.collect { outcome ->
 
-                // TODO Compiler bug?
                 when (outcome) {
 
                     is Outcome.Waiting -> {
@@ -213,10 +212,10 @@ class MainViewModel @Inject constructor(
 
     fun onResume() {
 
-        viewModelScope.launch {
-
-            fetchForecast()
-        }
+//        viewModelScope.launch {
+//
+//            fetchForecast()
+//        }
     }
 
     fun onChooseLocationClicked() {
