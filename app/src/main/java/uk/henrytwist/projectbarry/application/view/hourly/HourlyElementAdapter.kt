@@ -3,10 +3,8 @@ package uk.henrytwist.projectbarry.application.view.hourly
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import uk.henrytwist.projectbarry.databinding.HourConditionBlockBinding
 import uk.henrytwist.projectbarry.databinding.HourElementRowBinding
 import uk.henrytwist.projectbarry.databinding.HourNewDayBinding
-import uk.henrytwist.projectbarry.domain.models.HourConditionForecast
 import uk.henrytwist.projectbarry.domain.models.HourElementForecast
 
 class HourlyElementAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

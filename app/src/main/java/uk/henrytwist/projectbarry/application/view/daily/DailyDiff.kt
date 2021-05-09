@@ -14,7 +14,7 @@ object DailyDiff : DiffUtil.ItemCallback<DailyAdapter.DayRow>() {
         return oldItem.expanded == newItem.expanded
     }
 
-    override fun getChangePayload(oldItem: DailyAdapter.DayRow, newItem: DailyAdapter.DayRow): Any? {
+    override fun getChangePayload(oldItem: DailyAdapter.DayRow, newItem: DailyAdapter.DayRow): Any {
 
         return Expansion(newItem.expanded)
     }

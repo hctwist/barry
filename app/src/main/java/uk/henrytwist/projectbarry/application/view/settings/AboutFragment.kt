@@ -29,7 +29,7 @@ class AboutFragment : Fragment(R.layout.about_fragment) {
 
         aboutAdapter.build(requireContext()) {
 
-            addTitle(R.string.settings_category_forecast)
+            addTitle(R.string.settings_about_forecast_title)
             addItem(R.string.settings_about_open_weather_title, R.string.settings_about_open_weather_body, null, "https://openweathermap.org/our-initiatives")
 
             addTitle(R.string.settings_about_art_title)

@@ -8,7 +8,7 @@
             type="uk.henrytwist.projectbarry.domain.models.SavedLocation" />
 
         <variable
-            name="clicklistener"
+            name="clickListener"
             type="uk.henrytwist.projectbarry.application.view.locations.LocationChoiceAdapter.Handler" />
     </data>
 
@@ -18,7 +18,7 @@
         android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:minHeight="@dimen/list_row_minimum_height"
-        android:onClick="@{() -> clicklistener.onChooseLocation(location)}"
+        android:onClick="@{() -> clickListener.onChooseLocation(location)}"
         android:paddingVertical="@dimen/list_row_vertical_padding">
 
         <TextView
@@ -26,9 +26,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/horizontal_layout_margin"
             android:layout_weight="1"
-            android:textDirection="locale"
             android:text="@{location.name}"
-            android:textColor="?android:attr/textColorPrimary" />
+            android:textColor="?android:attr/textColorPrimary"
+            android:textDirection="locale" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/location_pin"

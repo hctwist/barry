@@ -34,6 +34,9 @@ class LocationView(context: Context, attributeSet: AttributeSet) : MaterialCardV
             nameView.text = name
 
             iconView.setImageDrawable(LocationResolver.resolveIcon(context, location))
+            iconView.contentDescription = resources.getString(
+                    if (location.isCurrent) R.string.location_type_current_cd else R.string.location_type_chosen_cd
+            )
         }
     }
 }

@@ -36,11 +36,11 @@
             android:id="@+id/location_icon"
             android:layout_width="@dimen/icon_extra_small"
             android:layout_height="@dimen/icon_extra_small"
-            android:src="@drawable/outline_pin_drop_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/location_margin"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="?android:attr/textColorSecondary" />
+            app:tint="?android:attr/textColorSecondary"
+            tools:ignore="ContentDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </merge>

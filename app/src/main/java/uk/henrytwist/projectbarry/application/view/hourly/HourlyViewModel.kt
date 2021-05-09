@@ -3,7 +3,6 @@ package uk.henrytwist.projectbarry.application.view.hourly
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import uk.henrytwist.androidbasics.livedata.immutable
 import uk.henrytwist.androidbasics.navigation.NavigatorViewModel

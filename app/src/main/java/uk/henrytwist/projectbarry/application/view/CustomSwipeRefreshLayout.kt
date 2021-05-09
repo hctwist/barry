@@ -49,7 +49,7 @@ class CustomSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
             // TODO
         } else {
 
-            Log.d("CustomSwipeRefreshLayou", "setRefreshing: state = $state")
+            Log.d("CustomSwipeRefreshLayout", "setRefreshing: state = $state")
 
             when (state) {
 

@@ -73,6 +73,7 @@
                     android:id="@+id/hour_condition_icon"
                     android:layout_width="@dimen/icon_medium"
                     android:layout_height="@dimen/icon_medium"
+                    android:contentDescription="@{WeatherConditionResolver.INSTANCE.resolveName(context, block.condition)}"
                     android:src="@{WeatherConditionResolver.INSTANCE.resolveIcon(context, block.condition, block.isNight)}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

@@ -52,8 +52,6 @@
     <string name="element_feels_like">Feels like</string>
     <string name="element_dew_point">Dew point</string>
     <string name="element_wind_speed">Wind speed</string>
-    <string name="element_sunrise">Sunrise</string>
-    <string name="element_sunset">Sunset</string>
 
     <!-- Element tags -->
     <string name="uv_tag_zero">Zero</string>

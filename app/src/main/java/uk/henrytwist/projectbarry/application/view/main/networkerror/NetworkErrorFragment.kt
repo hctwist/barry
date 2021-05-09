@@ -13,7 +13,7 @@ class NetworkErrorFragment : Fragment() {
 
     private val viewModel by viewModels<MainViewModel>(ownerProducer = { requireParentFragment() })
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         val binding = NetworkErrorFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel

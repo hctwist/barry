@@ -14,7 +14,6 @@
     <dimen name="stroke_width">1dp</dimen>
 
     <!-- Layout -->
-    <dimen name="inset_horizontal_layout_margin">12dp</dimen>
     <dimen name="horizontal_layout_margin">22dp</dimen>
     <dimen name="top_layout_margin">48dp</dimen>
     <dimen name="bottom_layout_margin">48dp</dimen>
@@ -59,7 +58,6 @@
     <dimen name="phase_view_line">1dp</dimen>
 
     <!-- Hourly -->
-    <dimen name="hourly_bar_height">8dp</dimen>
     <dimen name="hourly_row_min_height">48dp</dimen>
 
     <!-- Element tag -->

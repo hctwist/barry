@@ -7,11 +7,9 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import uk.henrytwist.androidbasics.withoutRebind
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.application.view.main.forecast.ForecastElementAdapter
 import uk.henrytwist.projectbarry.databinding.DailyRowBinding
-import uk.henrytwist.projectbarry.databinding.DailyRowBindingImpl
 import uk.henrytwist.projectbarry.domain.models.DailyForecast
 
 class DailyAdapter(private val handler: Handler) : ListAdapter<DailyAdapter.DayRow, DailyAdapter.Holder>(DailyDiff) {

@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/horizontal_layout_margin"
             android:layout_marginTop="@dimen/top_toolbar_content_layout_margin"
-            android:text="Settings" />
+            android:text="@string/settings_title" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/settings_container"

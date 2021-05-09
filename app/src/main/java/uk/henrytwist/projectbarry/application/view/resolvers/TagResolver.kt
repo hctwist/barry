@@ -1,7 +1,6 @@
 package uk.henrytwist.projectbarry.application.view.resolvers
 
 import android.content.Context
-import android.graphics.Color
 import androidx.core.content.ContextCompat
 import com.google.android.material.color.MaterialColors
 import uk.henrytwist.projectbarry.R

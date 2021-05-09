@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -23,7 +24,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             app:tint="?android:attr/colorControlNormal"
-            bind:imageResource="@{page.iconRes}" />
+            bind:imageResource="@{page.iconRes}"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/onboarding_page_title"

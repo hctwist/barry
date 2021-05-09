@@ -10,6 +10,7 @@
         android:id="@+id/phase_view_sunrise_icon"
         android:layout_width="@dimen/icon_medium"
         android:layout_height="@dimen/icon_medium"
+        android:contentDescription="@string/main_phase_sunrise_cd"
         android:src="@drawable/icon_sunrise"
         app:layout_constraintEnd_toStartOf="@id/phase_view_sunset_icon"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,6 +21,7 @@
         android:id="@+id/phase_view_sunset_icon"
         android:layout_width="@dimen/icon_medium"
         android:layout_height="@dimen/icon_medium"
+        android:contentDescription="@string/main_phase_sunset_cd"
         android:src="@drawable/icon_sunset"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/phase_view_sunrise_icon"
@@ -43,7 +45,8 @@
         android:src="@drawable/phase_view_dot"
         app:layout_constraintEnd_toEndOf="@id/phase_view_sunrise_icon"
         app:layout_constraintStart_toStartOf="@id/phase_view_sunrise_icon"
-        app:layout_constraintTop_toBottomOf="@id/phase_view_sunrise_icon" />
+        app:layout_constraintTop_toBottomOf="@id/phase_view_sunrise_icon"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/phase_view_sunset_dot"
@@ -52,7 +55,8 @@
         android:src="@drawable/phase_view_dot"
         app:layout_constraintEnd_toEndOf="@id/phase_view_sunset_icon"
         app:layout_constraintStart_toStartOf="@id/phase_view_sunset_icon"
-        app:layout_constraintTop_toTopOf="@id/phase_view_sunrise_dot" />
+        app:layout_constraintTop_toTopOf="@id/phase_view_sunrise_dot"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/phase_view_sunrise_label"

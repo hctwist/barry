@@ -2,14 +2,9 @@ package uk.henrytwist.projectbarry.application.view.resolvers
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.core.content.ContextCompat
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.domain.models.WeatherCondition
-import kotlin.time.Duration
-import kotlin.time.ExperimentalTime
-import kotlin.time.minutes
-import kotlin.time.seconds
 
 object WeatherConditionResolver {
 
@@ -44,9 +39,26 @@ object WeatherConditionResolver {
         return ContextCompat.getDrawable(context, when (condition) {
 
             WeatherCondition.CLEAR -> if (isNight) R.drawable.art_clear_night else R.drawable.art_clear
-            WeatherCondition.CLOUDS_FEW, WeatherCondition.CLOUDS_SCATTERED -> R.drawable.art_few_clouds
-            WeatherCondition.CLOUDS_BROKEN, WeatherCondition.CLOUDS_OVERCAST -> if (isNight) R.drawable.art_cloudy_night else R.drawable.art_cloudy
-            WeatherCondition.RAIN_LIGHT, WeatherCondition.RAIN, WeatherCondition.RAIN_HEAVY -> if (isNight) R.drawable.art_rain_night else R.drawable.art_rain
+
+            WeatherCondition.CLOUDS_FEW,
+            WeatherCondition.CLOUDS_SCATTERED -> R.drawable.art_few_clouds
+
+            WeatherCondition.CLOUDS_BROKEN,
+            WeatherCondition.CLOUDS_OVERCAST -> if (isNight) R.drawable.art_cloudy_night else R.drawable.art_cloudy
+
+            WeatherCondition.DRIZZLE_LIGHT,
+            WeatherCondition.DRIZZLE,
+            WeatherCondition.DRIZZLE_HEAVY,
+            WeatherCondition.RAIN_LIGHT,
+            WeatherCondition.RAIN,
+            WeatherCondition.RAIN_HEAVY,
+            WeatherCondition.FREEZING_RAIN -> if (isNight) R.drawable.art_rain_night else R.drawable.art_rain
+
+            WeatherCondition.SNOW,
+            WeatherCondition.SNOW_HEAVY,
+            WeatherCondition.SNOW_RAIN,
+            WeatherCondition.SLEET -> if (isNight) R.drawable.art_snow else R.drawable.art_snow_night
+
             else -> if (isNight) R.drawable.art_cloudy_night else R.drawable.art_cloudy
         })
     }

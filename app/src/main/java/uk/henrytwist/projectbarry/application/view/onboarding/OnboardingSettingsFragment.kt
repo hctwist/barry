@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.databinding.OnboardingSettingsFragmentBinding
 import uk.henrytwist.projectbarry.domain.models.ScaledSpeed
@@ -20,50 +18,35 @@ class OnboardingSettingsFragment : Fragment() {
 
     private val viewModel by viewModels<OnboardingViewModel>(ownerProducer = { requireParentFragment() })
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         binding = OnboardingSettingsFragmentBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding.onboardingSettingsTemperature.adapter = ArrayAdapter(
-                requireContext(),
-                R.layout.spinner_text_view,
-                resources.getStringArray(R.array.settings_temperature_scale_entries)
-        )
+        binding.onboardingSettingsTemperature.setOnClickListener {
 
-        binding.onboardingSettingsTemperature.setOnItemSelected {
+            MaterialAlertDialogBuilder(requireContext())
+                    .setItems(R.array.settings_temperature_scale_entries) { _, which ->
 
-            viewModel.onTemperatureScaleChanged(ScaledTemperature.Scale.values()[it])
+                        viewModel.onTemperatureScaleChanged(ScaledTemperature.Scale.values()[which])
+                    }
+                    .show()
         }
 
-        binding.onboardingSettingsSpeed.adapter = ArrayAdapter(
-                requireContext(),
-                R.layout.spinner_text_view,
-                resources.getStringArray(R.array.settings_speed_scale_entries)
-        )
+        binding.onboardingSettingsSpeed.setOnClickListener {
 
-        binding.onboardingSettingsSpeed.setOnItemSelected {
+            MaterialAlertDialogBuilder(requireContext())
+                    .setItems(R.array.settings_speed_scale_entries) { _, which ->
 
-            viewModel.onSpeedScaleChanged(ScaledSpeed.Scale.values()[it])
-        }
-    }
-
-    private inline fun Spinner.setOnItemSelected(crossinline action: (Int) -> Unit) {
-
-        onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-                action(position)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
+                        viewModel.onSpeedScaleChanged(ScaledSpeed.Scale.values()[which])
+                    }
+                    .show()
         }
     }
 }

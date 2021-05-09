@@ -8,6 +8,14 @@
     <string name="locations_title">Locations</string>
     <string name="settings_title">Settings</string>
 
+    <!-- General -->
+    <string name="temperature_high_cd">High temperature</string>
+    <string name="temperature_low_cd">Low temperature</string>
+
+    <!-- Location view -->
+    <string name="location_type_current_cd">Current location</string>
+    <string name="location_type_chosen_cd">Chosen location</string>
+
     <!-- Main -->
     <string name="main_hourly">Coming up</string>
 
@@ -15,6 +23,9 @@
 
     <string name="main_day_button">Next 7 days</string>
     <string name="main_hourly_button">Next 24 hours</string>
+
+    <string name="main_phase_sunrise_cd">Sunrise time</string>
+    <string name="main_phase_sunset_cd">Sunset time</string>
 
     <string name="main_loading_location">Fetching location</string>
     <string name="main_loading_forecast">Loading forecast</string>
@@ -40,6 +51,7 @@
     <string name="current_location">Current location</string>
     <string name="location_search_secondary_empty">-</string>
     <string name="location_pin">Pin</string>
+    <string name="location_search">Search for locations</string>
 
     <!-- Hourly -->
     <!-- TODO Refactor -->

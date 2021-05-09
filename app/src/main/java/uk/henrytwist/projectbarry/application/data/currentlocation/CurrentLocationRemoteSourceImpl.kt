@@ -2,11 +2,10 @@ package uk.henrytwist.projectbarry.application.data.currentlocation
 
 import android.annotation.SuppressLint
 import android.location.Location
-import android.os.Looper
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withTimeoutOrNull
 import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.kotlinbasics.outcomes.asSuccess
 import uk.henrytwist.kotlinbasics.outcomes.failure

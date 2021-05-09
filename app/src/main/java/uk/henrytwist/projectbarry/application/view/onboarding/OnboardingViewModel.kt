@@ -23,8 +23,11 @@ class OnboardingViewModel @Inject constructor(private val completeOnboarding: Co
 
     val showFinishButton = page.map { it == nPages - 1 }
 
-    private var temperatureScale: ScaledTemperature.Scale? = null
-    private var speedScale: ScaledSpeed.Scale? = null
+    private val _temperatureScale = MutableLiveData(ScaledTemperature.Scale.CELSIUS)
+    val temperatureScale = _temperatureScale.immutable()
+
+    private val _speedScale = MutableLiveData(ScaledSpeed.Scale.METRES_PER_SECOND)
+    val speedScale = _speedScale.immutable()
 
     fun onNext() {
 
@@ -51,19 +54,19 @@ class OnboardingViewModel @Inject constructor(private val completeOnboarding: Co
 
     fun onTemperatureScaleChanged(scale: ScaledTemperature.Scale) {
 
-        temperatureScale = scale
+        _temperatureScale.value = scale
     }
 
     fun onSpeedScaleChanged(scale: ScaledSpeed.Scale) {
 
-        speedScale = scale
+        _speedScale.value = scale
     }
 
     private fun onFinish() {
 
         viewModelScope.launch {
 
-            completeOnboarding(temperatureScale, speedScale)
+            completeOnboarding(temperatureScale.value!!, speedScale.value!!)
             navigate(R.id.action_onboardingFragment_to_mainFragmentContainer)
         }
     }

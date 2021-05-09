@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingVertical="@dimen/margin">
@@ -11,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/gutter_margin"
-        android:text="Day"
         app:layout_constraintStart_toEndOf="@id/daily_condition_icon"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,7 +41,7 @@
         app:layout_constraintBottom_toBottomOf="@id/daily_condition"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/daily_condition"
-        app:tint="?android:attr/colorControlNormal" />
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:id="@+id/daily_temperatures"
@@ -60,7 +60,8 @@
             android:layout_height="@dimen/icon_extra_small"
             android:layout_marginEnd="@dimen/quarter_margin"
             android:src="@drawable/outline_arrow_downward_24"
-            app:tint="?android:attr/textColorPrimary" />
+            app:tint="?android:attr/textColorPrimary"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/daily_low"
@@ -75,7 +76,8 @@
             android:layout_marginStart="@dimen/margin"
             android:layout_marginEnd="@dimen/quarter_margin"
             android:src="@drawable/outline_arrow_upward_24"
-            app:tint="?android:attr/textColorPrimary" />
+            app:tint="?android:attr/textColorPrimary"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/daily_high"
