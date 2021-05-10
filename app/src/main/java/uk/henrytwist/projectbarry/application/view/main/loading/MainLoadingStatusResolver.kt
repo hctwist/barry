@@ -1,11 +1,9 @@
 package uk.henrytwist.projectbarry.application.view.main.loading
 
 import android.content.Context
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.application.view.main.MainViewModel
 
-@ExperimentalCoroutinesApi
 object MainLoadingStatusResolver {
 
     fun resolveMessage(context: Context, status: MainViewModel.LoadingStatus?): String? {

@@ -4,6 +4,7 @@ import uk.henrytwist.projectbarry.domain.data.savedlocations.SavedLocationsLocal
 import uk.henrytwist.projectbarry.domain.models.Location
 import uk.henrytwist.projectbarry.domain.models.LocationCoordinates
 import uk.henrytwist.projectbarry.domain.models.SavedLocation
+import java.time.Instant
 import javax.inject.Inject
 
 class SavedLocationsLocalSourceImpl @Inject constructor(private val savedLocationDao: SavedLocationEntity.Dao) :

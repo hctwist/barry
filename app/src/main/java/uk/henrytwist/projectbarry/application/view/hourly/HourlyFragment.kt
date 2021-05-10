@@ -8,13 +8,11 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.application.view.components.HeaderAdapter
 import uk.henrytwist.projectbarry.domain.models.HourlyForecast
 
 @AndroidEntryPoint
-@ExperimentalCoroutinesApi
 class HourlyFragment : Fragment(R.layout.hourly_fragment) {
 
     private val viewModel by viewModels<HourlyViewModel>()

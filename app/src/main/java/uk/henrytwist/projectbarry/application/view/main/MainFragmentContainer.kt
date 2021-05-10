@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import uk.henrytwist.androidbasics.livedata.observeEvent
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.application.view.main.forecast.ForecastFragment
@@ -23,13 +22,13 @@ import uk.henrytwist.projectbarry.application.view.main.networkerror.NetworkErro
 import uk.henrytwist.projectbarry.application.view.main.permissionerror.LocationPermissionFragment
 import uk.henrytwist.projectbarry.databinding.MainFragmentContainerBinding
 
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class MainFragmentContainer : Fragment() {
 
-    private lateinit var binding: MainFragmentContainerBinding
-
     private val viewModel by viewModels<MainViewModel>()
+
+    private var _binding: MainFragmentContainerBinding? = null
+    private val binding get() = _binding!!
 
     private val locationPermissionResultRegistration = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
 
@@ -43,7 +42,7 @@ class MainFragmentContainer : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        binding = MainFragmentContainerBinding.inflate(inflater, container, false)
+        _binding = MainFragmentContainerBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -95,7 +94,6 @@ class MainFragmentContainer : Fragment() {
 
             requireNotNull(status)
 
-            // TODO Try and find a way to remove the need for this
             childFragmentManager.executePendingTransactions()
 
             val transaction = childFragmentManager.beginTransaction()

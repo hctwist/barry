@@ -73,9 +73,7 @@
 
     <!-- Widgets -->
 
-    <style name="TextMaterialButton" parent="Widget.MaterialComponents.Button.TextButton">
-
-    </style>
+    <style name="TextMaterialButton" parent="Widget.MaterialComponents.Button.TextButton" />
 
     <style name="MaterialCardView" parent="Widget.MaterialComponents.CardView">
 
@@ -100,6 +98,7 @@
 
         <item name="android:stateListAnimator">@null</item>
         <item name="android:textAllCaps">false</item>
+        <item name="iconSize">@dimen/icon_small</item>
     </style>
 
     <style name="Chip" parent="Widget.MaterialComponents.Chip.Action">

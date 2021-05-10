@@ -18,7 +18,8 @@ class LocationsFragment : Fragment() {
     @Inject
     lateinit var viewModel: LocationsViewModel
 
-    private lateinit var binding: LocationsFragmentBinding
+    private var _binding: LocationsFragmentBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var choiceAdapter: LocationChoiceAdapter
     private lateinit var searchAdapter: LocationSearchAdapter
@@ -29,7 +30,7 @@ class LocationsFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
 
-        binding = LocationsFragmentBinding.inflate(inflater, container, false)
+        _binding = LocationsFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 

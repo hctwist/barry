@@ -13,8 +13,10 @@
     <string name="temperature_low_cd">Low temperature</string>
 
     <!-- Location view -->
+    <string name="location_type_current_waiting_cd">Fetching current location</string>
     <string name="location_type_current_cd">Current location</string>
-    <string name="location_type_chosen_cd">Chosen location</string>
+    <string name="location_type_current_unavailable_cd">Current location unavailable</string>
+    <string name="location_type_static_cd">Chosen location</string>
 
     <!-- Main -->
     <string name="main_hourly">Coming up</string>

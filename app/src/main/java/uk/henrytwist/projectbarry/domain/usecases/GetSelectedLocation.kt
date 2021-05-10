@@ -23,7 +23,7 @@ class GetSelectedLocation @Inject constructor(
         return if (selectedId == null) {
 
             val location = currentLocationRepository.get()
-            location.map { SelectedLocation(it, true) }
+            location.map { SelectedLocation(it, SelectedLocation.Type.CURRENT) }
         } else {
 
             val location = savedLocationsRepository.getLocation(selectedId)
@@ -32,7 +32,7 @@ class GetSelectedLocation @Inject constructor(
                 failure()
             } else {
 
-                SelectedLocation(location, false).asSuccess()
+                SelectedLocation(location, SelectedLocation.Type.STATIC).asSuccess()
             }
         }
     }

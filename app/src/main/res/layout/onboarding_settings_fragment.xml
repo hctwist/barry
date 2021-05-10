@@ -20,7 +20,7 @@
             android:id="@+id/onboarding_settings_icon"
             android:layout_width="@dimen/icon_large"
             android:layout_height="@dimen/icon_large"
-            android:src="@drawable/icon_tornado"
+            android:src="@drawable/icon_cloudy_day"
             app:layout_constraintBottom_toTopOf="@id/onboarding_settings_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

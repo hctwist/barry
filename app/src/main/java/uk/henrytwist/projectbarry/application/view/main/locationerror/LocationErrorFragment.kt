@@ -11,9 +11,10 @@ import uk.henrytwist.projectbarry.databinding.LocationErrorFragmentBinding
 
 class LocationErrorFragment : Fragment() {
 
-    private lateinit var binding: LocationErrorFragmentBinding
-
     private val mainViewModel by viewModels<MainViewModel>(ownerProducer = { requireParentFragment() })
+
+    private var _binding: LocationErrorFragmentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -21,7 +22,7 @@ class LocationErrorFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
 
-        binding = LocationErrorFragmentBinding.inflate(inflater, container, false)
+        _binding = LocationErrorFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = mainViewModel
 
         return binding.root

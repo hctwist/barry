@@ -14,13 +14,14 @@ import uk.henrytwist.projectbarry.domain.models.ScaledTemperature
 
 class OnboardingSettingsFragment : Fragment() {
 
-    private lateinit var binding: OnboardingSettingsFragmentBinding
-
     private val viewModel by viewModels<OnboardingViewModel>(ownerProducer = { requireParentFragment() })
+
+    private var _binding: OnboardingSettingsFragmentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        binding = OnboardingSettingsFragmentBinding.inflate(inflater, container, false)
+        _binding = OnboardingSettingsFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 

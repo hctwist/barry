@@ -11,14 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import uk.henrytwist.androidbasics.recyclerview.MarginItemDecoration
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.application.view.main.MainViewModel
 import uk.henrytwist.projectbarry.databinding.ForecastFragmentBinding
 
 @AndroidEntryPoint
-@ExperimentalCoroutinesApi
 class ForecastFragment : Fragment() {
 
     private val viewModel by viewModels<MainViewModel>(ownerProducer = { requireParentFragment() })
@@ -27,7 +25,8 @@ class ForecastFragment : Fragment() {
 
     private val hourSnapshotAdapter = HourSnapshotAdapter()
 
-    private lateinit var binding: ForecastFragmentBinding
+    private var _binding: ForecastFragmentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -35,7 +34,7 @@ class ForecastFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
 
-        binding = ForecastFragmentBinding.inflate(inflater, container, false)
+        _binding = ForecastFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 

@@ -29,6 +29,7 @@
 
         <TextView
             style="@style/Display"
+            goneUnless="@{!(title == null || title.empty)}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/horizontal_layout_margin"

@@ -13,12 +13,14 @@ import uk.henrytwist.projectbarry.databinding.OnboardingFragmentBinding
 @AndroidEntryPoint
 class OnboardingFragment : Fragment() {
 
-    private lateinit var binding: OnboardingFragmentBinding
     private val viewModel by viewModels<OnboardingViewModel>()
+
+    private var _binding: OnboardingFragmentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        binding = OnboardingFragmentBinding.inflate(inflater, container, false)
+        _binding = OnboardingFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root

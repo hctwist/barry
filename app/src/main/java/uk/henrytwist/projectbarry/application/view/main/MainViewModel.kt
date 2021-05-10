@@ -93,11 +93,11 @@ class MainViewModel @Inject constructor(
 
                 if (it == null) {
 
-                    _selectedLocation.value = SelectedLocation(null, true).asSuccess()
+                    _selectedLocation.value = SelectedLocation(null, SelectedLocation.Type.CURRENT_WAITING).asSuccess()
                     _queryLocationPermission.trigger()
                 } else {
 
-                    _selectedLocation.value = SelectedLocation(null, false).asSuccess()
+                    _selectedLocation.value = SelectedLocation(null, SelectedLocation.Type.STATIC).asSuccess()
                     collectLocation()
                 }
             }
@@ -114,7 +114,7 @@ class MainViewModel @Inject constructor(
 
                     is Outcome.Success -> {
 
-                        outcome.successOrNull()?.location?.let {
+                        outcome.data.location?.let {
 
                             fetchForecast(it)
                         }
@@ -122,7 +122,7 @@ class MainViewModel @Inject constructor(
 
                     is Outcome.Failure -> {
 
-                        onLocationFailure(outcome)
+                        onFailure(outcome)
                     }
                 }
             }
@@ -165,6 +165,7 @@ class MainViewModel @Inject constructor(
 
         if (enabled) {
 
+            _selectedLocation.value = SelectedLocation(null, SelectedLocation.Type.CURRENT_WAITING).asSuccess()
             collectLocation()
         } else {
 
@@ -175,6 +176,7 @@ class MainViewModel @Inject constructor(
                 _requestLocationServices.event = exception
             } else {
 
+                _selectedLocation.value = SelectedLocation(null, SelectedLocation.Type.CURRENT_UNAVAILABLE).asSuccess()
                 _status.value = Status.LOCATION_ERROR
             }
         }
@@ -212,10 +214,10 @@ class MainViewModel @Inject constructor(
 
     fun onResume() {
 
-//        viewModelScope.launch {
-//
-//            fetchForecast()
-//        }
+        viewModelScope.launch {
+
+            fetchForecast()
+        }
     }
 
     fun onChooseLocationClicked() {
@@ -256,7 +258,7 @@ class MainViewModel @Inject constructor(
         _status.value = Status.LOADING
         _loadingStatus.value = LoadingStatus.LOADING_FORECAST
 
-        val forecast = getNowForecast.invoke(location)
+        val forecast = getNowForecast(location)
 
         if (forecast is Outcome.Success) {
 
@@ -264,11 +266,11 @@ class MainViewModel @Inject constructor(
             _currentForecast.value = forecast
         } else if (forecast is Outcome.Failure) {
 
-            onLocationFailure(forecast)
+            onFailure(forecast)
         }
     }
 
-    private fun onLocationFailure(failure: Outcome.Failure) {
+    private fun onFailure(failure: Outcome.Failure) {
 
         when (failure) {
 

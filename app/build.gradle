@@ -11,8 +11,8 @@ android {
         applicationId "uk.henrytwist.projectbarry"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 5
-        versionName "0.5"
+        versionCode 7
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -96,5 +96,5 @@ dependencies {
     implementation project(":buttons")
     implementation project(":htp-core")
 
-//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
 }

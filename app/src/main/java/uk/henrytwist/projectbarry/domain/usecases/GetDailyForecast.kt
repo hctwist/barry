@@ -1,6 +1,5 @@
 package uk.henrytwist.projectbarry.domain.usecases
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import uk.henrytwist.kotlinbasics.outcomes.Outcome
 import uk.henrytwist.projectbarry.domain.data.SettingsRepository
 import uk.henrytwist.projectbarry.domain.data.forecast.Forecast
@@ -10,7 +9,6 @@ import uk.henrytwist.projectbarry.domain.models.ForecastElement
 import java.time.ZoneId
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 class GetDailyForecast @Inject constructor(
         private val locationUseCaseHelper: LocationUseCaseHelper,
         private val forecastRepository: ForecastRepository,

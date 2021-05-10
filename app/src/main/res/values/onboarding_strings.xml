@@ -5,7 +5,10 @@
     <string name="onboarding_intro_body">Straightforward weather forecasts.</string>
 
     <string name="onboarding_forecasts_title">Accurate and simple forecasts</string>
-    <string name="onboarding_forecasts_body">Get current, hourly and daily forecasts with everything you need to know.</string>
+    <string name="onboarding_forecasts_body">All the information you need, all in one place. Simple and easy to understand.</string>
+
+    <string name="onboarding_hourly_title">Detailed hourly forecasts</string>
+    <string name="onboarding_hourly_body">Comprehensive information for rain, UV index, wind speed and more. Hour by hour.</string>
 
     <string name="onboarding_settings_title">Let\'s get started</string>
 

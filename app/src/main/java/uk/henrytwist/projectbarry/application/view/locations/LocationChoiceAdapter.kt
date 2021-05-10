@@ -25,7 +25,7 @@ class LocationChoiceAdapter(private val handler: Handler) : ListAdapter<SavedLoc
         fun bind(location: SavedLocation, handler: Handler) {
 
             binding.location = location
-            binding.clicklistener = handler
+            binding.clickListener = handler
 
             binding.locationPin.setOnClickListener {
 

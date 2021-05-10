@@ -59,11 +59,17 @@ class DailyAdapter(private val handler: Handler) : ListAdapter<DailyAdapter.DayR
 
             binding.executePendingBindings()
 
-            if (expanded != row.expanded) {
+            setExpanded(row.expanded)
+        }
 
+        fun setExpanded(expanded: Boolean) {
+
+            if (expanded != this.expanded) {
+
+                this.expanded = expanded
                 val newSet = ConstraintSet().apply {
 
-                    clone(itemView.context, if (row.expanded) R.layout.daily_row_expanded_blueprint else R.layout.daily_row)
+                    clone(itemView.context, if (expanded) R.layout.daily_row_expanded_blueprint else R.layout.daily_row)
                 }
 
                 newSet.applyTo(binding.root as ConstraintLayout)

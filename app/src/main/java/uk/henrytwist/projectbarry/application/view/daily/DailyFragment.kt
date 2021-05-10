@@ -8,12 +8,10 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.application.view.components.HeaderAdapter
 
 @AndroidEntryPoint
-@ExperimentalCoroutinesApi
 class DailyFragment : Fragment(R.layout.daily_fragment) {
 
     private val viewModel by viewModels<DailyViewModel>()

@@ -3,12 +3,10 @@ package uk.henrytwist.projectbarry.application.view.daily
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.transition.doOnEnd
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import uk.henrytwist.kotlinbasics.findLastOfInstance
-import uk.henrytwist.projectbarry.R
 
 class DailyExpansionAnimator : DefaultItemAnimator() {
 
@@ -29,10 +27,6 @@ class DailyExpansionAnimator : DefaultItemAnimator() {
 
         if (preInfo is ExpansionInfo) {
 
-            val oldLayout = oldHolder.itemView as ConstraintLayout
-
-            val newSet = ConstraintSet().apply { clone(oldLayout.context, if (preInfo.shouldExpand) R.layout.daily_row_expanded_blueprint else R.layout.daily_row) }
-
             val transition = AutoTransition().apply {
 
                 doOnEnd {
@@ -41,8 +35,8 @@ class DailyExpansionAnimator : DefaultItemAnimator() {
                 }
             }
 
-            TransitionManager.beginDelayedTransition(oldLayout.parent as RecyclerView, transition)
-            newSet.applyTo(oldLayout)
+            TransitionManager.beginDelayedTransition((oldHolder.itemView as ConstraintLayout).parent as RecyclerView, transition)
+            (oldHolder as DailyAdapter.Holder).setExpanded(preInfo.shouldExpand)
 
             return false
         } else {
@@ -51,9 +45,9 @@ class DailyExpansionAnimator : DefaultItemAnimator() {
         }
     }
 
-    override fun canReuseUpdatedViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean {
+    override fun canReuseUpdatedViewHolder(viewHolder: RecyclerView.ViewHolder, payloads: MutableList<Any>): Boolean {
 
-        return true
+        return if (payloads.findLastOfInstance<DailyDiff.Expansion>() != null) true else super.canReuseUpdatedViewHolder(viewHolder, payloads)
     }
 
     class ExpansionInfo(val shouldExpand: Boolean) : ItemHolderInfo()
