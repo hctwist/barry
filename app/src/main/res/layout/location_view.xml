@@ -7,8 +7,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/margin"
-        android:paddingVertical="@dimen/half_margin">
+        android:paddingHorizontal="@dimen/location_view_padding_horizontal"
+        android:paddingVertical="@dimen/location_view_padding_vertical">
 
         <TextView
             android:id="@+id/location_name"

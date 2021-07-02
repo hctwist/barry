@@ -9,7 +9,7 @@
     <dimen name="min_touch_size">48dp</dimen>
     <dimen name="icon_touch_padding">12dp</dimen>
 
-    <dimen name="corner_radius">6dp</dimen>
+    <dimen name="corner_radius">16dp</dimen>
 
     <dimen name="stroke_width">1dp</dimen>
 
@@ -61,6 +61,10 @@
     <dimen name="hourly_row_min_height">48dp</dimen>
 
     <!-- Element tag -->
-    <dimen name="element_tag_padding_vertical">3dp</dimen>
+    <dimen name="element_tag_padding_vertical">4dp</dimen>
     <dimen name="element_tag_padding_horizontal">10dp</dimen>
+
+    <!-- Location view -->
+    <dimen name="location_view_padding_vertical">8dp</dimen>
+    <dimen name="location_view_padding_horizontal">18dp</dimen>
 </resources>
