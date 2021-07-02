@@ -50,4 +50,10 @@ class OnboardingSettingsFragment : Fragment() {
                     .show()
         }
     }
+
+    override fun onDestroyView() {
+
+        super.onDestroyView()
+        _binding = null
+    }
 }

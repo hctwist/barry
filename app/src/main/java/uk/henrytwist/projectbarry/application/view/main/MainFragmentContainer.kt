@@ -136,4 +136,10 @@ class MainFragmentContainer : Fragment() {
         viewModel.onResume()
         super.onResume()
     }
+
+    override fun onDestroyView() {
+
+        super.onDestroyView()
+        _binding = null
+    }
 }

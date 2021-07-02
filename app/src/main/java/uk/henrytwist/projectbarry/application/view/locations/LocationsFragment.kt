@@ -68,4 +68,10 @@ class LocationsFragment : Fragment() {
             searchAdapter.notifyDataSetChanged()
         }
     }
+
+    override fun onDestroyView() {
+
+        super.onDestroyView()
+        _binding = null
+    }
 }

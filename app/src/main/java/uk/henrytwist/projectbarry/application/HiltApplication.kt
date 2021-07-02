@@ -2,8 +2,8 @@ package uk.henrytwist.projectbarry.application
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import uk.henrytwist.projectbarry.domain.usecases.CleanupCache
@@ -18,7 +18,7 @@ class HiltApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
 
             // TODO Is there a better place to put this?
             delay(2000)

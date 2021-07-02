@@ -86,4 +86,10 @@ class ForecastFragment : Fragment() {
             addItemDecoration(MarginItemDecoration(resources.getDimension(R.dimen.margin)))
         }
     }
+
+    override fun onDestroyView() {
+
+        super.onDestroyView()
+        _binding = null
+    }
 }

@@ -45,4 +45,10 @@ class OnboardingFragment : Fragment() {
             binding.onboardingPager.currentItem = it
         }
     }
+
+    override fun onDestroyView() {
+
+        super.onDestroyView()
+        _binding = null
+    }
 }
