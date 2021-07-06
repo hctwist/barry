@@ -11,11 +11,6 @@ import uk.henrytwist.projectbarry.domain.util.ColorUtil
 
 object TagResolver {
 
-    fun resolveTagBackgroundColor(color: Int): Int {
-
-        return MaterialColors.compositeARGBWithAlpha(color, ColorUtil.ELEMENT_TAG_BACKGROUND_ALPHA)
-    }
-
     fun resolveTag(context: Context, condition: WeatherCondition): TagView.TagContents? {
 
         return when (condition.group) {

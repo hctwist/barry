@@ -67,4 +67,8 @@
     <!-- Location view -->
     <dimen name="location_view_padding_vertical">8dp</dimen>
     <dimen name="location_view_padding_horizontal">18dp</dimen>
+
+    <!-- Widgets -->
+    <dimen name="widget_vertical_margin">16dp</dimen>
+    <dimen name="widget_horizontal_padding">16dp</dimen>
 </resources>

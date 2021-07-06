@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginVertical="@dimen/widget_vertical_margin"
+    android:background="@drawable/widget_panel"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/element_widget_name"
+        style="@style/WidgetTextSecondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UV Index" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/quarter_margin">
+
+        <ImageView
+            android:id="@+id/element_widget_background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignStart="@id/element_widget_tag"
+            android:layout_alignTop="@id/element_widget_tag"
+            android:layout_alignEnd="@id/element_widget_tag"
+            android:layout_alignBottom="@id/element_widget_tag"
+            android:src="@drawable/element_tag_background"
+            app:tint="@color/text_color_primary" />
+
+        <TextView
+            android:id="@+id/element_widget_tag"
+            style="@style/Tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:fontFamily="sans-serif-medium" />
+    </RelativeLayout>
+</LinearLayout>

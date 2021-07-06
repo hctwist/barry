@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import uk.henrytwist.androidbasics.navigation.NavigatorViewModel
 import uk.henrytwist.projectbarry.domain.models.LocationSearchResult
@@ -11,6 +12,7 @@ import uk.henrytwist.projectbarry.domain.models.SavedLocation
 import uk.henrytwist.projectbarry.domain.usecases.*
 import javax.inject.Inject
 
+@HiltViewModel
 class LocationsViewModel @Inject constructor(
         private val searchLocationUseCase: SearchLocationUseCase,
         private val savedLocationsUseCase: GetSavedLocations,

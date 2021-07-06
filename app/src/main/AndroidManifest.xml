@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uk.henrytwist.projectbarry">
 
@@ -5,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="uk.henrytwist.projectbarry.application.HiltApplication"
+        android:name=".application.HiltApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,14 +17,36 @@
         <activity
             android:name=".application.view.ActivityMain"
             android:windowSoftInputMode="adjustPan">
-
             <intent-filter>
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
 
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".application.widgets.NowWidgetProvider"
+            android:label="@string/now_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/now_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".application.widgets.ElementWidgetProvider"
+            android:label="@string/element_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/element_widget_info" />
+        </receiver>
     </application>
 </manifest>

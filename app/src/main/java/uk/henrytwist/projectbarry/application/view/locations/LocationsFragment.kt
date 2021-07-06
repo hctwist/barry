@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import uk.henrytwist.androidbasics.showSoftKeyboard
@@ -15,8 +16,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LocationsFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModel: LocationsViewModel
+    val viewModel by viewModels<LocationsViewModel>()
 
     private var _binding: LocationsFragmentBinding? = null
     private val binding get() = _binding!!

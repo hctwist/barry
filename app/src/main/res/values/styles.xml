@@ -73,7 +73,7 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
-    <!-- Widgets -->
+    <!-- Components -->
 
     <style name="TextMaterialButton" parent="Widget.MaterialComponents.Button.TextButton" />
 
@@ -149,8 +149,6 @@
         <item name="cornerSize">@dimen/corner_radius</item>
     </style>
 
-    <!-- Components -->
-
     <style name="SearchBox">
 
         <item name="android:importantForAutofill">no</item>
@@ -167,5 +165,20 @@
         <item name="android:paddingHorizontal">@dimen/element_tag_padding_horizontal</item>
         <item name="android:background">@drawable/element_tag_background</item>
         <item name="android:textColor">#E6000000</item>
+    </style>
+
+    <!-- Widgets -->
+
+    <style name="WidgetTextSecondary">
+
+        <item name="android:textSize">@dimen/text_extra_small</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="WidgetTextPrimary">
+
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 </resources>

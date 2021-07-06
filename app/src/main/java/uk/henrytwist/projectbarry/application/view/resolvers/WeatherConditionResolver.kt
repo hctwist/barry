@@ -8,11 +8,11 @@ import uk.henrytwist.projectbarry.domain.models.WeatherCondition
 
 object WeatherConditionResolver {
 
-    fun resolveIcon(context: Context, condition: WeatherCondition?, isNight: Boolean): Drawable? {
+    fun resolveIconResource(condition: WeatherCondition?, isNight: Boolean): Int? {
 
         if (condition == null) return null
 
-        return ContextCompat.getDrawable(context, when (condition) {
+        return when (condition) {
 
             WeatherCondition.CLEAR -> if (isNight) R.drawable.icon_clear_night else R.drawable.icon_clear_day
             WeatherCondition.CLOUDS_FEW, WeatherCondition.CLOUDS_SCATTERED -> if (isNight) R.drawable.icon_cloudy_night else R.drawable.icon_cloudy_day
@@ -29,14 +29,19 @@ object WeatherConditionResolver {
             WeatherCondition.DUST, WeatherCondition.SAND, WeatherCondition.ASH -> R.drawable.icon_particles
             WeatherCondition.SQUALL -> R.drawable.icon_wind
             WeatherCondition.TORNADO -> R.drawable.icon_tornado
-        })
+        }
     }
 
-    fun resolveArt(context: Context, condition: WeatherCondition?, isNight: Boolean): Drawable? {
+    fun resolveIcon(context: Context, condition: WeatherCondition?, isNight: Boolean): Drawable? {
+
+        return resolveIconResource(condition, isNight)?.let { ContextCompat.getDrawable(context, it) }
+    }
+
+    fun resolveArtResource(condition: WeatherCondition?, isNight: Boolean): Int? {
 
         if (condition == null) return null
 
-        return ContextCompat.getDrawable(context, when (condition) {
+        return when (condition) {
 
             WeatherCondition.CLEAR -> if (isNight) R.drawable.art_clear_night else R.drawable.art_clear
 
@@ -60,7 +65,12 @@ object WeatherConditionResolver {
             WeatherCondition.SLEET -> if (isNight) R.drawable.art_snow else R.drawable.art_snow_night
 
             else -> if (isNight) R.drawable.art_cloudy_night else R.drawable.art_cloudy
-        })
+        }
+    }
+
+    fun resolveArt(context: Context, condition: WeatherCondition?, isNight: Boolean): Drawable? {
+
+        return resolveArtResource(condition, isNight)?.let { ContextCompat.getDrawable(context, it) }
     }
 
     fun resolveName(context: Context, condition: WeatherCondition?): String? {

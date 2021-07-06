@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Ray</string>
 
+    <string name="now_widget_name">Now</string>
+    <string name="element_widget_name">UV index</string>
+
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
 
