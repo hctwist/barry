@@ -68,4 +68,7 @@
 
     <!-- Daily -->
     <string name="daily_title">Next 7 days</string>
+
+    <!-- Widget -->
+    <string name="loading_cd">Loading</string>
 </resources>
