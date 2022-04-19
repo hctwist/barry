@@ -16,6 +16,7 @@
 
         <activity
             android:name=".application.view.ActivityMain"
+            android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -27,6 +28,7 @@
 
         <receiver
             android:name=".application.widgets.NowWidgetProvider"
+            android:exported="true"
             android:label="@string/now_widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -39,6 +41,7 @@
 
         <receiver
             android:name=".application.widgets.ElementWidgetProvider"
+            android:exported="true"
             android:label="@string/element_widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

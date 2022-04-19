@@ -37,15 +37,7 @@ class ActivityMain : AppCompatActivity(R.layout.activity_main), NavController.On
         val graph = navController.navInflater.inflate(R.navigation.nav_main)
 
         lifecycleScope.launchWhenCreated {
-
-            graph.startDestination = if (!experienceRepository.hasCompletedOnboarding()) {
-
-                R.id.onboardingFragment
-            } else {
-
-                R.id.mainFragmentContainer
-            }
-
+            graph.setStartDestination(if (!experienceRepository.hasCompletedOnboarding()) R.id.onboardingFragment else R.id.mainFragmentContainer)
             navController.graph = graph
         }
     }
