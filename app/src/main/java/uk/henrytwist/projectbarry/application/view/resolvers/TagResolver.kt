@@ -2,12 +2,10 @@ package uk.henrytwist.projectbarry.application.view.resolvers
 
 import android.content.Context
 import androidx.core.content.ContextCompat
-import com.google.android.material.color.MaterialColors
 import uk.henrytwist.projectbarry.R
 import uk.henrytwist.projectbarry.application.view.components.TagView
 import uk.henrytwist.projectbarry.domain.models.ForecastElement
 import uk.henrytwist.projectbarry.domain.models.WeatherCondition
-import uk.henrytwist.projectbarry.domain.util.ColorUtil
 
 object TagResolver {
 
@@ -24,74 +22,33 @@ object TagResolver {
 
     fun resolveTag(context: Context, forecastElement: ForecastElement): TagView.TagContents? {
 
-        return when (forecastElement) {
+        return when (forecastElement.getTag()) {
 
-            is ForecastElement.Temperature -> resolveTag(context, forecastElement)
-            is ForecastElement.UVIndex -> resolveTag(context, forecastElement)
-            is ForecastElement.Pop -> resolveTag(context, forecastElement)
-            is ForecastElement.DewPoint -> resolveTag(context, forecastElement)
-            is ForecastElement.WindSpeed -> resolveTag(context, forecastElement)
-            else -> null
-        }
-    }
-
-    private fun resolveTag(context: Context, temperatureElement: ForecastElement.Temperature): TagView.TagContents {
-
-        return when (temperatureElement.getTag()) {
-
-            ForecastElement.Temperature.Tag.FREEZING -> Pair(R.string.temperature_tag_freezing, R.color.temperature_tag_freezing)
-            ForecastElement.Temperature.Tag.CHILLY -> Pair(R.string.temperature_tag_chilly, R.color.temperature_tag_chilly)
-            ForecastElement.Temperature.Tag.MODERATE -> Pair(R.string.temperature_tag_moderate, R.color.temperature_tag_moderate)
-            ForecastElement.Temperature.Tag.WARM -> Pair(R.string.temperature_tag_warm, R.color.temperature_tag_warm)
-            ForecastElement.Temperature.Tag.HOT -> Pair(R.string.temperature_tag_hot, R.color.temperature_tag_hot)
-        }.toTag(context)
-    }
-
-    private fun resolveTag(context: Context, uvElement: ForecastElement.UVIndex): TagView.TagContents {
-
-        return when (uvElement.getTag()) {
-
-            ForecastElement.UVIndex.Tag.ZERO -> Pair(R.string.uv_tag_zero, R.color.uv_tag_zero)
-            ForecastElement.UVIndex.Tag.LOW -> Pair(R.string.uv_tag_low, R.color.uv_tag_low)
-            ForecastElement.UVIndex.Tag.MODERATE -> Pair(R.string.uv_tag_moderate, R.color.uv_tag_moderate)
-            ForecastElement.UVIndex.Tag.HIGH -> Pair(R.string.uv_tag_high, R.color.uv_tag_high)
-            ForecastElement.UVIndex.Tag.VERY_HIGH -> Pair(R.string.uv_tag_very_high, R.color.uv_tag_very_high)
-            ForecastElement.UVIndex.Tag.EXTREMELY_HIGH -> Pair(R.string.uv_tag_extremely_high, R.color.uv_tag_extremely_high)
-        }.toTag(context)
-    }
-
-    private fun resolveTag(context: Context, popElement: ForecastElement.Pop): TagView.TagContents {
-
-        return when (popElement.getTag()) {
-
-            ForecastElement.Pop.Tag.NONE -> Pair(R.string.pop_tag_none, R.color.pop_tag_none)
-            ForecastElement.Pop.Tag.UNLIKELY -> Pair(R.string.pop_tag_unlikely, R.color.pop_tag_unlikely)
-            ForecastElement.Pop.Tag.POSSIBLE -> Pair(R.string.pop_tag_possible, R.color.pop_tag_possible)
-            ForecastElement.Pop.Tag.LIKELY -> Pair(R.string.pop_tag_likely, R.color.pop_tag_likely)
-            ForecastElement.Pop.Tag.VERY_LIKELY -> Pair(R.string.pop_tag_very_likely, R.color.pop_tag_very_likely)
-        }.toTag(context)
-    }
-
-    private fun resolveTag(context: Context, humidityElement: ForecastElement.DewPoint): TagView.TagContents {
-
-        return when (humidityElement.getTag()) {
-
-            ForecastElement.DewPoint.Tag.COMFORTABLE -> Pair(R.string.dew_point_comfortable, R.color.dew_point_tag_comfortable)
-            ForecastElement.DewPoint.Tag.MUGGY -> Pair(R.string.dew_point_muggy, R.color.dew_point_tag_muggy)
-            ForecastElement.DewPoint.Tag.UNCOMFORTABLE -> Pair(R.string.dew_point_uncomfortable, R.color.dew_point_tag_uncomfortable)
-        }.toTag(context)
-    }
-
-    private fun resolveTag(context: Context, windSpeedElement: ForecastElement.WindSpeed): TagView.TagContents {
-
-        return when (windSpeedElement.getTag()) {
-
-            ForecastElement.WindSpeed.Tag.CALM -> Pair(R.string.wind_speed_tag_calm, R.color.wind_speed_tag_calm)
-            ForecastElement.WindSpeed.Tag.GENTLE -> Pair(R.string.wind_speed_tag_gentle, R.color.wind_speed_tag_gentle)
-            ForecastElement.WindSpeed.Tag.MODERATE -> Pair(R.string.wind_speed_tag_moderate, R.color.wind_speed_tag_moderate)
-            ForecastElement.WindSpeed.Tag.STRONG -> Pair(R.string.wind_speed_tag_strong, R.color.wind_speed_tag_strong)
-            ForecastElement.WindSpeed.Tag.GALE -> Pair(R.string.wind_speed_tag_gale, R.color.wind_speed_tag_gale)
-            ForecastElement.WindSpeed.Tag.DANGEROUS -> Pair(R.string.wind_speed_tag_dangerous, R.color.wind_speed_tag_dangerous)
+            ForecastElement.Tag.TEMP_FREEZING -> Pair(R.string.temperature_tag_freezing, R.color.temperature_tag_freezing)
+            ForecastElement.Tag.TEMP_CHILLY -> Pair(R.string.temperature_tag_chilly, R.color.temperature_tag_chilly)
+            ForecastElement.Tag.TEMP_MODERATE -> Pair(R.string.temperature_tag_moderate, R.color.temperature_tag_moderate)
+            ForecastElement.Tag.TEMP_WARM -> Pair(R.string.temperature_tag_warm, R.color.temperature_tag_warm)
+            ForecastElement.Tag.TEMP_HOT -> Pair(R.string.temperature_tag_hot, R.color.temperature_tag_hot)
+            ForecastElement.Tag.UV_ZERO -> Pair(R.string.uv_tag_zero, R.color.uv_tag_zero)
+            ForecastElement.Tag.UV_LOW -> Pair(R.string.uv_tag_low, R.color.uv_tag_low)
+            ForecastElement.Tag.UV_MODERATE -> Pair(R.string.uv_tag_moderate, R.color.uv_tag_moderate)
+            ForecastElement.Tag.UV_HIGH -> Pair(R.string.uv_tag_high, R.color.uv_tag_high)
+            ForecastElement.Tag.UV_VERY_HIGH -> Pair(R.string.uv_tag_very_high, R.color.uv_tag_very_high)
+            ForecastElement.Tag.UV_EXTREMELY_HIGH -> Pair(R.string.uv_tag_extremely_high, R.color.uv_tag_extremely_high)
+            ForecastElement.Tag.POP_NONE -> Pair(R.string.pop_tag_none, R.color.pop_tag_none)
+            ForecastElement.Tag.POP_UNLIKELY -> Pair(R.string.pop_tag_unlikely, R.color.pop_tag_unlikely)
+            ForecastElement.Tag.POP_POSSIBLE -> Pair(R.string.pop_tag_possible, R.color.pop_tag_possible)
+            ForecastElement.Tag.POP_LIKELY -> Pair(R.string.pop_tag_likely, R.color.pop_tag_likely)
+            ForecastElement.Tag.POP_VERY_LIKELY -> Pair(R.string.pop_tag_very_likely, R.color.pop_tag_very_likely)
+            ForecastElement.Tag.DEW_POINT_COMFORTABLE -> Pair(R.string.dew_point_comfortable, R.color.dew_point_tag_comfortable)
+            ForecastElement.Tag.DEW_POINT_MUGGY -> Pair(R.string.dew_point_muggy, R.color.dew_point_tag_muggy)
+            ForecastElement.Tag.DEW_POINT_UNCOMFORTABLE -> Pair(R.string.dew_point_uncomfortable, R.color.dew_point_tag_uncomfortable)
+            ForecastElement.Tag.SPEED_CALM -> Pair(R.string.wind_speed_tag_calm, R.color.wind_speed_tag_calm)
+            ForecastElement.Tag.SPEED_GENTLE -> Pair(R.string.wind_speed_tag_gentle, R.color.wind_speed_tag_gentle)
+            ForecastElement.Tag.SPEED_MODERATE -> Pair(R.string.wind_speed_tag_moderate, R.color.wind_speed_tag_moderate)
+            ForecastElement.Tag.SPEED_STRONG -> Pair(R.string.wind_speed_tag_strong, R.color.wind_speed_tag_strong)
+            ForecastElement.Tag.SPEED_GALE -> Pair(R.string.wind_speed_tag_gale, R.color.wind_speed_tag_gale)
+            ForecastElement.Tag.SPEED_DANGEROUS -> Pair(R.string.wind_speed_tag_dangerous, R.color.wind_speed_tag_dangerous)
         }.toTag(context)
     }
 

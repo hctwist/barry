@@ -21,7 +21,7 @@ sealed class HourConditionForecast {
 
 sealed class HourElementForecast {
 
-    class Element(val time: ZonedDateTime, val element: ForecastElement, val fraction: Double) : HourElementForecast()
+    class Element(val time: ZonedDateTime, val element: ForecastElement<*>, val fraction: Double) : HourElementForecast()
 
     class NewDay(val time: ZonedDateTime) : HourElementForecast()
 }
